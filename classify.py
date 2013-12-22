@@ -4,6 +4,9 @@ import scipy
 from sklearn.svm import SVC
 from sklearn import neighbors
 from sklearn import cross_validation
+from sklearn.naive_bayes import GaussianNB
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 
 #Open up the csv file in to a Python object
 csv_file_object = csv.reader(open('train.csv', 'rb'))
@@ -69,24 +72,33 @@ X_train, X_test, y_train, y_test = cross_validation.train_test_split(
 
 predict_x =  curate_data(predict_data, train=False)
 #clf = SVC(C=1.0, kernel='rbf', degree=3, gamma=0.0, coef0=0.0, shrinking=True, probability=False, tol=0.001, cache_size=200, class_weight=None, verbose=False, max_iter=-1, random_state=None)
-t
 
 for i in xrange(1, 100):
     #clf = neighbors.KNeighborsClassifier(i, weights='distance')
     #clf = SVC(kernel="rbf", C=0.001 + float(i)/100,) #C = 1.07
-    clf = SVC(kernel="rbf", C=1.07, gamma=0.0001 + float(i)/100) #C = 1.07, gammaa .1801
+    #clf = SVC(kernel="rbf", C=1.07, gamma=0.0001 + float(i)/100) #C = 1.07, gammaa .1801
+    #clf = DecisionTreeClassifier(max_depth=i)
+    #clf =  RandomForestClassifier(max_depth=i, n_estimators=10, max_features=1)
+    clf =  AdaBoostClassifier(base_estimator=DecisionTreeClassifier(compute_importances=None, criterion='gini', max_depth=i, max_features=None, min_density=None))
     clf.fit(X_train, y_train)
     clf.score(X_test, y_test)
 
 clf.score(train_x, train_y)
 
-clf = neighbors.KNeighborsClassifier(17)
+#BEST CLF
+#clf = neighbors.KNeighborsClassifier(17)
+#clf = SVC(kernel="rbf", C=1.07, gamma=0.1501) #C = 1.07, gammaa .1801
+#clf = GaussianNB() #Doesnt work
+#clf = DecisionTreeClassifier(max_depth=7) #73.3
+#clf =  RandomForestClassifier(max_depth=i, n_estimators=76, max_features=1)
+clf =  AdaBoostClassifier(base_estimator=DecisionTreeClassifier(compute_importances=None, criterion='gini', max_depth=i, max_features=None, min_density=None))
+a = np.array([a[0] for a in y_train])
+
 clf.fit(train_x, train_y)
-#clf.fit(train_x, train_y)
-#clf.score(train_x, train_y)
+clf.score(train_x, train_y)
 
 result_y = clf.predict(predict_x)
 result_y = result_y.astype(np.int)
-np.savetxt("prediction.csv", result_y, delimiter=",", fmt ="%s")
+np.savetxt("ada_prediction.csv", result_y, delimiter=",", fmt ="%s")
 
 #temp = np.apply_along_axis(replace_gender, axis=1, arr=data )
