@@ -42,6 +42,13 @@ trainData$Embarked <- gsub("Q", as.integer(2), trainData$Embarked)
 trainData$Embarked <- gsub("S", as.integer(3), trainData$Embarked)
 ```
 
+Lastly, we substitue missing values for Embarked Locations
+```R
+trainData[which(trainData$Embarked == ""), ]
+trainData[771, 9] <- as.integer(3)
+trainData[852, 9] <- as.integer(3)
+```
+
 At this point, we have accomplished the following:
 - [x] load the data we intend to work with.
 - [x] did some preliminary exploration in the data.
@@ -119,15 +126,21 @@ for (i in 1:nrow(trainData)) {
 }
 
 ```
-WE are now finished with age improvements. At this point, our model should offer us better prediction, solely based on the fact that we've improved the accurcy of the explanatory variable!
 
+######WE are now finished with age improvements. At this point, our model should offer us better prediction, solely based on the fact that we've improved the accurcy of the explanatory variable! Note that we could have began a whole new prediction problem, where we estimate the missing age of the passengers.
+######We've now achieved the following:
+- [x] Provided inference on the missing age entries.
+We now begin the following:
+- [] Begin working on improving the model, by adding additional variables.
 
-# Adding Embarked locations to missing values
-trainData[which(trainData$Embarked == ""), ]
-trainData[771, 9] <- as.integer(3)
-trainData[852, 9] <- as.integer(3)
+ 
+####Variable 1: Child.
+This additional variable choice stems from the fact that we suspect that being a child might affect the survival rate of a passanger. 
 
-# Creating a child variable
+We start by creating a child variable. This is done by appending an empty column to the dataset, titled "Child".
+We then populate the column with value "1", if the passenger is under the age of 12, and "2" otherwie.
+
+```
 trainData["Child"] <- NA
 
 for (i in 1:nrow(trainData)) {
@@ -137,16 +150,17 @@ for (i in 1:nrow(trainData)) {
     trainData[i, 10] <- 2
   }
 }
+```
 
-# Percentage of people with ticket prices over $100 that survived
-rich_people <- sum(trainData$Survived[which(trainData$Fare > 100)]) / length(trainData$Survived[which(trainData$Fare > 100)])
-
-# Percentage of Men > 25 and Pclass = 3
+####variable 2: Lower class Men
+being a lower class man might also lower one's survival rate, considering that lower class passengers and male passengers had the lowest survival rate. @Offer support here
+#####We inspect the data by looking at percentage of Men > 25 and Pclass = 3
+```R
 poor_men <- sum(trainData[which(trainData$Age > 25 & trainData$Sex == 0 & trainData$Pclass == 3), ]) / 214
-
-# Adding an explanatory variable for lower class men
+```
+Then we do as we did for the child variable. We add a column for lower class men (called "Lowmen") and give it values of "1", if the passenger fits the profile, and "2" otherwise.
+```R
 trainData["Lowmen"] <- NA
-
 for (i in 1:nrow(trainData)) {
   if (trainData[i, 5] > 25 & trainData[i, 4] == 0 & trainData[i, 2] == 3) {
     trainData[i, 11] <- 1
@@ -154,10 +168,15 @@ for (i in 1:nrow(trainData)) {
     trainData[i, 11] <- 2
   }
 }
+```
+####Varialble 3: Rich People
+Perhaps having a nicer ticket can affect your survival rate as well. We do a similar subset as before, but in a different direction. Can you see what we did here?
 
-# Adding rich people variable
+```
+# Percentage of people with ticket prices over $100 that survived
+rich_people <- sum(trainData$Survived[which(trainData$Fare > 100)]) / length(trainData$Survived[which(trainData$Fare > 100)])
+
 trainData["Rich"] <- NA
-
 for(i in 1:nrow(trainData)) {
   if (trainData[i, 8] > 100) {
     trainData[i, 11] <- 1
@@ -165,16 +184,26 @@ for(i in 1:nrow(trainData)) {
     trainData[i, 11] <- 2
   }
 }
+```
 
-# Adding Family variable
+####Varialble 4: Family
+For the last variable, we determine ####XXXXX wtf? lol what is this var.
+
 trainData["Family"] <- NA
 
 for(i in 1:nrow(trainData)) {
   trainData[i, 12] <- trainData[i, 6] + trainData[i, 7] + 1
 }
 
+Now, we have a fully equipped training dataset!
+We have completed the following:
+- [x] Added more variables that we think that may help with the classification.
 
-# Fitting logistic regression model
+###Now for the final step: fitting (training) a model! 
+#####We feed the training data into a model, and the model will optimize the itself to give you the best explanation for your variables and outcome. The idea is that we will use the trained model, along with test data to acquire our prediction.
+
+
+##### Fitting logistic regression model
 train.glm <- glm(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare,
                  family = binomial, data = trainData)
 
