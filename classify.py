@@ -32,22 +32,42 @@ def replace_gender(arg):
     elif arg.lower().strip() == "female":
         return 1
 
-def check_age(arg):
+def number_replacement(arg, rep_target):
     try:
         float(arg)
     except ValueError:
-        return 0
+        return rep_tartget
     return float(arg)
 
+def normalize(arg, min, max):
+    try:
+        return (float(arg)-min)/(max-min)
+    except ValueError as vE:
+        return 0
+
+normalize = np.vectorize(normalize)
 replace_gender = np.vectorize(replace_gender) #now we can apply it to a row
-check_age = np.vectorize(check_age) 
+number_replacement = np.vectorize(number_replacement) 
 
 train_y = data[:, [1]]
+
 
 def curate_data(data, train=True):
     #TODO try: change age return
     #normalize all
     #remove columns approach
+    data[:,0] = number_replacement(data[:,0]) #apply number replacement
+    data[:,1] = number_replacement(data[:,1]) #apply number replacement
+    data[:,2] = number_replacement(data[:,2]) #apply number replacement
+    data[:,5] = number_replacement(data[:,5]) #apply number replacement
+    data[:,6] = number_replacement(data[:,6]) #apply number replacement
+    data[:,7] = number_replacement(data[:,7]) #apply number replacement
+    data[:,9] = number_replacement(data[:,9]) #apply number replacement
+
+    min_max = []    
+    for col in data.T:
+        min_max.append((min(col), max(col)))
+
     if train:
         data = scipy.delete(data, 1, 1)  # delete survial row, if training data
     else: #do nothing
@@ -57,48 +77,54 @@ def curate_data(data, train=True):
     data = scipy.delete(data, 7, 1)  # delete cabin (ex"C85") row
     data = scipy.delete(data, 7, 1)  # delete other (ex"C") row
     data = scipy.delete(data, 0, 1)  # delete passenger ID row
+    data = scipy.delete(data, 3, 1)  #delete parch
+    #data = scipy.delete(data, 4, 1)
+    #data = scipy.delete(data, 3, 1)
+    #data = scipy.delete(data, 2, 1)
+    data[:,0] = normalize(data[:,0], min_max[0][0]. min_max[0][1])
     data[:,1] = replace_gender(data[:,1]) #apply gender replacement
-    data[:,2] = check_age(data[:,2]) #apply age replacement
-    data[:,3] = check_age(data[:,3]) #apply number replacement
-    data[:,4] = check_age(data[:,4]) #apply number replacement
-    data[:,5] = check_age(data[:,5]) #apply number replacement
+    data[:,2] = noamlize(number_replacement(data[:,2], min_max[][]) #apply age replacement
+    print min_max
     return data
-#y = x.astype(np.float)
+    #y = x.astype(np.float)
 
 train_x = curate_data(data)
-
+print train_x[1:5]
 X_train, X_test, y_train, y_test = cross_validation.train_test_split(
-    train_x, train_y, test_size=0.2, random_state=0)
+    train_x, train_y, test_size=0.5, random_state=0)
 
 predict_x =  curate_data(predict_data, train=False)
 #clf = SVC(C=1.0, kernel='rbf', degree=3, gamma=0.0, coef0=0.0, shrinking=True, probability=False, tol=0.001, cache_size=200, class_weight=None, verbose=False, max_iter=-1, random_state=None)
 
+a = np.array([a[0] for a in y_train])
+
 for i in xrange(1, 100):
     #clf = neighbors.KNeighborsClassifier(i, weights='distance')
     #clf = SVC(kernel="rbf", C=0.001 + float(i)/100,) #C = 1.07
-    #clf = SVC(kernel="rbf", C=1.07, gamma=0.0001 + float(i)/100) #C = 1.07, gammaa .1801
-    #clf = DecisionTreeClassifier(max_depth=i)
-    #clf =  RandomForestClassifier(max_depth=i, n_estimators=10, max_features=1)
-    clf =  AdaBoostClassifier(base_estimator=DecisionTreeClassifier(compute_importances=None, criterion='gini', max_depth=i, max_features=None, min_density=None))
-    clf.fit(X_train, y_train)
-    clf.score(X_test, y_test)
+    #clf = SVC(kernel="rbf", C=0.001 + float(i)/100, gamma=float(i)/1000 + 0.0001 + float(i)/10000 + float(i)/100) #C = 1.07, gammaa .1801
+    #clf = DecisionTreeClassifier(max_depth=None)
+    clf =  RandomForestClassifier(max_depth=None, n_estimators=10, max_features=None, verbose=False)
+    #clf =  AdaBoostClassifier(base_estimator=DecisionTreeClassifier(compute_importances=None, criterion='gini', max_depth=i, max_features=None, min_density=None))xs
+    clf.fit(X_train, a)
+    print str(clf.score(X_test, y_test)) + " " + str(i)
 
 clf.score(train_x, train_y)
 
 #BEST CLF
-#clf = neighbors.KNeighborsClassifier(17)
+#clf = neighbors.KNeighborsClassifier(87, weights='distance')
 #clf = SVC(kernel="rbf", C=1.07, gamma=0.1501) #C = 1.07, gammaa .1801
 #clf = GaussianNB() #Doesnt work
 #clf = DecisionTreeClassifier(max_depth=7) #73.3
-#clf =  RandomForestClassifier(max_depth=i, n_estimators=76, max_features=1)
-clf =  AdaBoostClassifier(base_estimator=DecisionTreeClassifier(compute_importances=None, criterion='gini', max_depth=i, max_features=None, min_density=None))
+clf =  RandomForestClassifier(max_depth=None, n_estimators=10, max_features=None)
+#clf =  AdaBoostClassifier(base_estimator=DecisionTreeClassifier(compute_importances=None, criterion='gini', max_depth=i, max_features=None, min_density=None))
 a = np.array([a[0] for a in y_train])
 
 clf.fit(train_x, train_y)
-clf.score(train_x, train_y)
+#clf.fit(X_train, a)
+print clf.score(train_x, train_y)
 
 result_y = clf.predict(predict_x)
 result_y = result_y.astype(np.int)
-np.savetxt("ada_prediction.csv", result_y, delimiter=",", fmt ="%s")
+np.savetxt("new_RF_prediction.csv", result_y, delimiter=",", fmt ="%s")
 
 #temp = np.apply_along_axis(replace_gender, axis=1, arr=data )
