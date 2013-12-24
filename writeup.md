@@ -30,9 +30,23 @@ At this point, we remove the variables that are not used in the model: Passenger
 trainData <- trainData[-c(1,9,11)]
 ```
 
-At this point, we've accomplished the following:
+Additionally, we need to replace qualitative variables (such as gender) into quantitative variables (0 for male, 1 for female etc) in order to fit our model. Note that there are models where the variables can be qualitative.
+```R
+# Converting categorical variable Sex to integers
+trainData$Sex <- gsub("female", 1, trainData$Sex)
+trainData$Sex <- gsub("^male", 0, trainData$Sex)
+
+# Converting categorical variable Embarked to integers
+trainData$Embarked <- gsub("C", as.integer(1), trainData$Embarked)
+trainData$Embarked <- gsub("Q", as.integer(2), trainData$Embarked)
+trainData$Embarked <- gsub("S", as.integer(3), trainData$Embarked)
+```
+
+At this point, we have accomplished the following:
 - [x] load the data we intend to work with.
-- [x] did some prelimery exploration in the data.
+- [x] did some preliminary exploration in the data.
+- [x] cleaned the data
+And now we need to get started on the following.
 - [] begin formulating a plan on how to tackle the problem.
 
 ####Elaborate on "why" we want to do the following. Maybe quickly run a non-optimized model and suggest that we're going to start improving?
@@ -105,16 +119,7 @@ for (i in 1:nrow(trainData)) {
 }
 
 ```
-WE are now finished with age 
-
-# Converting categorical variable Sex to integers
-trainData$Sex <- gsub("female", 1, trainData$Sex)
-trainData$Sex <- gsub("^male", 0, trainData$Sex)
-
-# Converting categorical variable Embarked to integers
-trainData$Embarked <- gsub("C", as.integer(1), trainData$Embarked)
-trainData$Embarked <- gsub("Q", as.integer(2), trainData$Embarked)
-trainData$Embarked <- gsub("S", as.integer(3), trainData$Embarked)
+WE are now finished with age improvements. At this point, our model should offer us better prediction, solely based on the fact that we've improved the accurcy of the explanatory variable!
 
 
 # Adding Embarked locations to missing values
@@ -188,6 +193,15 @@ train.glm.two <- glm(Survived ~ Pclass + Sex + Age + Child + Rich + Sex*Pclass, 
 
 testData <- testData[-c(8,10)]
 
+# Converting categorical variable Sex to integers
+testData$Sex <- gsub("female", 1, testData$Sex)
+testData$Sex <- gsub("^male", 0, testData$Sex)
+
+# Converting categorical variable Embarked to integers
+testData$Embarked <- gsub("C", as.integer(1), testData$Embarked)
+testData$Embarked <- gsub("Q", as.integer(2), testData$Embarked)
+testData$Embarked <- gsub("S", as.integer(3), testData$Embarked)
+
 # User defined function for replacing surnames for TEST
 testnamefunction <- function(name, replacement, dataset) {
   vector <- grep(name, dataset)
@@ -238,14 +252,6 @@ val <- mean(testData$Fare[testData$Pclass == 3], na.rm =T) #12.45
 testData[153, 6]
 testData[153, 8] <- val
 
-# Converting categorical variable Sex to integers
-testData$Sex <- gsub("female", 1, testData$Sex)
-testData$Sex <- gsub("^male", 0, testData$Sex)
-
-# Converting categorical variable Embarked to integers
-testData$Embarked <- gsub("C", as.integer(1), testData$Embarked)
-testData$Embarked <- gsub("Q", as.integer(2), testData$Embarked)
-testData$Embarked <- gsub("S", as.integer(3), testData$Embarked)
 
 # Creating a child variable
 testData["Child"] <- NA
