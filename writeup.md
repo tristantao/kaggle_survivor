@@ -53,6 +53,7 @@ At this point, we have accomplished the following:
 - [x] load the data we intend to work with.
 - [x] did some preliminary exploration in the data.
 - [x] cleaned the data
+
 And now we need to get started on the following.
 - [] begin formulating a plan on how to tackle the problem.
 
@@ -126,21 +127,20 @@ for (i in 1:nrow(trainData)) {
 }
 
 ```
-
 ######WE are now finished with age improvements. At this point, our model should offer us better prediction, solely based on the fact that we've improved the accurcy of the explanatory variable! Note that we could have began a whole new prediction problem, where we estimate the missing age of the passengers.
 ######We've now achieved the following:
 - [x] Provided inference on the missing age entries.
+
 We now begin the following:
 - [] Begin working on improving the model, by adding additional variables.
 
- 
 ####Variable 1: Child.
 This additional variable choice stems from the fact that we suspect that being a child might affect the survival rate of a passanger. 
 
 We start by creating a child variable. This is done by appending an empty column to the dataset, titled "Child".
 We then populate the column with value "1", if the passenger is under the age of 12, and "2" otherwie.
 
-```
+```R
 trainData["Child"] <- NA
 
 for (i in 1:nrow(trainData)) {
@@ -172,7 +172,7 @@ for (i in 1:nrow(trainData)) {
 ####Varialble 3: Rich People
 Perhaps having a nicer ticket can affect your survival rate as well. We do a similar subset as before, but in a different direction. Can you see what we did here?
 
-```
+```R
 # Percentage of people with ticket prices over $100 that survived
 rich_people <- sum(trainData$Survived[which(trainData$Fare > 100)]) / length(trainData$Survived[which(trainData$Fare > 100)])
 
@@ -188,13 +188,13 @@ for(i in 1:nrow(trainData)) {
 
 ####Varialble 4: Family
 For the last variable, we determine ####XXXXX wtf? lol what is this var.
-
+```R
 trainData["Family"] <- NA
 
 for(i in 1:nrow(trainData)) {
   trainData[i, 12] <- trainData[i, 6] + trainData[i, 7] + 1
 }
-
+```
 Now, we have a fully equipped training dataset!
 We have completed the following:
 - [x] Added more variables that we think that may help with the classification.
@@ -203,7 +203,9 @@ We have completed the following:
 #####We feed the training data into a model, and the model will optimize the itself to give you the best explanation for your variables and outcome. The idea is that we will use the trained model, along with test data to acquire our prediction.
 
 
-##### Fitting logistic regression model
+##### Fitting logistic regression model. R will take care of solving/optmizing the model. We don't have to worry about any complicated Math!
+#@todo explain the model actuall is?
+```R
 train.glm <- glm(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare,
                  family = binomial, data = trainData)
 
@@ -215,9 +217,13 @@ train.glm.one <- glm(Survived ~ Pclass + Sex + Age + Child + Lowmen + Sex*Pclass
 
 train.glm.two <- glm(Survived ~ Pclass + Sex + Age + Child + Rich + Sex*Pclass, family =binomial,
                      data = trainData)
+```
+
+###Now that we have a trained mdoel, we repeat the exact process on the test data that we did on the training data. The idea is to conduct the same steps (in terms of subsetting, cleaning, inference ,adding more variables), so that both datasets are in the same state. The only difference is the following:
+#####The test data doesn't have the "surivived" variable (which is what we're trying to predict), therefore the subsetting indices are slightly different
 
 
-
+```
 # Cleaning the testData set
 
 testData <- testData[-c(8,10)]
@@ -322,7 +328,11 @@ for(i in 1:nrow(testData)) {
   testData[i, 12] <- testData[i, 6] + testData[i, 7] + 1
 }
 
+```
 
+####Now that the test dataset is ready, we plug it into the trained model below. Because the result is not in 0s and 1s (but rather continous), we apply a cutoff at 0.5, essentiall rounding the result to surived or non-survived.
+
+```R
 p.hats <- predict.glm(train.glm.best, newdata = testData, type = "response")
 
 # Converting to binary response values based on a cutoff of .5
@@ -334,11 +344,18 @@ for(i in 1:length(p.hats)) {
     survival[i] <- 0
   }
 }
+```
 
+We now output the data into a csv file, which can be submitted on kaggle for grading. Fingers Crossed!
+
+```R
 kaggle.sub <- cbind(testData$PassengerId,survival)
 colnames(kaggle.sub) <- c("PassengerId", "Survived")
 write.csv(kaggle.sub, file = "kpred10.csv")
+```
 
+Thanks for reading the tutorial!
+PLEASE drop us any comment/suggestion/question at XXXX@gmail.com We will respond within 12 hrs!
 
 
 
