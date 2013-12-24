@@ -4,7 +4,6 @@ This is the writeup.
 ## Kaggle Exercise ##
 
 First we must indicate to R where our current working directory is. We achieve that by calling setcwd (roughly stands for set current working directory).
-
 ```R
 setwd("/Path/to/training/test/data/")
 ```
@@ -12,7 +11,6 @@ setwd("/Path/to/training/test/data/")
 Now that we've indicate to R where we are working, we can begin reading in the code; we utilize the _read.csv()_ function to do that. Previewing the data with your text editor (word/excel is ok!), we notice hearders, so we flag header as _True_.
 
 We also indicate that stringAsFactors as false. We'll cover factors later, but for now, we flag that as _False_ as well
-
 ```R
 trainData <- read.csv("train.csv", header = TRUE, stringsAsFactors = FALSE)
 testData <- read.csv("test.csv", header = TRUE, stringsAsFactors = F)
@@ -23,10 +21,19 @@ At this moment, we also want to grab on passengerID column, because we'll need i
 passID <- testData$PassengerId
 
 ```
+
 @TODO explain why we don't use these variables.
 
-At this point, we remove the variables that are not used in the model: PassengerID, Ticket, Cabin. We are using the negative sign, combined with 
+At this point, we remove the variables that are not used in the model: PassengerID, Ticket, Cabin. We are using the negative sign, combined with c() to indicate a list of indices to remove.
+```R
 trainData <- trainData[-c(1,9,11)]
+```
+
+At this point, we've accomplished the following:
+- [x] load the data we intend to work with.
+- [x] did some prelimery exploration in the data.
+- [] begin formulating a plan on how to tackle the problem.
+
 
 
 # Finding the rows which have certain surnames
