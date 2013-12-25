@@ -1,6 +1,6 @@
 ## Kaggle Exercise ##
 
-setwd("/Users/Brian_Liou/Documents/STAT151A")
+setwd("/Users/t-rex-Box/Desktop/work/kaggle_survivor/")
 
 trainData <- read.csv("train.csv", header = TRUE, stringsAsFactors = FALSE)
 testData <- read.csv("test.csv", header = TRUE, stringsAsFactors = F)

@@ -36,7 +36,7 @@ def number_replacement(arg, rep_target):
     try:
         float(arg)
     except ValueError:
-        return rep_tartget
+        return rep_target
     return float(arg)
 
 def normalize(arg, min, max):
@@ -47,7 +47,7 @@ def normalize(arg, min, max):
 
 normalize = np.vectorize(normalize)
 replace_gender = np.vectorize(replace_gender) #now we can apply it to a row
-number_replacement = np.vectorize(number_replacement) 
+number_replacement = np.vectorize(number_replacement)
 
 train_y = data[:, [1]]
 
@@ -56,18 +56,18 @@ def curate_data(data, train=True):
     #TODO try: change age return
     #normalize all
     #remove columns approach
-    data[:,0] = number_replacement(data[:,0]) #apply number replacement
-    data[:,1] = number_replacement(data[:,1]) #apply number replacement
-    data[:,2] = number_replacement(data[:,2]) #apply number replacement
-    data[:,5] = number_replacement(data[:,5]) #apply number replacement
-    data[:,6] = number_replacement(data[:,6]) #apply number replacement
-    data[:,7] = number_replacement(data[:,7]) #apply number replacement
-    data[:,9] = number_replacement(data[:,9]) #apply number replacement
-
-    min_max = []    
+    min_max = []
     for col in data.T:
         min_max.append((min(col), max(col)))
-
+    print min_max
+    data[:,0] = number_replacement(data[:,0], 446) #apply number replacement
+    data[:,1] = number_replacement(data[:,1], .3838) #apply number replacement
+    data[:,2] = number_replacement(data[:,2], 2.3) #apply number replacement
+    data[:,5] = number_replacement(data[:,5], 29.7) #apply number replacement
+    data[:,6] = number_replacement(data[:,6], 0.52) #apply number replacement
+    data[:,7] = number_replacement(data[:,7], 0.38) #apply number replacement
+    data[:,9] = number_replacement(data[:,9], 32.204) #apply number replacement
+    print data
     if train:
         data = scipy.delete(data, 1, 1)  # delete survial row, if training data
     else: #do nothing
@@ -81,12 +81,14 @@ def curate_data(data, train=True):
     #data = scipy.delete(data, 4, 1)
     #data = scipy.delete(data, 3, 1)
     #data = scipy.delete(data, 2, 1)
-    data[:,0] = normalize(data[:,0], min_max[0][0]. min_max[0][1])
+    print "BEFORE NORMALIZATION"
+    print data[1:10]
+    data[:,0] = normalize(data[:,0], 0, 3) #class
     data[:,1] = replace_gender(data[:,1]) #apply gender replacement
-    data[:,2] = noamlize(number_replacement(data[:,2], min_max[][]) #apply age replacement
-    print min_max
+    data[:,2] = normalize(data[:,2], 0.5, 80) #age
+    data[:,3] = normalize(data[:,3], 0, 6) #parch
+    data[:,4] = normalize(data[:,4], 0, 512.3) #price
     return data
-    #y = x.astype(np.float)
 
 train_x = curate_data(data)
 print train_x[1:5]

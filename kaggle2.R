@@ -1,6 +1,6 @@
 ## Kaggle Exercise ##
 
-setwd("/Users/Brian_Liou/Documents/STAT151A")
+setwd("/Users/t-rex-Box/Desktop/work/kaggle_survivor/")
 
 trainData <- read.csv("train.csv", header = TRUE, stringsAsFactors = FALSE)
 testData <- read.csv("test.csv", header = TRUE, stringsAsFactors = F)
@@ -17,18 +17,18 @@ miss_vector <- grep("Miss\\.", trainData$Name)
 
 # Replacing those rows with the shortened tag "Master" | "Miss" | ....
 for(i in master_vector) {
-  trainData[i, 3] <- "Master"
+  trainData$Name[i] <- "Master"
 }
 
 for(i in miss_vector) {
-  trainData[i, 3] <- "Miss"
+  trainData$Name[i] <- "Miss"
 }
 
 # User defined function for replacing surnames for TRAIN 
 trainnamefunction <- function(name, replacement, dataset) {
   vector <- grep(name, dataset)
   for (i in vector) {
-    trainData[i, 3] <- replacement
+    trainData$Name[i] <- replacement
   }
   return(trainData)
 }
@@ -51,16 +51,16 @@ dr_age <- round(mean(trainData$Age[trainData$Name == "Dr"], na.rm = TRUE), digit
 # Adding age values for missing values
 for (i in 1:nrow(trainData)) {
   if (is.na(trainData[i,5])) {
-    if (trainData[i, 3] == "Master") {
-      trainData[i, 5] <- master_age
+    if (trainData$Name[i] == "Master") {
+      trainData$Age[i] <- master_age
     } else if (trainData[i, 3] == "Miss") {
-      trainData[i, 5] <- miss_age
+      trainData$Age[i] <- miss_age
     } else if (trainData[i, 3] == "Mrs") {
-      trainData[i, 5] <- mrs_age
+      trainData$Age[i] <- mrs_age
     } else if (trainData[i, 3] == "Mr") {
-      trainData[i, 5] <- mr_age
+      trainData$Age[i] <- mr_age
     } else if (trainData[i, 3] == "Dr") {
-      trainData[i, 5] <- dr_age
+      trainData$Age[i] <- dr_age
     } else {
       print("Uncaught Surname")
     }
@@ -86,10 +86,10 @@ trainData[852, 9] <- as.integer(3)
 trainData["Child"] <- NA
 
 for (i in 1:nrow(trainData)) {
-  if (trainData[i, 5] <= 12) {
-    trainData[i, 10] <- 1
+  if (trainData$Age[i] <= 12) {
+    trainData$Child[i] <- 1
   } else {
-    trainData[i, 10] <- 2
+    trainData$Child[i] <- 2
   }
 }
 
@@ -97,16 +97,16 @@ for (i in 1:nrow(trainData)) {
 rich_people <- sum(trainData$Survived[which(trainData$Fare > 100)]) / length(trainData$Survived[which(trainData$Fare > 100)])
 
 # Percentage of Men > 25 and Pclass = 3
-poor_men <- sum(trainData[which(trainData$Age > 25 & trainData$Sex == 0 & trainData$Pclass == 3), ]) / 214
+#poor_men <- sum(trainData[which(trainData$Age > 25 & trainData$Sex == 0 & trainData$Pclass == 3), ]) / 214
 
 # Adding an explanatory variable for lower class men
 trainData["Lowmen"] <- NA
 
 for (i in 1:nrow(trainData)) {
-  if (trainData[i, 5] > 25 & trainData[i, 4] == 0 & trainData[i, 2] == 3) {
-    trainData[i, 11] <- 1
+  if (trainData$Age[i] > 25 & trainData$Sex[i] == 0 & trainData$Pclass[i] == 3) {
+    trainData$Lowmen[i] <- 1
   } else {
-    trainData[i, 11] <- 2
+    trainData$Lowmen[i] <- 2
   }
 }
 
@@ -114,10 +114,10 @@ for (i in 1:nrow(trainData)) {
 trainData["Rich"] <- NA
 
 for(i in 1:nrow(trainData)) {
-  if (trainData[i, 8] > 100) {
-    trainData[i, 11] <- 1
+  if (trainData$Fare[i] > 100) {
+    trainData$Rich[i] <- 1
   } else {
-    trainData[i, 11] <- 2
+    trainData$Rich[i] <- 2
   }
 }
 
@@ -125,18 +125,18 @@ for(i in 1:nrow(trainData)) {
 trainData["Family"] <- NA
 
 for(i in 1:nrow(trainData)) {
-  x <- trainData[i, 6]
-  y <- trainData[i, 7]
-  trainData[i, 13] <- x + y + 1
+  x <- trainData$SibSp[i]
+  y <- trainData$Parch[i]
+  trainData$Family[i] <- x + y + 1
 }
 
 # Adding a mother variable (surname = Mrs AND Parch > 0)
 trainData["Mother"] <- NA
 for(i in 1:nrow(trainData)) {
-  if(trainData[i,3] == "Mrs" & trainData[i, 7] > 0) {
-    trainData[i, 14] <- 1
+  if(trainData$Name[i] == "Mrs" & trainData$Parch[i] > 0) {
+    trainData$Mother[i] <- 1
   } else {
-    trainData[i, 14] <- 2
+    trainData$Mother[i] <- 2
   }
 }
     
@@ -151,9 +151,8 @@ train.glm.best <- glm(Survived ~ Pclass + Sex + Age + Child + Sex*Pclass + Famil
 train.glm.one <- glm(Survived ~ Pclass + Sex + Age + Child + Sex*Pclass + Mother,
                      family = binomial, data = trainData)
 
-train.glm.two <- glm(Survived ~ Pclass + Sex + Age + Child + Rich + Sex*Pclass + Family, family =binomial,
-                     data = trainData)
-
+#train.glm.two <- glm(Survived ~ Pclass + Sex + Age + Child + Rich + Sex*Pclass + Family, family =binomial,
+#                     data = trainData)
 
 
 # Cleaning the testData set
@@ -161,6 +160,7 @@ train.glm.two <- glm(Survived ~ Pclass + Sex + Age + Child + Rich + Sex*Pclass +
 testData <- testData[-c(8,10)]
 
 # User defined function for replacing surnames for TEST
+#@TODO WE NEED TO NOTE THAT THIS DEPENDS ON ABOVE ALL WORKING
 testnamefunction <- function(name, replacement, dataset) {
   vector <- grep(name, dataset)
   for (i in vector) {
@@ -168,7 +168,6 @@ testnamefunction <- function(name, replacement, dataset) {
   }
   return(testData)
 }
-
 
 testData <- testnamefunction("Master\\.", "Master",testData$Name)
 testData <- testnamefunction("Miss\\.", "Miss",testData$Name)
@@ -187,28 +186,28 @@ t_dr_age <- round(mean(testData$Age[testData$Name == "Dr"], na.rm = TRUE), digit
 # Adding age values for missing values
 for (i in 1:nrow(testData)) {
   if (is.na(testData[i,5])) {
-    if (testData[i, 3] == "Master") {
-      testData[i, 5] <- t_master_age
-    } else if (testData[i, 3] == "Miss") {
-      testData[i, 5] <- t_miss_age
-    } else if (testData[i, 3] == "Mrs") {
-      testData[i, 5] <- t_mrs_age
-    } else if (testData[i, 3] == "Mr") {
-      testData[i, 5] <- t_mr_age
-    } else if (testData[i, 3] == "Dr") {
-      testData[i, 5] <- t_dr_age
+    if (testData$Name[i] == "Master") {
+      testData$Age[i] <- t_master_age
+    } else if (testData$Name[i] == "Miss") {
+      testData$Age[i] <- t_miss_age
+    } else if (testData$Name[i] == "Mrs") {
+      testData$Age[i] <- t_mrs_age
+    } else if (testData$Name[i] == "Mr") {
+      testData$Age[i] <- t_mr_age
+    } else if (testData$Name[i] == "Dr") {
+      testData$Age[i] <- t_dr_age
     } else {
       print("Uncaught Surname")
     }
   }
 }
 # Manually inputting one age variable for Ms.
-testData[89, 5] <- t_miss_age
+testData$Age[89] <- t_miss_age
 
 # Adding Fare values to missing values
 val <- mean(testData$Fare[testData$Pclass == 3], na.rm =T) #12.45
 testData[153, 6]
-testData[153, 8] <- val
+testData$Fare[153] <- val
 
 # Converting categorical variable Sex to integers
 testData$Sex <- gsub("female", 1, testData$Sex)
@@ -223,21 +222,22 @@ testData$Embarked <- gsub("S", as.integer(3), testData$Embarked)
 testData["Child"] <- NA
 
 for (i in 1:nrow(testData)) {
-  if (testData[i, 5] < 15) {
-    testData[i, 12] <- 1
+  if (testData$Age[i] < 15) {
+    testData$Child[i] <- 1
   } else {
-    testData[i, 12] <- 2
+    testData$Child[i] <- 2
   }
 }
+
 
 # Adding variable for ticket fare > 100
 testData["Rich"] <- NA
 
 for(i in 1:nrow(testData)) {
-  if (testData[i, 8] > 100) {
-    testData[i, 11] <- 1
+  if (testData$Fare[i] > 100) {
+    testData$Rich[i] <- 1
   } else {
-    testData[i, 11] <- 2
+    testData$Rich[i] <- 2
   }
 }
 
@@ -245,10 +245,10 @@ for(i in 1:nrow(testData)) {
 testData["Lowmen"] <- NA
 
 for (i in 1:nrow(testData)) {
-  if (testData[i, 5] > 25 & testData[i, 4] == 0 & testData[i, 2] == 3) {
-    testData[i, 11] <- 1
+  if (testData$Age[i] > 25 & testData$Sex[i] == 0 & testData$Pclass[i] == 3) {
+    testData$Lowmen[i] <- 1
   } else {
-    testData[i, 11] <- 2
+    testData$Lowmen[i] <- 2
   }
 }
 
@@ -256,16 +256,16 @@ for (i in 1:nrow(testData)) {
 testData["Family"] <- NA
 
 for(i in 1:nrow(testData)) {
-  testData[i, 11] <- testData[i, 6] + testData[i, 7] + 1
+  testData$Family[i] <- testData$SibSp[i] + testData$Parch[i] + 1
 }
 
 # Adding a mother variable
 testData["Mother"] <- NA
 for(i in 1:nrow(testData)) {
-  if(testData[i,3] == "Mrs" & testData[i, 7] > 0) {
-    testData[i, 13] <- 1
+  if(testData$Name[i] == "Mrs" & testData$Parch[i] > 0) {
+    testData$Mother[i] <- 1
   } else {
-    testData[i, 13] <- 2
+    testData$Mother[i] <- 2
   }
 }
 
