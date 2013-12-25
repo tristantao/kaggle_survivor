@@ -199,6 +199,21 @@ Now, we have a fully equipped training dataset!
 We have completed the following:
 - [x] Added more variables that we think that may help with the classification.
 
+####Varible 5: Mother
+We add another variable indicating whether the passenger is a mother.
+This is done by going through the passngers and checking to see if the title is Mrs, plus number of kids is greater than 0.
+
+```R
+trainData["Mother"] <- NA
+for(i in 1:nrow(trainData)) {
+  if(trainData[i,3] == "Mrs" & trainData[i, 7] > 0) {
+    trainData[i, 14] <- 1
+  } else {
+    trainData[i, 14] <- 2
+  }
+}
+```
+
 ###Now for the final step: fitting (training) a model! 
 #####We feed the training data into a model, and the model will optimize the itself to give you the best explanation for your variables and outcome. The idea is that we will use the trained model, along with test data to acquire our prediction.
 
@@ -209,11 +224,11 @@ We have completed the following:
 train.glm <- glm(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare,
                  family = binomial, data = trainData)
 
-train.glm.best <- glm(Survived ~ Pclass + Sex + Age + Child + Sex*Pclass + Family,
+train.glm.best <- glm(Survived ~ Pclass + Sex + Age + Child + Sex*Pclass + Family + Mother,
                      family = binomial, data = trainData)
 
-train.glm.one <- glm(Survived ~ Pclass + Sex + Age + Child + Lowmen + Sex*Pclass, family =binomial,
-                     data = trainData)
+train.glm.one <- glm(Survived ~ Pclass + Sex + Age + Child + Sex*Pclass + Mother,
+                     family = binomial, data = trainData)
 
 train.glm.two <- glm(Survived ~ Pclass + Sex + Age + Child + Rich + Sex*Pclass, family =binomial,
                      data = trainData)
@@ -328,6 +343,16 @@ for(i in 1:nrow(testData)) {
   testData[i, 12] <- testData[i, 6] + testData[i, 7] + 1
 }
 
+# Adding a mother variable
+testData["Mother"] <- NA
+for(i in 1:nrow(testData)) {
+  if(testData[i,3] == "Mrs" & testData[i, 7] > 0) {
+    testData[i, 13] <- 1
+  } else {
+    testData[i, 13] <- 2
+  }
+}
+
 ```
 
 ####Now that the test dataset is ready, we plug it into the trained model below. Because the result is not in 0s and 1s (but rather continous), we apply a cutoff at 0.5, essentiall rounding the result to surived or non-survived.
@@ -351,7 +376,7 @@ We now output the data into a csv file, which can be submitted on kaggle for gra
 ```R
 kaggle.sub <- cbind(testData$PassengerId,survival)
 colnames(kaggle.sub) <- c("PassengerId", "Survived")
-write.csv(kaggle.sub, file = "kpred10.csv")
+write.csv(kaggle.sub, file = "kpred14.csv")
 ```
 
 Thanks for reading the tutorial!
