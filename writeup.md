@@ -3,7 +3,12 @@ This is the writeup.
 
 ## Kaggle Exercise ##
 
+&& Where do we download R/ Installation instructions?
+
 First we must indicate to R where our current working directory is. We achieve that by calling setcwd (roughly stands for set current working directory).
+
+&& whats a working directory
+
 ```R
 setwd("/Path/to/training/test/data/")
 e.g.
@@ -31,6 +36,10 @@ trainData <- trainData[-c(1,9,11)]
 ```
 
 Additionally, we need to replace qualitative variables (such as gender) into quantitative variables (0 for male, 1 for female etc) in order to fit our model. Note that there are models where the variables can be qualitative.
+
+&& Why can we do that change qualitative variables to numbers?
+&& Whats gsub(), which(), as.integer()
+
 ```R
 # Converting categorical variable Sex to integers
 trainData$Sex <- gsub("female", 1, trainData$Sex)
@@ -63,6 +72,9 @@ Our first improvement is in regards to the age variable. Upon examining our data
 
 So first, we put the index of people with the specified surname into a list for further processing. 
 Then we rename those rows with the shortened tag "Master" | "Miss" | ....
+
+&& Whats grep, maybe explain a forloop? Whats regex?
+
 ```R
 master_vector <- grep("Master\\.",trainData$Name)
 miss_vector <- grep("Miss\\.", trainData$Name)
@@ -356,6 +368,8 @@ for(i in 1:nrow(testData)) {
 ```
 
 ####Now that the test dataset is ready, we plug it into the trained model below. Because the result is not in 0s and 1s (but rather continous), we apply a cutoff at 0.5, essentiall rounding the result to surived or non-survived.
+
+&& Are people going to wonder why we use a cutoff of .5?
 
 ```R
 p.hats <- predict.glm(train.glm.best, newdata = testData, type = "response")
