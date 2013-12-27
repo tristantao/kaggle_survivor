@@ -1,7 +1,7 @@
 ## Kaggle Exercise ##
 
 setwd("/Users/t-rex-Box/Desktop/work/kaggle_survivor/")
-#setwd("/Users/Brian_Liou/Documents/STAT151A") #Setting WD for mee
+setwd("/Users/Brian_Liou/Documents/STAT151A") #Setting WD for mee
 
 trainData <- read.csv("train.csv", header = TRUE, stringsAsFactors = FALSE)
 testData <- read.csv("test.csv", header = TRUE, stringsAsFactors = F)
@@ -40,23 +40,6 @@ trainData <- trainnamefunction("Miss\\.", "Miss",trainData$Name)
 trainData <- trainnamefunction("Mrs\\.", "Mrs",trainData$Name)
 trainData <- trainnamefunction("Mr\\.", "Mr",trainData$Name)
 trainData <- trainnamefunction("Dr\\.", "Dr",trainData$Name)
-
-#manually update the ages:
-manualy_replace_title  = function(data, indices, new_title) {
-  for (index in 1:(length(indices))) {
-    data$Name[indices[index]] = new_title
-  }
-  return (data)
-}
-mr_age = c(31, 150, 151, 250, 450, 537, 600, 627, 648, 695, 746, 823, 849, 887)
-trainData = manualy_replace_title(trainData, mr_age, "Mr")
-
-ms_age = c(89, 370, 444, 642, 760)
-trainData = manualy_replace_title(trainData, ms_age, "Ms")
-
-mrs_age = c(557, 711)
-trainData = manualy_replace_title(trainData, mrs_age, "Mrs")
-
 
 # Calculating average age per surname
 master_age <- round(mean(trainData$Age[trainData$Name == "Master"], na.rm = TRUE), digits = 2)
@@ -157,10 +140,11 @@ for(i in 1:nrow(trainData)) {
     trainData$Mother[i] <- 2
   }
 }
+    
 
 # Fitting logistic regression model
 train.glm <- glm(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare,
-                 family = binomial, data = trcainData)
+                 family = binomial, data = trainData)
 
 train.glm.best <- glm(Survived ~ Pclass + Sex + Age + Child + Sex*Pclass + Family + Mother,
                      family = binomial, data = trainData)
@@ -176,6 +160,7 @@ train.glm.one <- glm(Survived ~ Pclass + Sex + Age + Child + Sex*Pclass + Mother
 
 testData <- testData[-c(8,10)]
 
+# User defined function for replacing surnames for TEST
 #@TODO WE NEED TO NOTE THAT THIS DEPENDS ON ABOVE ALL WORKING
 testnamefunction <- function(name, replacement, dataset) {
   vector <- grep(name, dataset)
@@ -196,12 +181,7 @@ t_master_age <- round(mean(testData$Age[testData$Name == "Master"], na.rm = TRUE
 t_miss_age <- round(mean(testData$Age[testData$Name == "Miss"], na.rm = TRUE), digits =2)
 t_mrs_age <- round(mean(testData$Age[testData$Name == "Mrs"], na.rm = TRUE), digits = 2)
 t_mr_age <- round(mean(testData$Age[testData$Name == "Mr"], na.rm = TRUE), digits = 2)
-# User defined function for replacing surnames for TEST
 t_dr_age <- round(mean(testData$Age[testData$Name == "Dr"], na.rm = TRUE), digits = 2)
-
-testData = manualy_replace_title(testData, c(150, 165, 203), "Mr")
-testData = manualy_replace_title(testData, c(89, 415), "Ms")
-testData = manualy_replace_title(testData, c(132), "Mrs")
 
 
 # Adding age values for missing values
@@ -290,31 +270,20 @@ for(i in 1:nrow(testData)) {
   }
 }
 
-ibrary(klaR)
-
 # Choosing a cutoff value based on error rate on trainData
-#xx <- seq(0,1,length = 100)
-#err <- rep(NA, 10)
-#for (i in 1:length(xx)) {
-#  err[i] <- sum((p.hats.cutoff > xx[i]) != trainData$Survived)
-#}
-#plot(xx, err, xlab = "Cutoff", ylab = "Error")
-#identify(xx, err, xlab = "Cutoff", ylab = "Error")
-#xx[54] # Ideal cutoff? (.535)
+xx <- seq(0,1,length = 100)
+err <- rep(NA, 10)
+for (i in 1:length(xx)) {
+  err[i] <- sum((p.hats.cutoff > xx[i]) != trainData$Survived)
+}
+plot(xx, err, xlab = "Cutoff", ylab = "Error")
+identify(xx, err, xlab = "Cutoff", ylab = "Error")
+xx[54] # Ideal cutoff? (.535)
 
-library(party)
-library(randomForest)
-clf <- randomForest(Survived ~ Pclass + Sex + Age + Child + Sex*Pclass + Family + Mother, data = trainData[-3], ntree=20, nodesize=5, mtry=9)
-
-#controls = cforest_unbiased(ntree=1000, mtry=3) 
-#cforest <- cforest(Survived ~ Pclass + Sex + Age + Child + Sex*Pclass + Family + Mother,
-#                   data = trainData[-3], controls=contols) 
-p.hats = predict(clf, testData)
-
-#p.hats <- predict.glm(train.glm.best, newdata = testData, type = "response")
+p.hats <- predict.glm(train.glm.best, newdata = testData, type = "response")
 
 #P hats to compare off of trainData
-#p.hats.cutoff <- predict.glm(train.glm.best, newdata =trainData, type = "response") 
+p.hats.cutoff <- predict.glm(train.glm.best, newdata =trainData, type = "response") 
 
 # Converting to binary response values based on a cutoff of .5
 survival <- vector()
