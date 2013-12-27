@@ -1,6 +1,9 @@
 This is the writeup.
 
 
+TARGET READER: Someone who as gone through 1/3 of stats 133. A familiarity with R, but not an extensive knowledge and
+               is looking to learn more in depth application and usage. 
+
 ## Kaggle Exercise ##
 
 && Where do we download R/ Installation instructions?
