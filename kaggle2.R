@@ -1,6 +1,7 @@
 ## Kaggle Exercise ##
 
 setwd("/Users/t-rex-Box/Desktop/work/kaggle_survivor/")
+setwd("/Users/Brian_Liou/Documents/STAT151A") #Setting WD for mee
 
 trainData <- read.csv("train.csv", header = TRUE, stringsAsFactors = FALSE)
 testData <- read.csv("test.csv", header = TRUE, stringsAsFactors = F)
@@ -269,8 +270,20 @@ for(i in 1:nrow(testData)) {
   }
 }
 
+# Choosing a cutoff value based on error rate on trainData
+xx <- seq(0,1,length = 100)
+err <- rep(NA, 10)
+for (i in 1:length(xx)) {
+  err[i] <- sum((p.hats.cutoff > xx[i]) != trainData$Survived)
+}
+plot(xx, err, xlab = "Cutoff", ylab = "Error")
+identify(xx, err, xlab = "Cutoff", ylab = "Error")
+xx[54] # Ideal cutoff? (.535)
 
 p.hats <- predict.glm(train.glm.best, newdata = testData, type = "response")
+
+#P hats to compare off of trainData
+p.hats.cutoff <- predict.glm(train.glm.best, newdata =trainData, type = "response") 
 
 # Converting to binary response values based on a cutoff of .5
 survival <- vector()
