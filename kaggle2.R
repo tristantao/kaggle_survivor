@@ -284,7 +284,7 @@ for(i in 1:length(p.hats)) {
 
 kaggle.sub <- cbind(testData$PassengerId,survival)
 colnames(kaggle.sub) <- c("PassengerId", "Survived")
-write.csv(kaggle.sub, file = "kpred13.csv")
+write.csv(kaggle.sub, file = "kpred13.csv", row.names = FALSE)
 
 
 
