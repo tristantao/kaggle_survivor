@@ -56,29 +56,44 @@ plot(trainData$Fare) #plotting fare and index.
 ```
 Notice how hard it is to discern useful information from the plot? The data points seem a bit random, but perhaps with a trend. There are few points that are significant higher, but which ones? Though raw x-y plots are good starting point, we have to go further.
 
-
 Plotting a few density @TODO explain density.
 ```R
 plot(density(trainData$Age, na.rm = TRUE))
 plot(density(trainData$Fare, na.rm = TRUE))
 # Try plotting the density of other variables. Does it work? Are they helpful?
 ```
-
 Now, we may want to check out how the data relates to what we're trying to predict (Survived)
 ```R
+#Survival rate by Sex.
 counts = table(trainData$Survived, trainData$Sex)
 #We see that the lighter areas indidcates survival.
 barplot(counts, xlab = "Gender", ylab = "Number of People",
         main = "survived and deceased between male and female")
-counts[2] / (counts[1] + counts[2]) #getting a fraction from the "counts" table
-counts[4] / (counts[3] + counts[4])
+counts[2] / (counts[1] + counts[2]) #getting female survival rate from the table
+counts[4] / (counts[3] + counts[4]) #getting male survival rate from the table
 
 #Further exploration of gender reveals the following:
-#roughly 74.2% of women in our training data survived, versus only 18.9% of men.
+#Within our trainind data, roughly 74.2% of women survived versus only 18.9% of men.
 #Since this is a training data, the numbers are not 100% accurate. 
 #Nevertheless they are often indicative of general trends. #TODO add disclaimers 
 ```
 Perhaps Sex plays a role in survival rate? It seems like women had a higher chance of surviving.
+
+```R
+#Survival rate by cabin classes
+Pclass_survival = table(trainData$Survived, trainData$Pclass)
+#barplot(prop.table(Pclass_survival))
+barplot(Pclass_survival, xlab = "Cabin Class", ylab = "Number of People",
+        main = "survived and deceased between male and female")
+Pclass_survival[2] / (Pclass_survival[1] + Pclass_survival[2]) #Survival rate of 1st class cabin
+Pclass_survival[4] / (Pclass_survival[3] + Pclass_survival[4]) #Survival rate of 2nd class cabin
+Pclass_survival[6] / (Pclass_survival[5] + Pclass_survival[6]) #Survival rate of 3rdt class cabin
+#Further exploration of gender reveals the following:
+#The survival rate of 1st class, 2nd class, and 3rd class are: 63.0%, 47.3%, 24.2% respectively
+```
+It seems like the Pclass column might also be informative in survival prediction.
+
+@TODO talk about better plots, such as ggplot2. But not really cover it here, as it is complicated.
 
 Though not covered here, a few more insight will be useful here; survival rate based on fare rages, survival rate based on age ranges etc. **The key idea is that we're trying to determine if any/which of our variables are related to what we're trying to predict: Survived**
 
