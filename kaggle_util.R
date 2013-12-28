@@ -13,6 +13,7 @@ add_title_vars = function (targetData, list_to_replace) {
   }
   return (targetData)
 }
+
 manualy_replace_title  = function(data, indices, new_title) {
   for (index in 1:(length(indices))) {
     data$Name[indices[index]] = new_title
@@ -21,7 +22,8 @@ manualy_replace_title  = function(data, indices, new_title) {
 }
 
 prep_data = function(targetData, mr_age, ms_age, mrs_age) {
-
+  "This function will clean and prep data for targetData "
+  "mr_age, ms_age, mrs_age are "
   # Finding the rows which have certain surnames
   master_vector <- grep("Master\\.",targetData$Name)
   miss_vector <- grep("Miss\\.", targetData$Name)
@@ -61,13 +63,13 @@ prep_data = function(targetData, mr_age, ms_age, mrs_age) {
   targetData = namefuction("Capt", "Mr",targetData$Name, targetData)
   targetData = namefuction("Mme", "Mrs",targetData$Name, targetData)
   targetData = namefuction("Countess", "Mrs",targetData$Name, targetData)
-
+  
   #manually update the ages:
-
+  
   targetData = manualy_replace_title(targetData, mr_age, "Mr")
   targetData = manualy_replace_title(targetData, ms_age, "Miss")
   targetData = manualy_replace_title(targetData, mrs_age, "Mrs")
-
+  
   # Calculating average age per surname
   master_age <- round(mean(targetData$Age[targetData$Name == "Master"], na.rm = TRUE), digits = 2)
   miss_age <- round(mean(targetData$Age[targetData$Name == "Miss"], na.rm = TRUE), digits =2)
@@ -172,7 +174,7 @@ prep_data = function(targetData, mr_age, ms_age, mrs_age) {
   return (targetData)
 }
 
-mr_age = c(31, 823)
-ms_age = c(642)
-mrs_age = c(642)
-trainData = prep_data(trainData, mr_age, ms_age, mrs_age)
+#mr_age = c(31, 823)
+#ms_age = c(642)
+#mrs_age = c(642)
+#trainData = prep_data(trainData, mr_age, ms_age, mrs_age)
