@@ -4,6 +4,7 @@ This is the writeup.
 TARGET READER: Someone who as gone through 1/3 of stats 133. A familiarity with R, but not an extensive knowledge and
                is looking to learn more in depth application and usage. 
 
+&& Where do we download R/ Installation instructions?
 ###Preparing R
 ####Macs
 Download and install R from http://cran.r-project.org/bin/macosx/
@@ -21,11 +22,7 @@ http://www.rstudio.com/ide/download/desktop
 
 ## Kaggle Exercise ##
 
-&& Where do we download R/ Installation instructions?
-
-First we must indicate to R where our current working directory is. We achieve that by calling setcwd (roughly stands for set current working directory).
-
-&& whats a working directory
+First we must indicate to R where our current working directory is. We achieve that by calling setcwd (roughly stands for set current working directory). Working directory is important, because we have to indicate to R which folder we are working in (current directory). This lets R know which folder to look for the data input etc.
 
 ```R
 setwd("/Path/to/training/test/data/")
@@ -40,6 +37,11 @@ We also indicate that stringAsFactors as false. We'll cover factors later, but f
 trainData <- read.csv("train.csv", header = TRUE, stringsAsFactors = FALSE)
 testData <- read.csv("test.csv", header = TRUE, stringsAsFactors = F)
 ```
+
+##Data Prepartion
+We need to 
+
+
 
 At this moment, we also want to grab on passengerID column, because we'll need it for the submission phase.
 ```R
