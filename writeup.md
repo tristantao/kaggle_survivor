@@ -4,6 +4,21 @@ This is the writeup.
 TARGET READER: Someone who as gone through 1/3 of stats 133. A familiarity with R, but not an extensive knowledge and
                is looking to learn more in depth application and usage. 
 
+###Preparing R
+####Macs
+Download and install R from http://cran.r-project.org/bin/macosx/
+
+####Windows
+Download and install from
+http://cran.r-project.org/bin/windows/base/
+
+####Linux
+http://cran.r-project.org/bin/linux/ubuntu/README
+
+### Now install Rstudio 
+Choose the appropriate package from the following link.
+http://www.rstudio.com/ide/download/desktop
+
 ## Kaggle Exercise ##
 
 && Where do we download R/ Installation instructions?
