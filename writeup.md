@@ -24,7 +24,7 @@ Download and install from [Linux_R_Download] (http://cran.r-project.org/bin/linu
 
 ##### Now install Rstudio 
 Choose the appropriate package from [RStudio_Download] (http://www.rstudio.com/ide/download/desktop)
-
+@TODO Also install ggplot2
 
 ### Kaggle Project: Titanic - Machine Learning From Disaster
 
