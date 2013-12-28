@@ -1,26 +1,32 @@
-This is the writeup.
+####Table of Content:
+
+1. [Preparing R/Rstudio](#r preparation)
+2. [Data Exploration](#data exploration)
+3. [Data Curation](#data curation)
+4. [Training a Model](#train model)
+5. [Fitting a model](#predict model)
+
+TARGET READER: Someone who has gone through 1/3 of stats 133. A familiarity with R, but not an extensive knowledge and is looking to learn more in depth application and usage.
+
+Before beggining, you will need to install R and RStudio. It is a useful free application between for data analytics. If you already have these, skip to [data exploration](#data exploration)
+
+<a name="r preparation"></a>
+####Preparing R
+#####Macs
+
+Download and install from [Mac_R_Download] (http://cran.r-project.org/bin/macosx/)
+
+#####Windows
+Download and install from [Windows_R_Download] (http://cran.r-project.org/bin/windows/base/)
+
+#####Linux
+Download and install from [Linux_R_Download] (http://cran.r-project.org/bin/linux/ubuntu/README)
+
+##### Now install Rstudio 
+Choose the appropriate package from [RStudio_Download] (http://www.rstudio.com/ide/download/desktop)
 
 
-TARGET READER: Someone who as gone through 1/3 of stats 133. A familiarity with R, but not an extensive knowledge and
-               is looking to learn more in depth application and usage. 
-
-&& Where do we download R/ Installation instructions?
-###Preparing R
-####Macs
-Download and install R from http://cran.r-project.org/bin/macosx/
-
-####Windows
-Download and install from
-http://cran.r-project.org/bin/windows/base/
-
-####Linux
-http://cran.r-project.org/bin/linux/ubuntu/README
-
-### Now install Rstudio 
-Choose the appropriate package from the following link.
-http://www.rstudio.com/ide/download/desktop
-
-## Kaggle Exercise ##
+### Kaggle Project: Titanic - Machine Learning From Disaster
 
 First we must indicate to R where our current working directory is. We achieve that by calling setcwd (roughly stands for set current working directory). Working directory is important, because we have to indicate to R which folder we are working in (current directory). This lets R know which folder to look for the data input etc.
 
@@ -38,12 +44,48 @@ trainData <- read.csv("train.csv", header = TRUE, stringsAsFactors = FALSE)
 testData <- read.csv("test.csv", header = TRUE, stringsAsFactors = F)
 ```
 
-##Data Prepartion
-We need to 
+<a name="data exploration"></a>
+####Data Exploration
+
+Before actually building a model, we need to explore the data. We'll take look at a few values and plots to get a better understanding of our data. We start with a few simple generic x-y plots to get a feel.
+
+plotting the raw numbers:
+```R
+plot(trainData$Age) #plotting age and index.
+plot(trainData$Fare) #plotting fare and index.
+```
+Notice how hard it is to discern useful information from the plot? The data points seem a bit random, but perhaps with a trend. There are few points that are significant higher, but which ones? Though raw x-y plots are good starting point, we have to go further.
 
 
+Plotting a few density @TODO explain density.
+```R
+plot(density(trainData$Age, na.rm = TRUE))
+plot(density(trainData$Fare, na.rm = TRUE))
+# Try plotting the density of other variables. Does it work? Are they helpful?
+```
 
-At this moment, we also want to grab on passengerID column, because we'll need it for the submission phase.
+Now, we may want to check out how the data relates to what we're trying to predict (Survived)
+```R
+counts = table(trainData$Survived, trainData$Sex)
+#We see that the lighter areas indidcates survival.
+barplot(counts, xlab = "Gender", ylab = "Number of People",
+        main = "survived and deceased between male and female")
+counts[2] / (counts[1] + counts[2]) #getting a fraction from the "counts" table
+counts[4] / (counts[3] + counts[4])
+
+#Further exploration of gender reveals the following:
+#roughly 74.2% of women in our training data survived, versus only 18.9% of men.
+#Since this is a training data, the numbers are not 100% accurate. 
+#Nevertheless they are often indicative of general trends. #TODO add disclaimers 
+```
+Perhaps Sex plays a role in survival rate? It seems like women had a higher chance of surviving.
+
+Though not covered here, a few more insight will be useful here; survival rate based on fare rages, survival rate based on age ranges etc. **The key idea is that we're trying to determine if any/which of our variables are related to what we're trying to predict: Survived**
+
+<a name="data curation"></a>
+####Data Curation
+
+At this moment, we also want to grab passengerID column, because we'll need it for the submission phase.
 ```R
 passID <- testData$PassengerId
 ```
@@ -80,7 +122,7 @@ trainData[852, 9] <- as.integer(3)
 
 At this point, we have accomplished the following:
 - [x] load the data we intend to work with.
-- [x] did some preliminary exploration in the data.
+- [x] did some preliminary exploration into the data.
 - [x] cleaned the data
 
 And now we need to get started on the following.
@@ -246,9 +288,9 @@ for(i in 1:nrow(trainData)) {
 }
 ```
 
+<a name="train model"></a>
 ###Now for the final step: fitting (training) a model! 
 #####We feed the training data into a model, and the model will optimize the itself to give you the best explanation for your variables and outcome. The idea is that we will use the trained model, along with test data to acquire our prediction.
-
 
 ##### Fitting logistic regression model. R will take care of solving/optmizing the model. We don't have to worry about any complicated Math!
 #@todo explain the model actuall is?
@@ -387,6 +429,7 @@ for(i in 1:nrow(testData)) {
 
 ```
 
+<a name="predict model"></a>
 ####Now that the test dataset is ready, we plug it into the trained model below. Because the result is not in 0s and 1s (but rather continous), we apply a cutoff at 0.5, essentiall rounding the result to surived or non-survived.
 
 && Are people going to wonder why we use a cutoff of .5?
