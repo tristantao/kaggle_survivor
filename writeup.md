@@ -208,7 +208,7 @@ for (i in 1:nrow(trainData)) {
 We now begin the following:
 - [] Begin working on improving the model, by adding additional variables.
 
-####Variable 1: Child.
+#####Variable 1: Child.
 This additional variable choice stems from the fact that we suspect that being a child might affect the survival rate of a passanger. 
 
 We start by creating a child variable. This is done by appending an empty column to the dataset, titled "Child".
@@ -226,7 +226,7 @@ for (i in 1:nrow(trainData)) {
 }
 ```
 
-####variable 2: Lower class Men
+#####variable 2: Lower class Men
 being a lower class man might also lower one's survival rate, considering that lower class passengers and male passengers had the lowest survival rate. @Offer support here
 #####We inspect the data by looking at percentage of Men > 25 and Pclass = 3
 ```R
@@ -243,7 +243,7 @@ for (i in 1:nrow(trainData)) {
   }
 }
 ```
-####Varialble 3: Rich People
+#####Varialble 3: Rich People
 Perhaps having a nicer ticket can affect your survival rate as well. We do a similar subset as before, but in a different direction. Can you see what we did here?
 
 ```R
@@ -260,7 +260,7 @@ for(i in 1:nrow(trainData)) {
 }
 ```
 
-####Varialble 4: Family
+#####Varialble 4: Family
 For the last variable, we determine ####XXXXX wtf? lol what is this var.
 ```R
 trainData["Family"] <- NA
@@ -273,7 +273,7 @@ Now, we have a fully equipped training dataset!
 We have completed the following:
 - [x] Added more variables that we think that may help with the classification.
 
-####Varible 5: Mother
+#####Varible 5: Mother
 We add another variable indicating whether the passenger is a mother.
 This is done by going through the passngers and checking to see if the title is Mrs, plus number of kids is greater than 0.
 
@@ -289,11 +289,11 @@ for(i in 1:nrow(trainData)) {
 ```
 
 <a name="train model"></a>
-###Now for the final step: fitting (training) a model! 
-#####We feed the training data into a model, and the model will optimize the itself to give you the best explanation for your variables and outcome. The idea is that we will use the trained model, along with test data to acquire our prediction.
+#####Now for the final step: fitting (training) a model! 
+######We feed the training data into a model, and the model will optimize the itself to give you the best explanation for your variables and outcome. The idea is that we will use the trained model, along with test data to acquire our prediction.
 
-##### Fitting logistic regression model. R will take care of solving/optmizing the model. We don't have to worry about any complicated Math!
-#@todo explain the model actuall is?
+###### Fitting logistic regression model. R will take care of solving/optmizing the model. We don't have to worry about any complicated Math!
+@todo explain the model actuall is?
 ```R
 train.glm <- glm(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare,
                  family = binomial, data = trainData)
@@ -308,8 +308,7 @@ train.glm.two <- glm(Survived ~ Pclass + Sex + Age + Child + Rich + Sex*Pclass, 
                      data = trainData)
 ```
 
-###Now that we have a trained mdoel, we repeat the exact process on the test data that we did on the training data. The idea is to conduct the same steps (in terms of subsetting, cleaning, inference ,adding more variables), so that both datasets are in the same state. The only difference is the following:
-#####The test data doesn't have the "surivived" variable (which is what we're trying to predict), therefore the subsetting indices are slightly different
+Now that we have a trained mdoel, we repeat the exact process on the test data that we did on the training data. The idea is to conduct the same steps (in terms of subsetting, cleaning, inference ,adding more variables), so that both datasets are in the same state. The only difference is the following: **The test dataset doesn't have the "surivived" variable (which is what we're trying to predict), therefore the subsetting indexes are slightly different when cleaning the data**
 
 
 ```
