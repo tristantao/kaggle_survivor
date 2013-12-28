@@ -4,11 +4,11 @@
 2. [Data Exploration](#data exploration)
 3. [Data Curation](#data curation)
 4. [Training a Model](#train model)
-5. [Fitting a model](#predict model)
+5. [Fitting a Model](#predict model)
 
 TARGET READER: Someone who has gone through 1/3 of stats 133. A familiarity with R, but not an extensive knowledge and is looking to learn more in depth application and usage.
 
-Before beggining, you will need to install R and RStudio. It is a useful free application between for data analytics. If you already have these, skip to [data exploration](#data exploration)
+Before beggining, you will need to install R and RStudio. It is a useful free application between for data analytics. If you already have these, skip to [Data Exploration](#data exploration)
 
 <a name="r preparation"></a>
 ####Preparing R
@@ -457,8 +457,5 @@ write.csv(kaggle.sub, file = "kpred14.csv")
 
 Thanks for reading the tutorial!
 PLEASE drop us any comment/suggestion/question at XXXX@gmail.com We will respond within 12 hrs!
-
-
-
 
 
