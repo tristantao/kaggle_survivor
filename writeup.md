@@ -43,6 +43,13 @@ Download and install from [Linux_R_Download] (http://cran.r-project.org/bin/linu
 Choose the appropriate package from [RStudio_Download] (http://www.rstudio.com/ide/download/desktop)
 @TODO Also install ggplot2
 
+To work on the project we recommend splitting your screen space between RStudio and our walkthrough:
+Inline-style: 
+![alt text](https://www.dropbox.com/s/ilys3aerjcxhayi/WorkStation.png "Logo Title Text 1")
+
+
+
+
 ### Kaggle Project: Titanic - Machine Learning From Disaster
 
 First we must indicate to R where our current working directory is. We achieve that by calling setcwd (roughly stands for set current working directory). Working directory is important, because we have to indicate to R which folder we are working in (current directory). This lets R know which folder to look for the data input etc.
