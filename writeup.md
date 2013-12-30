@@ -45,7 +45,7 @@ Choose the appropriate package from [RStudio_Download] (http://www.rstudio.com/i
 
 To work on the project we recommend splitting your screen space between RStudio and our walkthrough:
 Inline-style: 
-![alt text](https://www.dropbox.com/s/ilys3aerjcxhayi/WorkStation.png "Logo Title Text 1")
+![alt text](https://github.com/tristantao/kaggle_survivor/blob/master/WorkStation.png "Logo Title Text 1")
 
 
 
