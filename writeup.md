@@ -1,3 +1,20 @@
+##Data Analytics for Beginners: A Walkthrough Example
+
+-put something in here to entice people, shows the significance of needing analytics skill for EVERYONE
+
+
+This post can be our MVP: Its a data project which we walk them through, we add sections for conceptual understanding, and we send them to post their results on Kaggle to replicate the competition and comparison. Critical missing features: **interactivity** **video lectures** on conceptual understanding, **competition/comparison network**, **applicability** to industry (titanic dataset is random), this tutorial focuses on predictive analytics so we are missing other teaching concepts, no gamification, we aren't charging them (maybe we can offer additional personal tutoring/hr to test WTP?). What can this confirm? Demand and specifically what types of people our customers are, we can test this on our friends easily and gain experience in teaching statistics to people,
+
+Make this walkthrough fun, put in parts like "**Take a break!** Watch this video: (link to some funny harlem shake)"
+Instruct them to type the code as they read along (anyway to make it so they can split screen btw blog post and Rstudio easily?)
+Put some kind of legitimacy backing? Like this post is sponsored by Wayne Lee a PhD in Statistics at UC Berkeley (probably shouldn't because we don't expect to put that kind of stuff in the initial product)
+Create a joke certification at the end to be funny? ("You can write this on your resume: ...")
+Google adwords people who search for the Predictive Analytics World Conference
+Find out if the readers are: (Engineer, Business, Medicine, Research, Student)
+In the tutorial teach them to a score of **.70** and then offer tips and advice to improve score to **.77**
+
+This walkthrough is meant for **ANYONE** interested in learning more about data analytics and is specifically targeted towards people with no prior experience in **R**. Some background in Statistics would be helpful but neither is it necessary. The purpose of this walkthrough is for you to hop abord Willy Wonka's Boat, into the chocolate river, and through the dark tunnel. After all, the best way to understand what Machine Learning really is is to complete a simple machine learning project right? We believe R or some software like it will be the baseline skill business professionals require like Microsoft Excel is today.
+
 ####Table of Content:
 
 1. [Preparing R/Rstudio](#r preparation)
@@ -8,7 +25,7 @@
 
 TARGET READER: Someone who has gone through 1/3 of stats 133. A familiarity with R, but not an extensive knowledge and is looking to learn more in depth application and usage.
 
-Before beggining, you will need to install R and RStudio. It is a useful free application between for data analytics. If you already have these, skip to [Data Exploration](#data exploration)
+Before beginning, you will need to install R and RStudio. It is a useful free application between for data analytics. If you already have these, skip to [Data Exploration](#data exploration)
 
 <a name="r preparation"></a>
 ####Preparing R
