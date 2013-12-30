@@ -45,8 +45,9 @@ Choose the appropriate package from [RStudio_Download] (http://www.rstudio.com/i
 
 To work on the project we recommend splitting your screen space between RStudio and our walkthrough:
 Inline-style: 
-![alt text](https://github.com/tristantao/kaggle_survivor/blob/master/WorkStation.png "Logo Title Text 1")
+![alt text](https://github.com/tristantao/kaggle_survivor/blob/master/WorkStation.png "Split Screen View")
 
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png)
 
 
 
