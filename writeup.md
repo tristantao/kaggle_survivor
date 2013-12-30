@@ -5,7 +5,7 @@
 
 This post can be our MVP: Its a data project which we walk them through, we add sections for conceptual understanding, and we send them to post their results on Kaggle to replicate the competition and comparison. Critical missing features: **interactivity** **video lectures** on conceptual understanding, **competition/comparison network**, **applicability** to industry (titanic dataset is random), this tutorial focuses on predictive analytics so we are missing other teaching concepts, no gamification, we aren't charging them (maybe we can offer additional personal tutoring/hr to test WTP?). What can this confirm? Demand and specifically what types of people our customers are, we can test this on our friends easily and gain experience in teaching statistics to people,
 
-Make this walkthrough fun, put in parts like "**Take** a break! Watch this video: (link to some funny harlem shake)"
+Make this walkthrough fun, put in parts like "**Take a break!** Watch this video: (link to some funny harlem shake)"
 Instruct them to type the code as they read along (anyway to make it so they can split screen btw blog post and Rstudio easily?)
 Put some kind of legitimacy backing? Like this post is sponsored by Wayne Lee a PhD in Statistics at UC Berkeley (probably shouldn't because we don't expect to put that kind of stuff in the initial product)
 Create a joke certification at the end to be funny? ("You can write this on your resume: ...")
