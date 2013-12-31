@@ -16,6 +16,7 @@ Need to indicate that # means comments and aren't run, need to explain what comm
 In general to avoid confusion we should just have code snippets be things the reader should put into R. Anything else should be text<br />
 Add a glossary?<br />
 Lets put those barplots in the exploratory analysis in, pictures are good I think <br />
+Lets get rid of the user defined function and just brute force everything, repetition will make it easier to understand<br />
 
 TARGET READER: A young professional with no prior experience in R and maybe an elementary understanding of statistics.
 
