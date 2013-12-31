@@ -15,6 +15,9 @@ In the tutorial teach them to a score of **.70** and then offer tips and advice 
 
 This walkthrough is meant for **ANYONE** interested in learning more about data analytics and is specifically targeted towards people with no prior experience in **R**. Some background in Statistics would be helpful but neither is it necessary. The purpose of this walkthrough is for you to hop abord Willy Wonka's Boat, into the chocolate river, and through the dark tunnel. After all, the best way to understand what Machine Learning really is is to complete a simple machine learning project right? We believe R or some software like it will be the baseline skill business professionals require like Microsoft Excel is today.
 
+
+### Concepts to Cover:
+
 ####Table of Content:
 
 1. [Preparing R/Rstudio](#r preparation)
