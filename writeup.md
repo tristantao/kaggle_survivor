@@ -1,12 +1,13 @@
 ##Machine Learning / Data Mining for Beginners: A Walkthrough Example
 
--put something in here to entice people, shows the significance of needing analytics skill for EVERYONE
+You are reading this because of a simple reason: you are curious about machine learning and maybe more generally data analytics/science. You could be a young professional looking for transferable skills or a business manager who whats to glean insights from his/her data. You could be a healthcare professional who sees a P-value statistic almost every day and still only knows that you are to accept that number when its less than 5%. The truth is that we are coming upon a third revolution, the information revolution. And unique from the plow, or the assembly line, the key to this revolution is the knowledge of how to analyze data.
 
-You are reading this because of a simple reason: you are curious about machine learning and maybe more generally data analytics/science. You could be a young professional looking for transferable skills or a business manager who whats to glean insights from his/her data. You could be a healthcare professional who sees a p.value statistic almost every day and still only knows that you are to accept that number when its less than 5%. 
-
-
+This walkthrough is meant for **ANYONE** interested in learning more about data analytics and is made so that you can still follow along even with no prior experience in **R**. Some background in Statistics would be helpful (making the fancy words seem less fancy) but neither is it necessary. The purpose of this walkthrough is to simply give you a taste of what machine learning is really like, by feeding it to you with a silver spoon. After all, the best way to understand what Machine Learning really is is to complete a simple machine learning project right? The "data project" you will complete is given from Kaggle, a data science competition company, and if you follow carefully you can place yourself at the top 12% of all competitors
 
 
+### Internal Comments on BlogPost
+
+TARGET READER: A young professional with no prior experience in R and maybe an elementary understanding of statistics.
 
 This post can be our MVP: Its a data project which we walk them through, we add sections for conceptual understanding, and we send them to post their results on Kaggle to replicate the competition and comparison. Critical missing features: **interactivity** **video lectures** on conceptual understanding, **competition/comparison network**, **applicability** to industry (titanic dataset is random), this tutorial focuses on predictive analytics so we are missing other teaching concepts, no gamification, we aren't charging them (maybe we can offer additional personal tutoring/hr to test WTP?). What can this confirm? Demand and specifically what types of people our customers are, we can test this on our friends easily and gain experience in teaching statistics to people,
 
@@ -18,7 +19,10 @@ Google adwords people who search for the Predictive Analytics World Conference
 Find out if the readers are: (Engineer, Business, Medicine, Research, Student)
 In the tutorial teach them to a score of **.70** and then offer tips and advice to improve score to **.77**
 
-This walkthrough is meant for **ANYONE** interested in learning more about data analytics and is targeted towards people with no prior experience in **R**. Some background in Statistics would be helpful (making the fancy words seem less fancy) but neither is it necessary. The purpose of this walkthrough is to simply give you a taste of what machine learning is really like, by feeding it to you with a silver spoon. After all, the best way to understand what Machine Learning really is is to complete a simple machine learning project right? We believe R or some software like it will be the baseline skill business professionals require like Microsoft Excel is today.
+
+
+
+We believe R or some software like it will be the baseline skill business professionals require like Microsoft Excel is today.
 
 
 ### Concepts to Cover:
@@ -30,8 +34,6 @@ This walkthrough is meant for **ANYONE** interested in learning more about data 
 3. [Data Curation](#data curation)
 4. [Training a Model](#train model)
 5. [Fitting a Model](#predict model)
-
-TARGET READER: Someone who has gone through 1/3 of stats 133. A familiarity with R, but not an extensive knowledge and is looking to learn more in depth application and usage.
 
 Before beginning, you will need to install R and RStudio. It is a useful free application between for data analytics. If you already have these, skip to [Data Exploration](#data exploration)
 
