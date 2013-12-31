@@ -70,17 +70,22 @@ The Kaggle competition asks you to predict whether a passenger survived the Tita
 
 The first step is to download the datasets <a href = "https://www.kaggle.com/c/titanic-gettingStarted/data">here</a>. Remember which folder you saved it in!
 
-In RStudio, we must first create a file for us to write in. Go to File ==> New ==> Rscript. Now in that file we must indicate where our current working directory is. We achieve that by using the setwd function (roughly stands for set current working directory). Your Working directory indicates to R which folder to look for the data, namely the Train and Test files you downloaded from Kaggle.
+In RStudio, we must first create a file for us to write in. Go to File ==> New ==> Rscript. Now in that file we must indicate where our current working directory is. We achieve this by using the setwd function (roughly stands for set current working directory). Your working directory indicates to R which folder to look for the data you want to use, for us it will be the Train and Test files you downloaded from Kaggle. This is case sensitive.
 
 ```R
-setwd("/Path/to/training/test/data/")
+For Mac users:
+setwd("/Users/(Folder)/(Folder)/etc./")
+
+For Windows users:
+setwd("C://Users/(Folder)/
+
 e.g.
-setwd("/Users/t-rex-Box/Desktop/work/kaggle_survivor")
+setwd("/Users/Jeff_Adams/Desktop/work/kaggle_survivor")
 ```
+&& how do you know what your user name is to figure out the file path? We should give an example of setwd() for windows path and for a Mac path
 
-Now that we've indicate to R where we are working, we can begin reading in the code; we utilize the _read.csv()_ function to do that. Previewing the data with your text editor (word/excel is ok!), we notice hearders, so we flag header as _True_.
+Now that we've indicated to R where we want to grab the files from, we can grab the files by reading in the code; we utilize the _read.csv()_ function to do that. Previewing the data on Excel first is ok! You'll notice that we also have you write something about header and stringsAsFactors. Setting ```header = TRUE ``` means that we want to keep the first row of data as header titles instead of as part of the data set. StringsAsFactors is a little more complicated and we'll cover it later. Remember everything is case sensitive!
 
-We also indicate that stringAsFactors as false. We'll cover factors later, but for now, we flag that as _False_ as well
 ```R
 trainData <- read.csv("train.csv", header = TRUE, stringsAsFactors = FALSE)
 testData <- read.csv("test.csv", header = TRUE, stringsAsFactors = FALSE)
