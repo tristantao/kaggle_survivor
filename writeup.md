@@ -7,13 +7,15 @@ This walkthrough is meant for **ANYONE** interested in learning more about data 
 
 ### Internal Comments on BlogPost
 
-THOUGHTS:
+THOUGHTS:<br />
 Do we want to change the vector names so they are more clear? AKA train_data instead of trainData?<br />
 We should just give them a cleaned version of the testData so they don't have to see all that code again.<br />
 We should remove explanatory variables that we don't use.<br />
 Need to teach them how to run code thats written in the script (typing ctrl + enter)<br />
 Need to indicate that # means comments and aren't run, need to explain what comments are<br />
-In general to avoid confusion we should just have code snippets be things the reader should put into R. Anything else should be text
+In general to avoid confusion we should just have code snippets be things the reader should put into R. Anything else should be text<br />
+Add a glossary?<br />
+Lets put those barplots in the exploratory analysis in, pictures are good I think <br />
 
 TARGET READER: A young professional with no prior experience in R and maybe an elementary understanding of statistics.
 
@@ -33,7 +35,6 @@ We believe R or some software like it will be the baseline skill business profes
 
 
 ### Concepts to Cover:
-Add a glossary?<br />
 
 ##### Instructions for following along
 We recommend **directly typing** all code snippets that we have included<br />
@@ -95,7 +96,7 @@ setwd("/Users/Jeff_Adams/Desktop/work/kaggle_survivor")
 ```
 && how do you know what your user name is to figure out the file path? We should give an example of setwd() for windows path and for a Mac path
 
-Now that we've indicated to R where we want to grab the files from, we can grab the files by reading in the code; we utilize the ```read.csv()``` function to do that. Previewing the data on Excel first is ok! You'll notice that we also have you write something about header and stringsAsFactors. Setting ```header = TRUE ``` means that we want to keep the first row of data as header titles instead of as part of the data set. StringsAsFactors is a little more complicated and we'll cover it later. Remember everything is case sensitive!
+Now that we've indicated to R where we want to grab the files from, we can grab the files by reading in the code; we utilize the ```read.csv()``` function to do that and we name the dataset by typing ```<-``` Previewing the data on Excel first is ok! You'll notice that we also have you write something about header and stringsAsFactors. Setting ```header = TRUE ``` means that we want to keep the first row of data as column titles instead of as part of observations in the data set. StringsAsFactors is a little more complicated and we'll cover it later. Remember everything is case sensitive!
 
 ```R
 trainData <- read.csv("train.csv", header = TRUE, stringsAsFactors = FALSE)
@@ -135,7 +136,8 @@ counts[4] / (counts[3] + counts[4]) #getting male survival rate from the table
 #Since this is a training data, the numbers are not 100% accurate. 
 #Nevertheless they are often indicative of general trends. #TODO add disclaimers 
 ```
-Perhaps Sex plays a role in survival rate? It seems like women had a higher chance of surviving.
+
+Perhaps Sex plays a role in survival rate? It seems like women had a higher chance of surviving. Our intuition is that the crewman used the standard "Women and Children first" for the lifeboats.
 
 ```R
 #Survival rate by cabin classes
