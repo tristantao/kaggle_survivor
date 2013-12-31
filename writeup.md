@@ -1,6 +1,6 @@
-##Machine Learning / Data Mining for Beginners: A Walkthrough Example
+##Machine Learning / Data Mining / Data Analytics for Beginners: A Walkthrough Example
 
-You are reading this because of a simple reason: you are curious about machine learning and maybe more generally data analytics/science. You could be a young professional looking for transferable skills or a business manager who whats to glean insights from his/her data. You could be a healthcare professional who sees a P-value statistic almost every day and still only knows that you are to accept that number when its less than 5%. The truth is that we are coming upon a third revolution, the information revolution. And unique from the plow, or the assembly line, the key to this revolution is the knowledge of how to analyze data.
+You are reading this because of a simple reason: you are curious about machine learning and maybe more generally data analytics/science. You could be a young professional looking for transferable skills or a business manager who whats to glean insights from his/her data. You could be a healthcare professional who sees a P-value statistic almost every day and still only knows that you are to accept that number when its less than 5%. The truth is that we are coming upon a third revolution, the information revolution. And unique from the plow, or the assembly line, the key to this revolution is the knowledge of how to analyze data. Marketers A/B test, consultants segment customers, financiers predict stock price, engineers. The ability to answer a question from raw data or discover a new trend will never go out of demand and is only increasing in demand as data becomes more easily stored, access, and shared.
 
 This walkthrough is meant for **ANYONE** interested in learning more about data analytics and is made so that you can still follow along even with no prior experience in **R**. Some background in Statistics would be helpful (making the fancy words seem less fancy) but neither is it necessary. The purpose of this walkthrough is to simply give you a taste of what machine learning is really like, by feeding it to you with a silver spoon. After all, the best way to understand what Machine Learning really is is to complete a simple machine learning project right? The "data project" you will complete is given from Kaggle, a data science competition company, and if you follow carefully you can place yourself at the top 12% of all competitors
 
@@ -21,11 +21,22 @@ In the tutorial teach them to a score of **.70** and then offer tips and advice 
 
 
 
-
 We believe R or some software like it will be the baseline skill business professionals require like Microsoft Excel is today.
 
 
 ### Concepts to Cover:
+Add a glossary?<br />
+
+##### Instructions for following along
+We recommend **directly typing** all code snippets that we have included<br />
+Additional materials which provide a more conceptual understanding of the programming or statistics are marked with:<br />
+Feel free to ask questions on our Kaggle Forum post and we will respond as soon as possible!
+
+To work on the project we recommend splitting your screen space between RStudio and our walkthrough:
+Inline-style: 
+![alt text](https://github.com/tristantao/kaggle_survivor/blob/master/WorkStation.png "Split Screen View")
+
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png)
 
 ####Table of Content:
 
@@ -35,7 +46,7 @@ We believe R or some software like it will be the baseline skill business profes
 4. [Training a Model](#train model)
 5. [Fitting a Model](#predict model)
 
-Before beginning, you will need to install R and RStudio. It is a useful free application between for data analytics. If you already have these, skip to [Data Exploration](#data exploration)
+Before beginning you will need to install R and RStudio. It is a useful and free application for data analytics that is widely used by statisticians and data miners. You also need to become a Kaggle Competitor for access to the datasets and entry into the competition, don't worry its free! Sign up for <a href = "http://www.kaggle.com/account/register">Kaggle</a>. If you already have these, skip to [Data Exploration](#data exploration)
 
 <a name="r preparation"></a>
 ####Preparing R
@@ -53,22 +64,13 @@ Download and install from [Linux_R_Download] (http://cran.r-project.org/bin/linu
 Choose the appropriate package from [RStudio_Download] (http://www.rstudio.com/ide/download/desktop)
 @TODO Also install ggplot2
 
-##### Instructions for following along
-We recommend **directly typing** all code snippets that we have included
-Additional materials which provide a more conceptual understanding of the programming or statistics are marked with:
-Feel free to ask questions on our Kaggle Forum post and we will respond as soon as possible!
+### Kaggle Competition: Titanic - Machine Learning From Disaster
 
-To work on the project we recommend splitting your screen space between RStudio and our walkthrough:
-Inline-style: 
-![alt text](https://github.com/tristantao/kaggle_survivor/blob/master/WorkStation.png "Split Screen View")
+The Kaggle competition asks you to predict whether a passenger survived the Titanic crash. You are given two datasets (Train & Test) each of which include predictor variables such as Age, Passenger Class, Sex, etc. and we will create a model which will use these variables among others to predict whether a passenger survived. It would be wise to take a look at the in-depth description <a href = "http://www.kaggle.com/c/titanic-gettingStarted">here</a>. The project result will be an excel spreadsheet with a column for the Passenger ID and another column which indicates whether they survived (0 for death, 1 for survival).
 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png)
+The first step is to download the datasets <a href = "https://www.kaggle.com/c/titanic-gettingStarted/data">here</a>. Remember which folder you saved it in!
 
-
-
-### Kaggle Project: Titanic - Machine Learning From Disaster
-
-First we must indicate to R where our current working directory is. We achieve that by calling setcwd (roughly stands for set current working directory). Working directory is important, because we have to indicate to R which folder we are working in (current directory). This lets R know which folder to look for the data input etc.
+In RStudio, we must first create a file for us to write in. Go to File ==> New ==> Rscript. Now in that file we must indicate where our current working directory is. We achieve that by using the setwd function (roughly stands for set current working directory). Your Working directory indicates to R which folder to look for the data, namely the Train and Test files you downloaded from Kaggle.
 
 ```R
 setwd("/Path/to/training/test/data/")
@@ -81,7 +83,7 @@ Now that we've indicate to R where we are working, we can begin reading in the c
 We also indicate that stringAsFactors as false. We'll cover factors later, but for now, we flag that as _False_ as well
 ```R
 trainData <- read.csv("train.csv", header = TRUE, stringsAsFactors = FALSE)
-testData <- read.csv("test.csv", header = TRUE, stringsAsFactors = F)
+testData <- read.csv("test.csv", header = TRUE, stringsAsFactors = FALSE)
 ```
 
 <a name="data exploration"></a>
