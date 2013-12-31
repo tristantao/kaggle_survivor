@@ -7,6 +7,14 @@ This walkthrough is meant for **ANYONE** interested in learning more about data 
 
 ### Internal Comments on BlogPost
 
+THOUGHTS:
+Do we want to change the vector names so they are more clear? AKA train_data instead of trainData?<br />
+We should just give them a cleaned version of the testData so they don't have to see all that code again.<br />
+We should remove explanatory variables that we don't use.<br />
+Need to teach them how to run code thats written in the script (typing ctrl + enter)<br />
+Need to indicate that # means comments and aren't run, need to explain what comments are<br />
+In general to avoid confusion we should just have code snippets be things the reader should put into R. Anything else should be text
+
 TARGET READER: A young professional with no prior experience in R and maybe an elementary understanding of statistics.
 
 This post can be our MVP: Its a data project which we walk them through, we add sections for conceptual understanding, and we send them to post their results on Kaggle to replicate the competition and comparison. Critical missing features: **interactivity** **video lectures** on conceptual understanding, **competition/comparison network**, **applicability** to industry (titanic dataset is random), this tutorial focuses on predictive analytics so we are missing other teaching concepts, no gamification, we aren't charging them (maybe we can offer additional personal tutoring/hr to test WTP?). What can this confirm? Demand and specifically what types of people our customers are, we can test this on our friends easily and gain experience in teaching statistics to people,
@@ -70,21 +78,24 @@ The Kaggle competition asks you to predict whether a passenger survived the Tita
 
 The first step is to download the datasets <a href = "https://www.kaggle.com/c/titanic-gettingStarted/data">here</a>. Remember which folder you saved it in!
 
-In RStudio, we must first create a file for us to write in. Go to File ==> New ==> Rscript. Now in that file we must indicate where our current working directory is. We achieve this by using the setwd function (roughly stands for set current working directory). Your working directory indicates to R which folder to look for the data you want to use, for us it will be the Train and Test files you downloaded from Kaggle. This is case sensitive.
+In RStudio, we must first create a file for us to write in. Go to File ==> New ==> Rscript. Now in that file we must indicate where our current working directory is. We achieve this by using the ```setwd()``` function (roughly stands for set current working directory). Your working directory indicates to R which folder to look for the data you want to use, for us it will be the Train and Test files you downloaded from Kaggle. This is case sensitive.
 
+For Mac Users:<br />
 ```R
-For Mac users:
 setwd("/Users/(Folder)/(Folder)/etc./")
+```
 
-For Windows users:
-setwd("C://Users/(Folder)/
-
-e.g.
+For Windows users:<br />
+```R
+setwd("C://Users/(Folder)/(Folder)/etc./")
+```
+Example:<br />
+```R
 setwd("/Users/Jeff_Adams/Desktop/work/kaggle_survivor")
 ```
 && how do you know what your user name is to figure out the file path? We should give an example of setwd() for windows path and for a Mac path
 
-Now that we've indicated to R where we want to grab the files from, we can grab the files by reading in the code; we utilize the _read.csv()_ function to do that. Previewing the data on Excel first is ok! You'll notice that we also have you write something about header and stringsAsFactors. Setting ```header = TRUE ``` means that we want to keep the first row of data as header titles instead of as part of the data set. StringsAsFactors is a little more complicated and we'll cover it later. Remember everything is case sensitive!
+Now that we've indicated to R where we want to grab the files from, we can grab the files by reading in the code; we utilize the ```read.csv()``` function to do that. Previewing the data on Excel first is ok! You'll notice that we also have you write something about header and stringsAsFactors. Setting ```header = TRUE ``` means that we want to keep the first row of data as header titles instead of as part of the data set. StringsAsFactors is a little more complicated and we'll cover it later. Remember everything is case sensitive!
 
 ```R
 trainData <- read.csv("train.csv", header = TRUE, stringsAsFactors = FALSE)
@@ -96,7 +107,7 @@ testData <- read.csv("test.csv", header = TRUE, stringsAsFactors = FALSE)
 
 Before actually building a model, we need to explore the data. We'll take look at a few values and plots to get a better understanding of our data. We start with a few simple generic x-y plots to get a feel.
 
-plotting the raw numbers:
+Plotting the raw numbers:
 ```R
 plot(trainData$Age) #plotting age and index.
 plot(trainData$Fare) #plotting fare and index.
