@@ -53,6 +53,11 @@ Download and install from [Linux_R_Download] (http://cran.r-project.org/bin/linu
 Choose the appropriate package from [RStudio_Download] (http://www.rstudio.com/ide/download/desktop)
 @TODO Also install ggplot2
 
+##### Instructions for following along
+We recommend **directly typing** all code snippets that we have included
+Additional materials which provide a more conceptual understanding of the programming or statistics are marked with:
+Feel free to ask questions on our Kaggle Forum post and we will respond as soon as possible!
+
 To work on the project we recommend splitting your screen space between RStudio and our walkthrough:
 Inline-style: 
 ![alt text](https://github.com/tristantao/kaggle_survivor/blob/master/WorkStation.png "Split Screen View")
