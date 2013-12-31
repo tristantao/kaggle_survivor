@@ -2,7 +2,7 @@
 
 setwd("/Users/t-rex-Box/Desktop/work/kaggle_survivor/")
 source('kaggle_util.R')
-#setwd("/Users/Brian_Liou/Documents/STAT151A") #Setting WD for mee
+setwd("/Users/Brian_Liou/Documents/STAT151A") #Setting WD for mee
 
 trainData <- read.csv("train.csv", header = TRUE, stringsAsFactors = FALSE)
 testData <- read.csv("test.csv", header = TRUE, stringsAsFactors = F)
@@ -72,7 +72,7 @@ testData <- testData[-c(8,10)]
 mr_age = c()
 ms_age = c(415)
 mrs_age = c()
-testData = prep_data(test_data, mr_age, ms_age, mrs_age)
+testData = prep_data(testData, mr_age, ms_age, mrs_age)
 testData = manualy_replace_title(testData, c(415), "Miss")
 
 #library(klaR)
@@ -99,6 +99,19 @@ testData = manualy_replace_title(testData, c(415), "Miss")
 
 p.hats <- predict.glm(train.glm.best, newdata = testData, type = "response")
 
+
+# Using classification Trees
+#simple.model <- rpart(Survived ~ Pclass + Sex + Age, method = "class", data = trainData)
+#model <- rpart(Survived ~ Pclass + Sex + Age + Child + Family + Mother, method = "class", data =trainData)
+#p.hats <- predict(simple.model, testData)[ ,2]
+
+#printcp(model)
+#final.model <- prune(model, cp = .014620)
+#plot(final.model)
+#text(final.model)
+#p.hats <- predict(final.model, testData)
+
+
 #P hats to compare off of trainData
 #p.hats.cutoff <- predict.glm(train.glm.best, newdata =trainData, type = "response") 
 
@@ -114,7 +127,7 @@ for(i in 1:length(p.hats)) {
 
 kaggle.sub <- cbind(testData$PassengerId,survival)
 colnames(kaggle.sub) <- c("PassengerId", "Survived")
-write.csv(kaggle.sub, file = "kpred14.csv", row.names = FALSE)
+write.csv(kaggle.sub, file = "kpred24.csv", row.names = FALSE)
 
 
 
