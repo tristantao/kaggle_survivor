@@ -18,6 +18,11 @@ Add a glossary?<br />
 Lets put those barplots in the exploratory analysis in, pictures are good I think <br />
 Lets get rid of the user defined function and just brute force everything, repetition will make it easier to understand<br />
 
+
+Video breaks:<br />
+http://www.youtube.com/watch?v=FzRH3iTQPrk#t=13<br />
+http://www.youtube.com/watch?v=Fc1P-AEaEp8#t=5<br />
+
 TARGET READER: A young professional with no prior experience in R and maybe an elementary understanding of statistics.
 
 This post can be our MVP: Its a data project which we walk them through, we add sections for conceptual understanding, and we send them to post their results on Kaggle to replicate the competition and comparison. Critical missing features: **interactivity** **video lectures** on conceptual understanding, **competition/comparison network**, **applicability** to industry (titanic dataset is random), this tutorial focuses on predictive analytics so we are missing other teaching concepts, no gamification, we aren't charging them (maybe we can offer additional personal tutoring/hr to test WTP?). What can this confirm? Demand and specifically what types of people our customers are, we can test this on our friends easily and gain experience in teaching statistics to people,
