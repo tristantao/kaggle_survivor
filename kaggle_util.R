@@ -38,7 +38,7 @@ prep_data = function(targetData, mr_age, ms_age, mrs_age) {
   }
   
   # User defined function for replacing surnames for TRAIN 
-  namefuction <- function(name, replacement, dataset, targetData) {
+  namefunction <- function(name, replacement, dataset, targetData) {
     vector <- grep(name, dataset)
     for (i in vector) {
       targetData$Name[i] <- replacement
@@ -47,22 +47,23 @@ prep_data = function(targetData, mr_age, ms_age, mrs_age) {
   }
   
   # Replacing surnames for major surnames
-  targetData <- namefuction("Master\\.", "Master",targetData$Name, targetData)
-  targetData <- namefuction("Miss\\.", "Miss",targetData$Name, targetData)
-  targetData <- namefuction("Mrs\\.", "Mrs",targetData$Name, targetData)
-  targetData <- namefuction("Mr\\.", "Mr",targetData$Name, targetData)
-  targetData <- namefuction("Dr\\.", "Dr",targetData$Name, targetData)
-  targetData <- namefuction("Rev.", "Mr",targetData$Name, targetData)
+  targetData <- namefunction("Master\\.", "Master",targetData$Name, targetData)
+  targetData <- namefunction("Miss\\.", "Miss",targetData$Name, targetData)
+  targetData <- namefunction("Mrs\\.", "Mrs",targetData$Name, targetData)
+  targetData <- namefunction("Mr\\.", "Mr",targetData$Name, targetData)
+  targetData <- namefunction("Dr\\.", "Dr",targetData$Name, targetData)
+  targetData <- namefunction("Rev.", "Mr",targetData$Name, targetData)
   
   #Also replace those not properly caught #Do we even need the ones above wiht periods?
-  targetData = namefuction("Mr", "Mr",targetData$Name, targetData)
-  targetData = namefuction("Miss", "Miss",targetData$Name, targetData)
-  targetData = namefuction("Mrs", "Mrs",targetData$Name, targetData)
-  targetData = namefuction("Col", "Mr",targetData$Name, targetData)
-  targetData = namefuction("Major.", "Mr",targetData$Name, targetData)
-  targetData = namefuction("Capt", "Mr",targetData$Name, targetData)
-  targetData = namefuction("Mme", "Mrs",targetData$Name, targetData)
-  targetData = namefuction("Countess", "Mrs",targetData$Name, targetData)
+  targetData = namefunction("Mr", "Mr",targetData$Name, targetData)
+  targetData = namefunction("Miss", "Miss",targetData$Name, targetData)
+  targetData = namefunction("Mrs", "Mrs",targetData$Name, targetData)
+  targetData = namefunction("Col", "Mr",targetData$Name, targetData)
+  targetData = namefunction("Major.", "Mr",targetData$Name, targetData)
+  targetData = namefunction("Capt", "Mr",targetData$Name, targetData)
+  targetData = namefunction("Mme", "Mrs",targetData$Name, targetData)
+  targetData = namefunction("Countess", "Mrs",targetData$Name, targetData)
+  targetData <- namefunction("Ms\\.", "Miss", targetData$Name, targetData) # One random obs that had "Ms." surname causing code to break
   
   #manually update the ages:
   
@@ -97,9 +98,18 @@ prep_data = function(targetData, mr_age, ms_age, mrs_age) {
     }
   }
   
+  
+  #Test if there are any more NAs in Age column
+  if (sum(is.na(targetData$Age)) > 0) {
+    print("NAs exist")
+  }
+  
+  
   # Converting categorical variable Sex to integers
   targetData$Sex <- gsub("female", 1, targetData$Sex)
   targetData$Sex <- gsub("^male", 0, targetData$Sex)
+  
+
   
   # Converting categorical variable Embarked to integers
   targetData$Embarked <- gsub("C", as.integer(1), targetData$Embarked)
@@ -107,14 +117,17 @@ prep_data = function(targetData, mr_age, ms_age, mrs_age) {
   targetData$Embarked <- gsub("S", as.integer(3), targetData$Embarked)
   
   
-  # Adding Embarked locations to missing values
-  targetData[which(targetData$Embarked == ""), ]
-  targetData[771, 9] <- as.integer(3)
-  targetData[852, 9] <- as.integer(3)
+  # Adding Embarked locations to missing values FOR trainData COMMENT OUT for testData
+  #targetData[which(targetData$Embarked == ""), ]
+  #targetData[771, 9] <- as.integer(3)
+  #targetData[852, 9] <- as.integer(3)
+  
+  # Adding Fare value for OBS 153 in testData COMMENT OUT for trainData
+  targetData[153, 8] <- 50
+  
   
   # Creating a child variable
   targetData["Child"] <- NA
-  
   for (i in 1:nrow(targetData)) {
     if (targetData$Age[i] <= 12) {
       targetData$Child[i] <- 1
