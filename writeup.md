@@ -7,17 +7,42 @@ This walkthrough is meant for **ANYONE** interested in learning more about data 
 
 ### Internal Comments on BlogPost
 
-THOUGHTS:<br />
-Do we want to change the vector names so they are more clear? AKA train_data instead of trainData?<br />
-We should just give them a cleaned version of the testData so they don't have to see all that code again.<br />
-We should remove explanatory variables that we don't use.<br />
-Need to teach them how to run code thats written in the script (typing ctrl + enter)<br />
-Need to indicate that # means comments and aren't run, need to explain what comments are<br />
-In general to avoid confusion we should just have code snippets be things the reader should put into R. Anything else should be text<br />
-Add a glossary?<br />
-Lets put those barplots in the exploratory analysis in, pictures are good I think <br />
-Lets get rid of the user defined function and just brute force everything, repetition will make it easier to understand<br />
+THOUGHTS:
 
+1. Do we want to change the vector names so they are more clear? AKA train_data instead of trainData?
+  * I was taught trainData format first vs train_data. I've always thought it was the more intuitiev? idk
+2. We should just give them a cleaned version of the testData so they don't have to see all that code again.
+  * Will this confuse them? What if they want to add variables? maybe this is where the automated function comes in? I dont think we can blindly give people the cleaned data, because they won't understand that same proces applied to train and test. 
+3. We should remove explanatory variables that we don't use.
+  * Again, what if they want to look at it / try using it? Or, it's possible (likely) that no one will, so we can remove safeyl..
+4. Need to teach them how to run code thats written in the script (typing ctrl + enter)
+  * discuss*
+5. Need to indicate that # means comments and aren't run, need to explain what comments are
+  * Good call
+6. In general to avoid confusion we should just have code snippets be things the reader should put into R. Anything else should be text
+  * That's how it is for the most part. Are you referring to the comments?
+7. Add a glossary?
+  * discuss (from lean startup pov)
+8. Lets put those barplots in the exploratory analysis in, pictures are good I think
+  * like, include the completed plots? Already plotted i.e?
+9. Lets get rid of the user defined function and just brute force everything, repetition will make it easier to understand
+  * agreed, so this appliest to every single place where they use any function, right?
+
+Concept needed to cover:
+1. data structure, c(), i.e. lists. subsetting indices
+2. explain the concept of a function
+3. Way to examine data. (head, tail, or editor etc)
+4. idea of variables (holding block)
+6. grep
+7. idea behind linear regression
+8. misc function (round, mean, table, gsub, cbind, nrow etc)
+
+Already covered:
+1. Directory related stuff
+2. comment in code
+3. if-else statements
+4. for loops
+5. Density
 
 Video breaks:<br />
 http://www.youtube.com/watch?v=FzRH3iTQPrk#t=13<br />
@@ -34,7 +59,6 @@ Create a joke certification at the end to be funny? ("You can write this on your
 Google adwords people who search for the Predictive Analytics World Conference
 Find out if the readers are: (Engineer, Business, Medicine, Research, Student)
 In the tutorial teach them to a score of **.70** and then offer tips and advice to improve score to **.77**
-
 
 
 We believe R or some software like it will be the baseline skill business professionals require like Microsoft Excel is today.
@@ -87,20 +111,20 @@ The first step is to download the datasets <a href = "https://www.kaggle.com/c/t
 
 In RStudio, we must first create a file for us to write in. Go to File ==> New ==> Rscript. Now in that file we must indicate where our current working directory is. We achieve this by using the ```setwd()``` function (roughly stands for set current working directory). Your working directory indicates to R which folder to look for the data you want to use, for us it will be the Train and Test files you downloaded from Kaggle. This is case sensitive.
 
-For Mac Users:<br />
+For Mac Users:
 ```R
-setwd("/Users/(Folder)/(Folder)/etc./")
+setwd("/Users/(Folder)/(Folder)/(CurrentFolder)/")
 ```
 
 For Windows users:<br />
 ```R
-setwd("C://Users/(Folder)/(Folder)/etc./")
+setwd("C://Users/(Folder)/(Folder)/(CurrentFolder)/")
 ```
 Example:<br />
 ```R
-setwd("/Users/Jeff_Adams/Desktop/work/kaggle_survivor")
+setwd("/Users/Jeff_Adams/Desktop/work/kaggle_survivor/")
 ```
-&& how do you know what your user name is to figure out the file path? We should give an example of setwd() for windows path and for a Mac path
+The path is essentially a hierchical represention of the workspace location.
 
 Now that we've indicated to R where we want to grab the files from, we can grab the files by reading in the code; we utilize the ```read.csv()``` function to do that and we name the dataset by typing ```<-``` Previewing the data on Excel first is ok! You'll notice that we also have you write something about header and stringsAsFactors. Setting ```header = TRUE ``` means that we want to keep the first row of data as column titles instead of as part of observations in the data set. StringsAsFactors is a little more complicated and we'll cover it later. Remember everything is case sensitive!
 
@@ -121,12 +145,30 @@ plot(trainData$Fare) #plotting fare and index.
 ```
 Notice how hard it is to discern useful information from the plot? The data points seem a bit random, but perhaps with a trend. There are few points that are significant higher, but which ones? Though raw x-y plots are good starting point, we have to go further.
 
-Plotting a few density @TODO explain density.
+#####Probability Density
+
+<img src="http://upload.wikimedia.org/wikipedia/commons/1/1a/Boxplot_vs_PDF.svg" alt="Drawing"  width="300px" height="400px"/>
+
+```
+Density (Probability) explanation (distinguish format in wordpress, but in comment form now.
+Probability Density is a way to describe the relative likelihood of a random varible taking a specific value. Basically, it is trying to tell you, how likely value is trying to model, is going to take the value X in the plot.
+You might have heard of the term, "normal distribution" or informally "bell curve". We're essentially trying to figure our a similar plot from our training data.
+
+
+With this lot, we're able to get a sense of how the overall data feel and get a few vague answers: where is the general center? Is there a skew? Does is generally take higher values? Where are most of the values concentrated?
+```
+
 ```R
 plot(density(trainData$Age, na.rm = TRUE))
 plot(density(trainData$Fare, na.rm = TRUE))
 # Try plotting the density of other variables. Does it work? Are they helpful?
 ```
+
+```
+Note:
+"#" indicate a comment. This means that the code is not ran, even if you enter it into the program.
+```
+
 Now, we may want to check out how the data relates to what we're trying to predict (Survived)
 ```R
 #Survival rate by Sex.
@@ -231,6 +273,13 @@ for(i in miss_vector) {
 }
 ```
 
+```
+FOR LOOP
+Note that we use a _**for**_ functino in the above snippet. For loop is intended to apply the same function, over a range of data.
+for (x in list_of_x) {do_stuff with x} is the general usage, where we're going through list_of_x, and doing something with each x. 
+```
+
+
 Now, in order to make the process above more repeatable on the TRAIN data, we create a function:
 ```R
 trainnamefunction <- function(name, replacement, dataset) {
@@ -261,7 +310,6 @@ mrs_age <- round(mean(trainData$Age[trainData$Name == "Mrs"], na.rm = TRUE), dig
 mr_age <- round(mean(trainData$Age[trainData$Name == "Mr"], na.rm = TRUE), digits = 2)
 dr_age <- round(mean(trainData$Age[trainData$Name == "Dr"], na.rm = TRUE), digits = 2)
 
-
 # We go through the ENTIRE training dataset and replace the missing age entry with the values we acquired above.
 for (i in 1:nrow(trainData)) {
   if (is.na(trainData[i,5])) {
@@ -280,8 +328,22 @@ for (i in 1:nrow(trainData)) {
     }
   }
 }
-
 ```
+```
+IF
+In the anove code, we use the operator, if.
+if (some true/false statement_1) {
+  #do this action if it is true
+} else if (some other true/false statement_2) {
+  #do this if the statement_1 wasn't true, but statement_2 ended up true
+} else if (some other true/false statement_3) {
+  #do this if the statement_1 and statement_2 were both not true, but statement_3 was true.
+} else {
+  #do this if none of the statement_* was true. Note that this last bit of "else" doesn't always have to happen.
+}
+If statements allow people to let programs make decisions.
+```
+
 ######WE are now finished with age improvements. At this point, our model should offer us better prediction, solely based on the fact that we've improved the accurcy of the explanatory variable! Note that we could have began a whole new prediction problem, where we estimate the missing age of the passengers.
 ######We've now achieved the following:
 - [x] Provided inference on the missing age entries.
