@@ -29,6 +29,7 @@ THOUGHTS:
   * agreed, so this appliest to every single place where they use any function, right?
 
 Concept needed to cover:
+
 1. data structure, c(), i.e. lists. subsetting indices
 2. explain the concept of a function
 3. Way to examine data. (head, tail, or editor etc)
@@ -38,6 +39,7 @@ Concept needed to cover:
 8. misc function (round, mean, table, gsub, cbind, nrow etc)
 
 Already covered:
+
 1. Directory related stuff
 2. comment in code
 3. if-else statements
