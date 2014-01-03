@@ -146,7 +146,15 @@ testData <- read.csv("test.csv", header = TRUE, stringsAsFactors = FALSE)
 <a name="data exploration"></a>
 ####Data Exploration
 
-Before actually building a model, we need to explore the data. We'll take look at a few values and plots to get a better understanding of our data. We start with a few simple generic x-y plots to get a feel. By first plotting the desnity we're able to get a sense of how the overall data feel and get a few vague answers: where is the general center? Is there a skew? Does is generally take higher values? Where are most of the values concentrated?
+Before actually building a model, we need to explore the data. To just look at the data set in R. Write the following:
+
+```R
+head(trainData)
+```
+
+The ```head()``` function in R shows you the first 6 rows of the data set.
+
+We'll also take a look at a few values and plots to get a better understanding of our data. We start with a few simple generic x-y plots to get a feel. By first plotting the density we're able to get a sense of how the overall data feel and get a few vague answers: where is the general center? Is there a skew? Does is generally take higher values? Where are most of the values concentrated?
 
 
 ```R
@@ -185,6 +193,7 @@ Though not covered here, a few more insights would be useful here; survival rate
 <a name="data curation"></a>
 ####Data Curation
 
+After doing some exploratory analysis of the data we now need to clean and curate it to create our model. Note that exploring the data helps you understand what elements need to be cleaned 
 At this moment, we also want to grab passengerID column, because we'll need it for the submission phase.
 ```R
 passID <- testData$PassengerId
