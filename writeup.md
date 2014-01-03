@@ -195,30 +195,33 @@ Though not covered here, a few more insights would be useful here; survival rate
 
 After doing some exploratory analysis of the data we now need to clean and curate it to create our model. Note that exploring the data helps you understand what elements need to be cleaned, for example you probably noticed that there are missing values in the data set.
 
-At this point, we remove the variables that we do not want to use in the model: PassengerID, Ticket, and Cabin. To do so we index our data set ```trainData``` with ```[ ]```. Using the ```c()``` means include the following column numbers and since we put a negative sign before it we're telling R to **not** include the following columns.
+At this point, we remove the variables that we do not want to use in the model: PassengerID, Ticket, Fare, Cabin, and Embarked. To do so we index our data set ```trainData``` with ```[ ]```. Using the ```c()``` means include the following column numbers and since we put a negative sign before it we're telling R to **not** include the following columns.
 
 ```R
-trainData <- trainData[-c(1,9,11)]
+trainData <- trainData[-c(1,9:12)]
 ```
 
-Additionally, we need to replace qualitative variables (such as gender) into quantitative variables (0 for male, 1 for female etc) in order to fit our model. Note that there are models where the variables can be qualitative. We use the R function ```gsub()``` which will replace any text with a value of our choosing. For the Sex column we convert females to 1 and males to 0 and for the Embarked column we convert C to 1, Q to 2, and S to 3.
+Additionally, we need to replace qualitative variables (such as gender) into quantitative variables (0 for male, 1 for female etc) in order to fit our model. Note that there are models where the variables can be qualitative. We use the R function ```gsub()``` which will replace any text with a value of our choosing.
 
 ```R
 trainData$Sex <- gsub("female", 1, trainData$Sex)
 trainData$Sex <- gsub("^male", 0, trainData$Sex)
-
-trainData$Embarked <- gsub("C", 1, trainData$Embarked)
-trainData$Embarked <- gsub("Q", 2, trainData$Embarked)
-trainData$Embarked <- gsub("S", 3, trainData$Embarked)
 ```
 
-Lastly, we substitue missing values for Embarked locations and Age. Embarked 
+Lastly, upon examining our dataset, we see that many entries for "age" are missing. Because age entries could be an important variable we try inferencing them based on a relationship between title and age; we're essentially assuming that Mrs.X will older than Ms.X.
+
+So first, we put the index of people with the specified surname into a list for further processing. In R we use the ```grep()``` function which will return a list of row numbers which have a specified surname.
 
 ```R
-trainData[which(trainData$Embarked == ""), ]
-trainData[771, 9] <- 3
-trainData[852, 9] <- 3
+master_vector <- grep("Master\\.",trainData$Name)
+miss_vector <- grep("Miss\\.", trainData$Name)
+mrs_vector <- grep("Mrs\\.", trainData$Name)
+
 ```
+Here we only show you code for 
+
+
+
 
 At this point, we have accomplished the following:
 - [x] load the data we intend to work with.
@@ -230,7 +233,6 @@ And now we need to get started on the following.
 
 ####Elaborate on "why" we want to do the following. Maybe quickly run a non-optimized model and suggest that we're going to start improving?
 
-Upon examining our dataset, we see that many entries for "age" are missing. Because age entries could be an important variable (we'll learn how to verify this), we try inferencing them  based on relationship between title and age; we're essentially banking on the fact that Mrs.X will older than Ms.X.
 
 So first, we put the index of people with the specified surname into a list for further processing. 
 Then we rename those rows with the shortened tag "Master" | "Miss" | ....
@@ -567,16 +569,13 @@ for(i in 1:length(p.hats)) {
 }
 ```
 
-We now output the data into a csv file, which can be submitted on kaggle for grading.
-We first create the 2 required output columns, namely PassengerID and survival (which we just predicted). This is done through __cbind__. We then assign the column headers so the output headers will appear when we output in csv (comma separated values) format. Finally, by calling __write.csv__, R will go into our current working directory and output the columns into a file, which we named "kpred14.csv". Go to the folder and check for yourself!
+We now output the data into a csv file, which can be submitted on kaggle for grading. Fingers Crossed!
 
 ```R
 kaggle.sub <- cbind(testData$PassengerId,survival)
 colnames(kaggle.sub) <- c("PassengerId", "Survived")
 write.csv(kaggle.sub, file = "kpred14.csv")
 ```
-
-Now, we're ready to make a submission.Fingers Crossed!
 
 Thanks for reading the tutorial!
 PLEASE drop us any comment/suggestion/question at XXXX@gmail.com We will respond within 12 hrs!
