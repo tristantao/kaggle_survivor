@@ -581,6 +581,6 @@ write.csv(kaggle.sub, file = "kpred14.csv")
 Now, we're ready to make a submission.Fingers Crossed!
 
 Thanks for reading the tutorial!
-PLEASE drop us any comment/suggestion/question at XXXX@gmail.com We will respond within 12 hrs!
+PLEASE drop us any comment/suggestion/question at statsguys@gmail.com We will respond within 12 hrs!
 
 
