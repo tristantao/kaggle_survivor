@@ -81,13 +81,13 @@ Inline-style:
 
 ####Table of Content:
 
-1. [Preparing R/Rstudio](#r preparation)
+1. [Preparing R/Rstudio & Kaggle](#r preparation)
 2. [Data Exploration](#data exploration)
 3. [Data Curation](#data curation)
 4. [Training a Model](#train model)
 5. [Fitting a Model](#predict model)
 
-Before beginning you will need to install R and RStudio. It is a useful and free application for data analytics that is widely used by statisticians and data miners. You also need to become a Kaggle Competitor for access to the datasets and entry into the competition, don't worry its free! Sign up for <a href = "http://www.kaggle.com/account/register">Kaggle</a>. If you already have these, skip to [Data Exploration](#data exploration)
+If you haven't yet you will need to install R and RStudio. It is a useful and free application for data analytics that is widely used by statisticians and data miners. You also need to become a Kaggle Competitor for access to the datasets and entry into the competition, don't worry its free! Sign up for <a href = "http://www.kaggle.com/account/register">Kaggle</a>. If you already have these, skip to [Data Exploration](#data exploration)
 
 <a name="r preparation"></a>
 ####Preparing R
@@ -114,7 +114,7 @@ The Kaggle competition asks you to predict whether a passenger survived the Tita
 
 Read the full description of the project <a href = "http://www.kaggle.com/c/titanic-gettingStarted">here</a>. The project result will be an excel spreadsheet with predictions for which passengers in the Test data set survived. The spreadsheet will have a column for the Passenger ID and another column which indicates whether they survived (0 for death, 1 for survival).
 
-The first step is to download the datasets <a href = "https://www.kaggle.com/c/titanic-gettingStarted/data">here</a>. Remember which folder you saved it in!
+The first step is to read the full description of the project and download the datasets <a href = "https://www.kaggle.com/c/titanic-gettingStarted/data">here</a>. Remember which folder you saved it in!
 
 In RStudio, we must first create a file for us to write in. Go to File ==> New ==> Rscript. Now in that file we must tell R where our current working directory is. We do this by using the ```setwd()``` function (roughly stands for set current working directory). Your working directory indicates to R which folder to look for the data you want to use, for us it will be the Train and Test files you downloaded from Kaggle. Remember everything in R you type is case sensitive!
 
@@ -152,10 +152,12 @@ Before actually building a model, we need to explore the data. To just look at t
 head(trainData)
 ```
 
-The ```head()``` function in R shows you the first 6 rows of the data set.
+The ```head()``` function in R shows you the first 6 rows of the data set. Take a moment to make sure you understand the dataset that you are working with. Do you:
+
+1. Understand what each of the column titles represent?
+2. Understand what each row represents?
 
 We'll also take a look at a few values and plots to get a better understanding of our data. We start with a few simple generic x-y plots to get a feel. By first plotting the density we're able to get a sense of how the overall data feel and get a few vague answers: where is the general center? Is there a skew? Does is generally take higher values? Where are most of the values concentrated?
-
 
 ```R
 plot(density(trainData$Age, na.rm = TRUE))
@@ -193,7 +195,7 @@ Though not covered here, a few more insights would be useful here; survival rate
 <a name="data curation"></a>
 ####Data Curation
 
-After doing some exploratory analysis of the data we now need to clean and curate it to create our model. Note that exploring the data helps you understand what elements need to be cleaned, for example you probably noticed that there are missing values in the data set.
+After doing some exploratory analysis of the data we now need to clean and curate it to create our model. Note that exploring the data helps you understand what elements need to be cleaned, for example you probably noticed that there are missing values in the data set, especially in the Age column.
 
 At this point, we remove the variables that we do not want to use in the model: PassengerID, Ticket, Fare, Cabin, and Embarked. To do so we index our data set ```trainData``` with ```[ ]```. Using the ```c()``` means include the following column numbers and since we put a negative sign before it we're telling R to **not** include the following columns.
 
@@ -249,7 +251,7 @@ Note that we use a _**for**_ function in the above snippet. For loop is intended
 ```
 
 Now that we have a series of standardized titles, we calculate the average age of each title.
-We replace the missing ages with their respective title-group average. This means that if we have a missing age entry for a man named Mr.Bond, we substitute his age for the *average* age for all passenger with the title Mr. Similarly for *Master*, *Miss*, *Mrs*, and *Dr*. We then write a for loop that goes through the entire Train data set and checks if the age value is missing and if it is assigns it according to the surname of the observation. This code snippet is quite complicated and just copy and paste this for now!
+We replace the missing ages with their respective title-group average. This means that if we have a missing age entry for a man named Mr.Bond, we substitute his age for the *average* age for all passenger with the title Mr. Similarly for *Master*, *Miss*, *Mrs*, and *Dr*. We then write a for loop that goes through the entire Train data set and checks if the age value is missing and if it is assigns it according to the surname of the observation. This code snippet is quite complicated so just copy and paste this for now if it looks too complicated!
 
 ```R
 
@@ -292,18 +294,16 @@ if (some true/false statement_1) {
 If statements allow people to let programs make decisions.
 ```
 
-######We've now achieved the following:
-- [x] Provided inference on the missing age entries.
-
-
 At this point, we have accomplished the following:
 - [x] load the data we intend to work with.
 - [x] did some preliminary exploration into the data.
-- [x] cleaned the data
+- [x] cleaned the data by converting the Sex variable to (0/1) and made inferences on the missing age entries
 
 
-We now begin the following:
-- [] Creating additional variables which may improve the accuracy of our model.
+Part of curating the data is also to do the following:
+- [] Creating additional variables which may improve the accuracy of our model.<br />
+
+By creating new variables we may be able to predict the survival of the passengers even more closely. This tutorial specifically includes three variables which we found improved our model the most.
 
 #####Variable 1: Child.
 This additional variable choice stems from the fact that we suspect that being a child might affect the survival rate of a passanger. 
@@ -351,6 +351,7 @@ for(i in 1:nrow(trainData)) {
 ```
 
 Now, we have a fully equipped training dataset!
+
 We have completed the following:
 - [x] Added more variables that we hypothesize that may help with the classification and prediction of passengers surviving.
 
@@ -453,9 +454,8 @@ for(i in 1:nrow(testData)) {
 ```
 
 <a name="predict model"></a>
-####Now that the test dataset is ready, we plug it into the trained model below. Because the result is not in 0s and 1s (but rather continous), we apply a cutoff at 0.5, essentiall rounding the result to surived or non-survived.
+####Now that the test dataset is ready, we use an R function which calculates predictions for the surivival of the passengers in the Test dataset. The predictions for each observation come in the form of a probability score for the response being 0 or 1. Therefore we must apply a cutoff value to determine which probability scores translate to a 1 and which translate to a 0. For simplicity it is generally most effective to choose a cutoff of .5 to minimize errors.
 
-&& Are people going to wonder why we use a cutoff of .5?
 
 ```R
 p.hats <- predict.glm(train.glm.best, newdata = testData, type = "response")
