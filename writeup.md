@@ -212,7 +212,8 @@ trainData$Embarked <- gsub("Q", 2, trainData$Embarked)
 trainData$Embarked <- gsub("S", 3, trainData$Embarked)
 ```
 
-Lastly, we substitue missing values for Embarked Locations
+Lastly, we substitue missing values for Embarked locations and Age. Embarked 
+
 ```R
 trainData[which(trainData$Embarked == ""), ]
 trainData[771, 9] <- 3
@@ -229,7 +230,7 @@ And now we need to get started on the following.
 
 ####Elaborate on "why" we want to do the following. Maybe quickly run a non-optimized model and suggest that we're going to start improving?
 
-Our first improvement is in regards to the age variable. Upon examining our dataset, we see that many entries for "age" are missing. Because age entries could be an important variable (we'll learn how to verify this), we try inferencing them  based on relationship between title and age; we're essentially banking on the fact that Mrs.X will older than Ms.X.
+Upon examining our dataset, we see that many entries for "age" are missing. Because age entries could be an important variable (we'll learn how to verify this), we try inferencing them  based on relationship between title and age; we're essentially banking on the fact that Mrs.X will older than Ms.X.
 
 So first, we put the index of people with the specified surname into a list for further processing. 
 Then we rename those rows with the shortened tag "Master" | "Miss" | ....
@@ -274,7 +275,7 @@ trainData <- trainnamefunction("Miss\\.", "Miss",trainData$Name)
 trainData <- trainnamefunction("Mrs\\.", "Mrs",trainData$Name)
 trainData <- trainnamefunction("Mr\\.", "Mr",trainData$Name)
 trainData <- trainnamefunction("Dr\\.", "Dr",trainData$Name)
-````
+```
 Now that we have a series of standardized titles, we begin analysis on the average age of each title.
 We replace the missing ages with their respective title-group average. This means that if we have a missing age entry for a man named Mr.Bond, we substitute his age for the *average* age for all passenger with the title Mr. Similarly for *master*, *miss*, *mrs*, and *dr*.
 
