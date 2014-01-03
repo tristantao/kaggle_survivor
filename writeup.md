@@ -352,140 +352,103 @@ for(i in 1:nrow(trainData)) {
 
 Now, we have a fully equipped training dataset!
 We have completed the following:
-- [x] Added more variables that we think that may help with the classification.
+- [x] Added more variables that we hypothesize that may help with the classification and prediction of passengers surviving.
 
 <a name="train model"></a>
 #####Now for the final step: fitting (training) a model! 
-######We feed the training data into a model, and the model will optimize the itself to give you the best explanation for your variables and outcome. The idea is that we will use the trained model, along with test data to acquire our prediction.
+######We feed the training data into a model, and the model will optimize the itself to give you the best explanation for your variables and outcome. The idea is that we build a model for predicting survival using the Train dataset. Then we input the observations from the Test dataset to predict their survival.
 
-###### Fitting logistic regression model. R will take care of solving/optmizing the model. We don't have to worry about any complicated Math!
-
-We are fitting a linear regression model (![alt text](http://en.wikipedia.org/wiki/Generalized_linear_model "generalized linear model")). The overly idea behind the model is to draw a line through the data points while trying to minimize the deviation from the correct y-value given in training. This is a simple idea when imagined in 2-dimension; drawing a straight line that seems to capture largest amount of data (or more accuratelu minimizing error squared). This problem becomes hard to imagine, when we have more than 1 explanatory variable (in this titanic problem, we already have more than a few), and the plot becomes multi-dimensional. We leave R to do the heavy lifting. All we need to understand is that we're trying to find model that minimizes the error (or incorrect prediction).
+###### Fitting logistic regression model. R will take care of solving/optmizing the model. We don't have to worry about any complicated Math! A logistic regression model is a generalized linear model which is used when your trying to predict something that is binary. Since whether a passenger survived or not is binary, the model applies. 
 
 ```R
-train.glm.best <- glm(Survived ~ Pclass + Sex + Age + Child + Sex*Pclass + Family + Mother,
+
+train.glm <- glm(Survived ~ Pclass + Sex + Age + Child + Sex*Pclass + Family + Mother,
                      family = binomial, data = trainData)
-
 ```
-In the above code anippet, we asked R to fit a model over the columns where the y-variable is __Survived__, and x-varibles are __Pclass__, __Sex__, __Age__, __Child__, __Sex*Pclass__, __Family__, __Mother__. We specifiy that the data we want to train on is trainData. 
 
-Now that we have a trained model, we repeat the exact process on the test data that we did on the training data. The idea is to conduct the same steps (in terms of subsetting, cleaning, inference ,adding more variables), so that both datasets are in the same state. The only difference is the following: **The test dataset doesn't have the "surivived" variable (which is what we're trying to predict), therefore the subsetting indexes are slightly different when cleaning the data**
+Now that we have a trained mdoel, we repeat the exact process on the test data that we did on the training data. The idea is to conduct the same steps (in terms of subsetting, cleaning, inference ,adding more variables), so that both datasets are in the same state. The only difference is the following: **The test dataset doesn't have the "surivived" variable (which is what we're trying to predict), therefore the subsetting indexes are slightly different when cleaning the data**. You can just copy and paste the lengthy code snippet below.
 
 
-```
-# Cleaning the testData set
+```R
+testData <- testData[-c(1, 8:11)]
 
-testData <- testData[-c(8,10)]
-
-# Converting categorical variable Sex to integers
 testData$Sex <- gsub("female", 1, testData$Sex)
 testData$Sex <- gsub("^male", 0, testData$Sex)
 
-# Converting categorical variable Embarked to integers
-testData$Embarked <- gsub("C", as.integer(1), testData$Embarked)
-testData$Embarked <- gsub("Q", as.integer(2), testData$Embarked)
-testData$Embarked <- gsub("S", as.integer(3), testData$Embarked)
+test_master_vector <- grep("Master\\.",testData$Name)
+test_miss_vector <- grep("Miss\\.", testData$Name)
+test_mrs_vector <- grep("Mrs\\.", testData$Name)
+test_mr_vector <- grep("Mr\\.", testData$Name)
+test_dr_vector <- grep("Dr\\.", testData$Name)
 
-# User defined function for replacing surnames for TEST
-testnamefunction <- function(name, replacement, dataset) {
-  vector <- grep(name, dataset)
-  for (i in vector) {
-    testData[i, 3] <- replacement
-  }
-  return(testData)
+for(i in test_master_vector) {
+  testData[i, 2] <- "Master"
+}
+for(i in test_miss_vector) {
+  testData[i, 2] <- "Miss"
+}
+for(i in test_mrs_vector) {
+  testData[i, 2] <- "Mrs"
+}
+for(i in test_mr_vector) {
+  testData[i, 2] <- "Mr"
+}
+for(i in test_dr_vector) {
+  testData[i, 2] <- "Dr"
 }
 
+test_master_age <- round(mean(testData$Age[testData$Name == "Master"], na.rm = TRUE), digits = 2)
+test_miss_age <- round(mean(testData$Age[testData$Name == "Miss"], na.rm = TRUE), digits =2)
+test_mrs_age <- round(mean(testData$Age[testData$Name == "Mrs"], na.rm = TRUE), digits = 2)
+test_mr_age <- round(mean(testData$Age[testData$Name == "Mr"], na.rm = TRUE), digits = 2)
+test_dr_age <- round(mean(testData$Age[testData$Name == "Dr"], na.rm = TRUE), digits = 2)
 
-testData <- testnamefunction("Master\\.", "Master",testData$Name)
-testData <- testnamefunction("Miss\\.", "Miss",testData$Name)
-testData <- testnamefunction("Mrs\\.", "Mrs",testData$Name)
-testData <- testnamefunction("Mr\\.", "Mr",testData$Name)
-testData <- testnamefunction("Dr\\.", "Dr",testData$Name)
-
-# Cacluating the age for each surname in the testdata set
-t_master_age <- round(mean(testData$Age[testData$Name == "Master"], na.rm = TRUE), digits = 2)
-t_miss_age <- round(mean(testData$Age[testData$Name == "Miss"], na.rm = TRUE), digits =2)
-t_mrs_age <- round(mean(testData$Age[testData$Name == "Mrs"], na.rm = TRUE), digits = 2)
-t_mr_age <- round(mean(testData$Age[testData$Name == "Mr"], na.rm = TRUE), digits = 2)
-t_dr_age <- round(mean(testData$Age[testData$Name == "Dr"], na.rm = TRUE), digits = 2)
-
-
-# Adding age values for missing values
 for (i in 1:nrow(testData)) {
-  if (is.na(testData[i,5])) {
-    if (testData[i, 3] == "Master") {
-      testData[i, 5] <- t_master_age
-    } else if (testData[i, 3] == "Miss") {
-      testData[i, 5] <- t_miss_age
-    } else if (testData[i, 3] == "Mrs") {
-      testData[i, 5] <- t_mrs_age
-    } else if (testData[i, 3] == "Mr") {
-      testData[i, 5] <- t_mr_age
-    } else if (testData[i, 3] == "Dr") {
-      testData[i, 5] <- t_dr_age
+  if (is.na(testData[i,4])) {
+    if (testData[i, 2] == "Master") {
+      testData[i, 4] <- test_master_age
+    } else if (testData[i, 2] == "Miss") {
+      testData[i, 4] <- test_miss_age
+    } else if (testData[i, 2] == "Mrs") {
+      testData[i, 4] <- test_mrs_age
+    } else if (testData[i, 2] == "Mr") {
+      testData[i, 4] <- test_mr_age
+    } else if (testData[i, 2] == "Dr") {
+      testData[i, 4] <- test_dr_age
     } else {
       print("Uncaught Surname")
     }
   }
 }
-# Manually inputting one age variable for Ms.
-testData[89, 5] <- t_miss_age
 
-# Adding Fare values to missing values
-val <- mean(testData$Fare[testData$Pclass == 3], na.rm =T) #12.45
-testData[153, 6]
-testData[153, 8] <- val
+testData[89, 4] <- test_miss_age
 
-
-# Creating a child variable
 testData["Child"] <- NA
 
 for (i in 1:nrow(testData)) {
-  if (testData[i, 5] < 15) {
-    testData[i, 10] <- 1
+  if (testData[i, 4] <= 12) {
+    testData[i, 7] <- 1
   } else {
-    testData[i, 10] <- 2
+    testData[i, 7] <- 2
   }
 }
 
-# Adding variable for ticket fare > 100
-testData["Rich"] <- NA
-
-for(i in 1:nrow(testData)) {
-  if (testData[i, 8] > 100) {
-    testData[i, 11] <- 1
-  } else {
-    testData[i, 11] <- 2
-  }
-}
-
-# Adding an explanatory variable for lower class men
-testData["Lowmen"] <- NA
-
-for (i in 1:nrow(testData)) {
-  if (testData[i, 5] > 25 & testData[i, 4] == 0 & testData[i, 2] == 3) {
-    testData[i, 11] <- 1
-  } else {
-    testData[i, 11] <- 2
-  }
-}
-
-# Adding Family variable
 testData["Family"] <- NA
 
 for(i in 1:nrow(testData)) {
-  testData[i, 12] <- testData[i, 6] + testData[i, 7] + 1
+  testData[i, 8] <- testData[i, 5] + testData[i, 6] + 1
 }
 
-# Adding a mother variable
 testData["Mother"] <- NA
+
 for(i in 1:nrow(testData)) {
-  if(testData[i,3] == "Mrs" & testData[i, 7] > 0) {
-    testData[i, 13] <- 1
+  if(testData[i, 2] == "Mrs" & testData[i, 6] > 0) {
+    testData[i, 9] <- 1
   } else {
-    testData[i, 13] <- 2
+    testData[i, 9] <- 2
   }
 }
+
 
 ```
 
