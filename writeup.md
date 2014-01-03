@@ -195,99 +195,70 @@ Though not covered here, a few more insights would be useful here; survival rate
 
 After doing some exploratory analysis of the data we now need to clean and curate it to create our model. Note that exploring the data helps you understand what elements need to be cleaned, for example you probably noticed that there are missing values in the data set.
 
-At this point, we remove the variables that we do not want to use in the model: PassengerID, Ticket, and Cabin. To do so we index our data set ```trainData``` with ```[ ]```. Using the ```c()``` means include the following column numbers and since we put a negative sign before it we're telling R to **not** include the following columns.
+At this point, we remove the variables that we do not want to use in the model: PassengerID, Ticket, Fare, Cabin, and Embarked. To do so we index our data set ```trainData``` with ```[ ]```. Using the ```c()``` means include the following column numbers and since we put a negative sign before it we're telling R to **not** include the following columns.
 
 ```R
-trainData <- trainData[-c(1,9,11)]
+trainData <- trainData[-c(1,9:12)]
 ```
 
-Additionally, we need to replace qualitative variables (such as gender) into quantitative variables (0 for male, 1 for female etc) in order to fit our model. Note that there are models where the variables can be qualitative. We use the R function ```gsub()``` which will replace any text with a value of our choosing. For the Sex column we convert females to 1 and males to 0 and for the Embarked column we convert C to 1, Q to 2, and S to 3.
+Additionally, we need to replace qualitative variables (such as gender) into quantitative variables (0 for male, 1 for female etc) in order to fit our model. Note that there are models where the variables can be qualitative. We use the R function ```gsub()``` which will replace any text with a value of our choosing.
 
 ```R
 trainData$Sex <- gsub("female", 1, trainData$Sex)
 trainData$Sex <- gsub("^male", 0, trainData$Sex)
-
-trainData$Embarked <- gsub("C", 1, trainData$Embarked)
-trainData$Embarked <- gsub("Q", 2, trainData$Embarked)
-trainData$Embarked <- gsub("S", 3, trainData$Embarked)
 ```
 
-Lastly, we substitue missing values for Embarked locations and Age. Embarked 
+Lastly, upon examining our dataset, we see that many entries for "age" are missing. Because age entries could be an important variable we try inferencing them based on a relationship between title and age; we're essentially assuming that Mrs.X will older than Ms.X.
 
-```R
-trainData[which(trainData$Embarked == ""), ]
-trainData[771, 9] <- 3
-trainData[852, 9] <- 3
-```
-
-At this point, we have accomplished the following:
-- [x] load the data we intend to work with.
-- [x] did some preliminary exploration into the data.
-- [x] cleaned the data
-
-And now we need to get started on the following.
-- [] begin formulating a plan on how to tackle the problem.
-
-####Elaborate on "why" we want to do the following. Maybe quickly run a non-optimized model and suggest that we're going to start improving?
-
-Upon examining our dataset, we see that many entries for "age" are missing. Because age entries could be an important variable (we'll learn how to verify this), we try inferencing them  based on relationship between title and age; we're essentially banking on the fact that Mrs.X will older than Ms.X.
-
-So first, we put the index of people with the specified surname into a list for further processing. 
-Then we rename those rows with the shortened tag "Master" | "Miss" | ....
-
-&& Whats grep, maybe explain a forloop? Whats regex?
+So first, we put the index of people with the specified surname into a list for further processing. In R we use the ```grep()``` function which will return a vector of row numbers which have a specified surname.
 
 ```R
 master_vector <- grep("Master\\.",trainData$Name)
 miss_vector <- grep("Miss\\.", trainData$Name)
+mrs_vector <- grep("Mrs\\.", trainData$Name)
+mr_vector <- grep("Mr\\.", trainData$Name)
+dr_vector <- grep("Dr\\.", trainData$Name)
 
+```
+
+If you noticed there are many other surnames (Rev, Col, etc.) that are much less popular which we ignore dealing with for now.
+
+Next we rename each of the rows with a shortened tag. For example if a row had a title such as "Allison, Master. Hudson Trevor" we shorten it to be "Master". This is done in the following code:
+
+```R
 for(i in master_vector) {
   trainData[i, 3] <- "Master"
 }
-
 for(i in miss_vector) {
   trainData[i, 3] <- "Miss"
+}
+for(i in mrs_vector) {
+  trainData[i, 3] <- "Mrs"
+}
+for(i in mr_vector) {
+  trainData[i, 3] <- "Mr"
+}
+for(i in dr_vector) {
+  trainData[i, 3] <- "Dr"
 }
 ```
 
 ```
 FOR LOOP
-Note that we use a _**for**_ functino in the above snippet. For loop is intended to apply the same function, over a range of data.
-for (x in list_of_x) {do_stuff with x} is the general usage, where we're going through list_of_x, and doing something with each x. 
+Note that we use a _**for**_ function in the above snippet. For loop is intended to apply the same function, over a range of data.
 ```
 
-
-Now, in order to make the process above more repeatable on the TRAIN data, we create a function:
-```R
-trainnamefunction <- function(name, replacement, dataset) {
-  vector <- grep(name, dataset)
-  for (i in vector) {
-    trainData[i, 3] <- replacement
-  }
-  return(trainData)
-}
-```
-
-We then apply the function defined above on the trainData. We are renaming the titles of the titanic passengers.
-```R
-trainData <- trainnamefunction("Master\\.", "Master",trainData$Name)
-trainData <- trainnamefunction("Miss\\.", "Miss",trainData$Name)
-trainData <- trainnamefunction("Mrs\\.", "Mrs",trainData$Name)
-trainData <- trainnamefunction("Mr\\.", "Mr",trainData$Name)
-trainData <- trainnamefunction("Dr\\.", "Dr",trainData$Name)
-```
-Now that we have a series of standardized titles, we begin analysis on the average age of each title.
-We replace the missing ages with their respective title-group average. This means that if we have a missing age entry for a man named Mr.Bond, we substitute his age for the *average* age for all passenger with the title Mr. Similarly for *master*, *miss*, *mrs*, and *dr*.
+Now that we have a series of standardized titles, we calculate the average age of each title.
+We replace the missing ages with their respective title-group average. This means that if we have a missing age entry for a man named Mr.Bond, we substitute his age for the *average* age for all passenger with the title Mr. Similarly for *Master*, *Miss*, *Mrs*, and *Dr*. We then write a for loop that goes through the entire Train data set and checks if the age value is missing and if it is assigns it according to the surname of the observation. This code snippet is quite complicated and just copy and paste this for now!
 
 ```R
-#We save the averages into variables (space holders) for later use.
+
 master_age <- round(mean(trainData$Age[trainData$Name == "Master"], na.rm = TRUE), digits = 2)
 miss_age <- round(mean(trainData$Age[trainData$Name == "Miss"], na.rm = TRUE), digits =2)
 mrs_age <- round(mean(trainData$Age[trainData$Name == "Mrs"], na.rm = TRUE), digits = 2)
 mr_age <- round(mean(trainData$Age[trainData$Name == "Mr"], na.rm = TRUE), digits = 2)
 dr_age <- round(mean(trainData$Age[trainData$Name == "Dr"], na.rm = TRUE), digits = 2)
 
-# We go through the ENTIRE training dataset and replace the missing age entry with the values we acquired above.
 for (i in 1:nrow(trainData)) {
   if (is.na(trainData[i,5])) {
     if (trainData[i, 3] == "Master") {
@@ -308,7 +279,7 @@ for (i in 1:nrow(trainData)) {
 ```
 ```
 IF
-In the anove code, we use the operator, if.
+In the above code, we use the operator, if.
 if (some true/false statement_1) {
   #do this action if it is true
 } else if (some other true/false statement_2) {
@@ -321,9 +292,15 @@ if (some true/false statement_1) {
 If statements allow people to let programs make decisions.
 ```
 
-######WE are now finished with age improvements. At this point, our model should offer us better prediction, solely based on the fact that we've improved the accurcy of the explanatory variable! Note that we could have began a whole new prediction problem, where we estimate the missing age of the passengers.
 ######We've now achieved the following:
 - [x] Provided inference on the missing age entries.
+
+
+At this point, we have accomplished the following:
+- [x] load the data we intend to work with.
+- [x] did some preliminary exploration into the data.
+- [x] cleaned the data
+
 
 We now begin the following:
 - [] Begin working on improving the model, by adding additional variables.
@@ -413,17 +390,22 @@ for(i in 1:nrow(trainData)) {
 ######We feed the training data into a model, and the model will optimize the itself to give you the best explanation for your variables and outcome. The idea is that we will use the trained model, along with test data to acquire our prediction.
 
 ###### Fitting logistic regression model. R will take care of solving/optmizing the model. We don't have to worry about any complicated Math!
-
-We are fitting a linear regression model (![alt text](http://en.wikipedia.org/wiki/Generalized_linear_model "generalized linear model")). The overly idea behind the model is to draw a line through the data points while trying to minimize the deviation from the correct y-value given in training. This is a simple idea when imagined in 2-dimension; drawing a straight line that seems to capture largest amount of data (or more accuratelu minimizing error squared). This problem becomes hard to imagine, when we have more than 1 explanatory variable (in this titanic problem, we already have more than a few), and the plot becomes multi-dimensional. We leave R to do the heavy lifting. All we need to understand is that we're trying to find model that minimizes the error (or incorrect prediction).
-
+@todo explain the model actuall is?
 ```R
+train.glm <- glm(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare,
+                 family = binomial, data = trainData)
+
 train.glm.best <- glm(Survived ~ Pclass + Sex + Age + Child + Sex*Pclass + Family + Mother,
                      family = binomial, data = trainData)
+
+train.glm.one <- glm(Survived ~ Pclass + Sex + Age + Child + Sex*Pclass + Mother,
+                     family = binomial, data = trainData)
+
+train.glm.two <- glm(Survived ~ Pclass + Sex + Age + Child + Rich + Sex*Pclass, family =binomial,
+                     data = trainData)
 ```
 
-In the above code anippet, we asked R to fit a model over the columns where the y-variable is __Survived__, and x-varibles are __Pclass__, __Sex__, __Age__, __Child__, __Sex*Pclass__, __Family__, __Mother__. We specifiy that the data we want to train on is trainData. 
-
-Now that we have a trained model, we repeat the exact process on the test data that we did on the training data. The idea is to conduct the same steps (in terms of subsetting, cleaning, inference ,adding more variables), so that both datasets are in the same state. The only difference is the following: **The test dataset doesn't have the "surivived" variable (which is what we're trying to predict), therefore the subsetting indexes are slightly different when cleaning the data**
+Now that we have a trained mdoel, we repeat the exact process on the test data that we did on the training data. The idea is to conduct the same steps (in terms of subsetting, cleaning, inference ,adding more variables), so that both datasets are in the same state. The only difference is the following: **The test dataset doesn't have the "surivived" variable (which is what we're trying to predict), therefore the subsetting indexes are slightly different when cleaning the data**
 
 
 ```
@@ -546,13 +528,12 @@ for(i in 1:nrow(testData)) {
 <a name="predict model"></a>
 ####Now that the test dataset is ready, we plug it into the trained model below. Because the result is not in 0s and 1s (but rather continous), we apply a cutoff at 0.5, essentiall rounding the result to surived or non-survived.
 
-This result is attained by iterating through our prediction result __p.hats__, and creating a new vector (called __survival__) and assigning a value of 1, if the corresponding value at p.hats > 0.5. Conversely, we assign a value of 0 if the corresponding p.hats is < 0.5.
-
-As before, we iterate through the column using a **for-loop**. We then imbed a **if-false* statement to check if the crresponding values are over 0.5 or under.
+&& Are people going to wonder why we use a cutoff of .5?
 
 ```R
 p.hats <- predict.glm(train.glm.best, newdata = testData, type = "response")
 
+# Converting to binary response values based on a cutoff of .5
 survival <- vector()
 for(i in 1:length(p.hats)) {
   if(p.hats[i] > .5) {
@@ -563,9 +544,7 @@ for(i in 1:length(p.hats)) {
 }
 ```
 
-Now that we have a surivival prediction of 0 and 1, we output the data into a csv file, which can be submitted on kaggle for grading.
-
-We first create the 2 required output columns, namely PassengerID and survival (which we just predicted). This is done through __cbind__. We then assign the column headers so the output headers will appear when we output in csv (comma separated values) format. Finally, by calling __write.csv__, R will go into our current working directory and output the columns into a file, which we named "kpred14.csv". Go to the folder and check for yourself!
+We now output the data into a csv file, which can be submitted on kaggle for grading. Fingers Crossed!
 
 ```R
 kaggle.sub <- cbind(testData$PassengerId,survival)
@@ -573,9 +552,7 @@ colnames(kaggle.sub) <- c("PassengerId", "Survived")
 write.csv(kaggle.sub, file = "kpred14.csv")
 ```
 
-Now, we're ready to make a submission.Fingers Crossed!
-
 Thanks for reading the tutorial!
-PLEASE drop us any comment/suggestion/question at statsguys@gmail.com We will respond within 12 hrs!
+PLEASE drop us any comment/suggestion/question at XXXX@gmail.com We will respond within 12 hrs!
 
 
