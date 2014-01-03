@@ -359,22 +359,17 @@ We have completed the following:
 ######We feed the training data into a model, and the model will optimize the itself to give you the best explanation for your variables and outcome. The idea is that we will use the trained model, along with test data to acquire our prediction.
 
 ###### Fitting logistic regression model. R will take care of solving/optmizing the model. We don't have to worry about any complicated Math!
-@todo explain the model actuall is?
-```R
-train.glm <- glm(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare,
-                 family = binomial, data = trainData)
 
+We are fitting a linear regression model (![alt text](http://en.wikipedia.org/wiki/Generalized_linear_model "generalized linear model")). The overly idea behind the model is to draw a line through the data points while trying to minimize the deviation from the correct y-value given in training. This is a simple idea when imagined in 2-dimension; drawing a straight line that seems to capture largest amount of data (or more accuratelu minimizing error squared). This problem becomes hard to imagine, when we have more than 1 explanatory variable (in this titanic problem, we already have more than a few), and the plot becomes multi-dimensional. We leave R to do the heavy lifting. All we need to understand is that we're trying to find model that minimizes the error (or incorrect prediction).
+
+```R
 train.glm.best <- glm(Survived ~ Pclass + Sex + Age + Child + Sex*Pclass + Family + Mother,
                      family = binomial, data = trainData)
 
-train.glm.one <- glm(Survived ~ Pclass + Sex + Age + Child + Sex*Pclass + Mother,
-                     family = binomial, data = trainData)
-
-train.glm.two <- glm(Survived ~ Pclass + Sex + Age + Child + Rich + Sex*Pclass, family =binomial,
-                     data = trainData)
 ```
+In the above code anippet, we asked R to fit a model over the columns where the y-variable is __Survived__, and x-varibles are __Pclass__, __Sex__, __Age__, __Child__, __Sex*Pclass__, __Family__, __Mother__. We specifiy that the data we want to train on is trainData. 
 
-Now that we have a trained mdoel, we repeat the exact process on the test data that we did on the training data. The idea is to conduct the same steps (in terms of subsetting, cleaning, inference ,adding more variables), so that both datasets are in the same state. The only difference is the following: **The test dataset doesn't have the "surivived" variable (which is what we're trying to predict), therefore the subsetting indexes are slightly different when cleaning the data**
+Now that we have a trained model, we repeat the exact process on the test data that we did on the training data. The idea is to conduct the same steps (in terms of subsetting, cleaning, inference ,adding more variables), so that both datasets are in the same state. The only difference is the following: **The test dataset doesn't have the "surivived" variable (which is what we're trying to predict), therefore the subsetting indexes are slightly different when cleaning the data**
 
 
 ```
