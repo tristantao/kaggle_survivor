@@ -155,40 +155,32 @@ plot(density(trainData$Fare, na.rm = TRUE))
 ```
 Try plotting the other variables by inserting ```trainData$(Variable)``` insteadf of age or fare. In R, ```$``` and column title selects an entire column of data. ```na.rm = TRUE``` means ignore the NA's in the data set.
 
-Lets now look at the survival rate filtered by sex. We first create a table and call it ```counts```. Then we use R's ```barplot()``` function with respective x-axis, y-axis, and main titles. We also calculate the male/female survival rates from the table by indexing the table we made called ```counts```. ```counts[1]``` returns the top left value of the table, ```counts[2]``` the bottom left, and so on.
+Lets now look at the survival rate filtered by sex. Our intuition is that women had a higher chance of surviving because the crewman used teh standard "Women and Childre first" to board the lifeboats. We first create a table and call it ```counts```. Then we use R's ```barplot()``` function with respective x-axis, y-axis, and main titles. We also calculate the male/female survival rates from the table by indexing the table we made called ```counts```. ```counts[1]``` returns the top left value of the table, ```counts[2]``` the bottom left, and so on.
 
 ```R
 counts <- table(trainData$Survived, trainData$Sex)
 barplot(counts, xlab = "Gender", ylab = "Number of People", main = "survived and deceased between male and female")
 counts[2] / (counts[1] + counts[2])
 counts[4] / (counts[3] + counts[4])
-
-#Further exploration of gender reveals the following:
-#Within our trainind data, roughly 74.2% of women survived versus only 18.9% of men.
-#Since this is a training data, the numbers are not 100% accurate. 
-#Nevertheless they are often indicative of general trends. #TODO add disclaimers 
 ```
 
-Note that in this barplot the lighter areas indicate survival. Doing the calculations below the barplot 
-Perhaps Sex plays a role in survival rate? It seems like women had a higher chance of surviving. Our intuition is that the crewman used the standard "Women and Children first" for the lifeboats.
+Note that in the barplot you create the lighter areas indicate survival. Doing the calculations below the barplot we see that in our Train data, 74.2% of women survived versus 18.9% of men. 
+
+Lets now looka the survival rate filtered by passenger class.
 
 ```R
-#Survival rate by cabin classes
-Pclass_survival = table(trainData$Survived, trainData$Pclass)
-#barplot(prop.table(Pclass_survival))
+Pclass_survival <- table(trainData$Survived, trainData$Pclass)
 barplot(Pclass_survival, xlab = "Cabin Class", ylab = "Number of People",
         main = "survived and deceased between male and female")
-Pclass_survival[2] / (Pclass_survival[1] + Pclass_survival[2]) #Survival rate of 1st class cabin
-Pclass_survival[4] / (Pclass_survival[3] + Pclass_survival[4]) #Survival rate of 2nd class cabin
-Pclass_survival[6] / (Pclass_survival[5] + Pclass_survival[6]) #Survival rate of 3rdt class cabin
-#Further exploration of gender reveals the following:
-#The survival rate of 1st class, 2nd class, and 3rd class are: 63.0%, 47.3%, 24.2% respectively
+Pclass_survival[2] / (Pclass_survival[1] + Pclass_survival[2]) 
+Pclass_survival[4] / (Pclass_survival[3] + Pclass_survival[4]) 
+Pclass_survival[6] / (Pclass_survival[5] + Pclass_survival[6])
+
 ```
-It seems like the Pclass column might also be informative in survival prediction.
+It seems like the Pclass column might also be informative in survival prediction as the survival rate of the 1st class, 2nd class, and 3rd class are: 63.0%, 47.3%, and 24.2% respectively.
 
-@TODO talk about better plots, such as ggplot2. But not really cover it here, as it is complicated.
 
-Though not covered here, a few more insight will be useful here; survival rate based on fare rages, survival rate based on age ranges etc. **The key idea is that we're trying to determine if any/which of our variables are related to what we're trying to predict: Survived**
+Though not covered here, a few more insights would be useful here; survival rate based on fare rages, survival rate based on age ranges etc. **The key idea is that we're trying to determine if any/which of our variables are related to what we're trying to predict: Survived**
 
 <a name="data curation"></a>
 ####Data Curation
