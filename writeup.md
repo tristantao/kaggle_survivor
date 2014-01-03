@@ -1,16 +1,16 @@
-##Machine Learning / Data Mining / Data Analytics for Beginners: A Walkthrough Example
+##Data Analytics for Beginners: A Walkthrough Example
 
-You are reading this because of a simple reason: you are curious about machine learning and maybe more generally data analytics/science. You could be a young professional looking for transferable skills or a business manager who whats to glean insights from his/her data. You could be a healthcare professional who sees a P-value statistic almost every day and still only knows that you are to accept that number when its less than 5%. The truth is that we are coming upon a third revolution, the information revolution. And unique from the plow, or the assembly line, the key to this revolution is the knowledge of how to analyze data. Marketers A/B test, consultants segment customers, financiers predict stock price, engineers. The ability to answer a question from raw data or discover a new trend will never go out of demand and is only increasing in demand as data becomes more easily stored, access, and shared.
+Have you ever had data and wanted to derive meaningful insights from it? Have you wanted to answer a question from raw data or discover a new trend? In todays day and age, data analytics has become a business problem. Decisions are now based upon metrics instead of intuition. Whether you are A/B testing, segmenting customers, or predicting stock prices you are using analytics to do so. We believe that following the agricultural and industrial revolutions is the information revolution, and unique from the plow or the assembly line, the key to this revolution is the knowledge of how to analyze data. 
 
-This walkthrough is meant for **ANYONE** interested in learning more about data analytics and is made so that you can still follow along even with no prior experience in **R**. Some background in Statistics would be helpful (making the fancy words seem less fancy) but neither is it necessary. The purpose of this walkthrough is to simply give you a taste of what machine learning is really like, by feeding it to you with a silver spoon. After all, the best way to understand what Machine Learning really is is to complete a simple machine learning project right? The "data project" you will complete is given from Kaggle, a data science competition company, and if you follow carefully you can place yourself at the top 12% of all competitors
+Marketers A/B test, consultants segment customers, financiers predict stock price, engineers. The ability to answer a question from raw data or discover a new trend will never go out of demand and is only increasing in demand as data becomes more easily stored, access, and shared.
+
+This post is meant for **ANYONE** interested in learning more about data analytics and is made so that you can still follow along even with no prior experience in **R**. Some background in Statistics would be helpful (making the fancy words seem less fancy) but neither is it necessary. The purpose of this post is to simply give you a taste of what data analytics is really like, by walking you through step by step in an example. The "data project" you will complete is given from Kaggle, a data science competition website, and if you follow carefully you can also place yourself at the top 15% of all competitors
 
 
 ### Internal Comments on BlogPost
 
 THOUGHTS:
 
-1. Do we want to change the vector names so they are more clear? AKA train_data instead of trainData?
-  * I was taught trainData format first vs train_data. I've always thought it was the more intuitiev? idk
 2. We should just give them a cleaned version of the testData so they don't have to see all that code again.
   * Will this confuse them? What if they want to add variables? maybe this is where the automated function comes in? I dont think we can blindly give people the cleaned data, because they won't understand that same proces applied to train and test. 
 3. We should remove explanatory variables that we don't use.
@@ -107,11 +107,16 @@ Choose the appropriate package from [RStudio_Download] (http://www.rstudio.com/i
 
 ### Kaggle Competition: Titanic - Machine Learning From Disaster
 
-The Kaggle competition asks you to predict whether a passenger survived the Titanic crash. You are given two datasets (Train & Test) each of which include predictor variables such as Age, Passenger Class, Sex, etc. and we will create a model which will use these variables among others to predict whether a passenger survived. It would be wise to take a look at the in-depth description <a href = "http://www.kaggle.com/c/titanic-gettingStarted">here</a>. The project result will be an excel spreadsheet with a column for the Passenger ID and another column which indicates whether they survived (0 for death, 1 for survival).
+The Kaggle competition asks you to predict whether a passenger survived the Titanic crash. You are given two datasets (Train & Test) each of which include predictor variables such as Age, Passenger Class, Sex, etc. With these two data sets we will do the following:
+
+1. Create a model which will predict whether a passenger survived using only the Train data set
+2. Predict whether the passengers survived in the Test data set based on the model we created
+
+Read the full description of the project <a href = "http://www.kaggle.com/c/titanic-gettingStarted">here</a>. The project result will be an excel spreadsheet with predictions for which passengers in the Test data set survived. The spreadsheet will have a column for the Passenger ID and another column which indicates whether they survived (0 for death, 1 for survival).
 
 The first step is to download the datasets <a href = "https://www.kaggle.com/c/titanic-gettingStarted/data">here</a>. Remember which folder you saved it in!
 
-In RStudio, we must first create a file for us to write in. Go to File ==> New ==> Rscript. Now in that file we must indicate where our current working directory is. We achieve this by using the ```setwd()``` function (roughly stands for set current working directory). Your working directory indicates to R which folder to look for the data you want to use, for us it will be the Train and Test files you downloaded from Kaggle. This is case sensitive.
+In RStudio, we must first create a file for us to write in. Go to File ==> New ==> Rscript. Now in that file we must tell R where our current working directory is. We do this by using the ```setwd()``` function (roughly stands for set current working directory). Your working directory indicates to R which folder to look for the data you want to use, for us it will be the Train and Test files you downloaded from Kaggle. Remember everything in R you type is case sensitive!
 
 For Mac Users:
 ```R
@@ -126,9 +131,12 @@ Example:<br />
 ```R
 setwd("/Users/Jeff_Adams/Desktop/work/kaggle_survivor/")
 ```
-The path is essentially a hierchical represention of the workspace location.
 
-Now that we've indicated to R where we want to grab the files from, we can grab the files by reading in the code; we utilize the ```read.csv()``` function to do that and we name the dataset by typing ```<-``` Previewing the data on Excel first is ok! You'll notice that we also have you write something about header and stringsAsFactors. Setting ```header = TRUE ``` means that we want to keep the first row of data as column titles instead of as part of observations in the data set. StringsAsFactors is a little more complicated and we'll cover it later. Remember everything is case sensitive!
+To run what you just wrote in your RScript, enter CONTROL and RETURN at the same time! It should now pop up on the bottom left window labeled console. Congrats you've just run your first line of R code! From now on you can run any of our code snippets by copy and pasting it into your own RScript and entering CONTROL and RETURN.
+
+The path is essentially a hierchical represention of the workspace location. && I find this confusing
+
+Now that we've indicated to R where we want to grab the files from, we can grab the files by what is called "reading in the code"; we utilize the ```read.csv()``` function to do that and we name the dataset by typing ```<-```. You'll notice that we also have you write something about header and stringsAsFactors. Setting ```header = TRUE ``` means that we want to keep the first row of data as column titles instead of as part of observations in the data set. StringsAsFactors is a little more complicated and we'll cover it later. Remember again, everything is case sensitive!
 
 ```R
 trainData <- read.csv("train.csv", header = TRUE, stringsAsFactors = FALSE)
