@@ -359,7 +359,7 @@ We have completed the following:
 #####Now for the final step: fitting (training) a model! 
 ######We feed the training data into a model, and the model will optimize the itself to give you the best explanation for your variables and outcome. The idea is that we build a model for predicting survival using the Train dataset. Then we input the observations from the Test dataset to predict their survival.
 
-###### Fitting logistic regression model. R will take care of solving/optmizing the model. We don't have to worry about any complicated Math! A logistic regression model is a generalized linear model which is used when your trying to predict something that is binary. Since whether a passenger survived or not is binary, the model applies. 
+###### Fitting logistic regression model. R will take care of solving/optmizing the model. We don't have to worry about any complicated Math! A logistic regression model is a generalized linear model which is used when your trying to predict something that is binary. Since whether a passenger survived or not is binary, we use logistic regresssion. The parameters we choose to predict survival are Passenger Class, Sex, Age, Child, an interaction variable of Sex AND Passenger Class, Family, and Mother. 
 
 ```R
 
@@ -367,7 +367,14 @@ train.glm <- glm(Survived ~ Pclass + Sex + Age + Child + Sex*Pclass + Family + M
                      family = binomial, data = trainData)
 ```
 
-Now that we have a trained mdoel, we repeat the exact process on the test data that we did on the training data. The idea is to conduct the same steps (in terms of subsetting, cleaning, inference ,adding more variables), so that both datasets are in the same state. The only difference is the following: **The test dataset doesn't have the "surivived" variable (which is what we're trying to predict), therefore the subsetting indexes are slightly different when cleaning the data**. You can just copy and paste the lengthy code snippet below.
+To see a summary of the model, and specifically the coefficients that are calculated to predict survival you can type:
+
+```R
+summary(train.glm)
+```
+
+
+Now that we have a trained model, we repeat the exact process on the test data that we did on the training data. The idea is to conduct the same steps (in terms of subsetting, cleaning, inference ,adding more variables), so that both datasets are in the same state. The only difference is the following: **The test dataset doesn't have the "surivived" variable (which is what we're trying to predict), therefore the subsetting indexes are slightly different when cleaning the data**. You can just copy and paste the lengthy code snippet below.
 
 
 ```R
@@ -456,9 +463,11 @@ for(i in 1:nrow(testData)) {
 <a name="predict model"></a>
 ####Now that the test dataset is ready, we use an R function which calculates predictions for the surivival of the passengers in the Test dataset. The predictions for each observation come in the form of a probability score for the response being 0 or 1. Therefore we must apply a cutoff value to determine which probability scores translate to a 1 and which translate to a 0. For simplicity it is generally most effective to choose a cutoff of .5 to minimize errors.
 
+What is done here is R takes the coefficients calculated in the ```train.glm``` model and uses the variables Passenger Class, Sex, Age, Child, an interaction variable of Sex AND Passenger Class, Family, and Mother in the **Test dataset** to calculate survival predictions.
+
 
 ```R
-p.hats <- predict.glm(train.glm.best, newdata = testData, type = "response")
+p.hats <- predict.glm(train.glm, newdata = testData, type = "response")
 
 # Converting to binary response values based on a cutoff of .5
 survival <- vector()
