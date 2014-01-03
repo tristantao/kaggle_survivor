@@ -10,32 +10,17 @@ This post is meant for **ANYONE** interested in learning more about data analyti
 ### Internal Comments on BlogPost
 
 THOUGHTS:
+Need to clarify organization and structure for the readers better.
+Put breakpoints and add youtube videos?
+This tutorial needs to be more enjoyable/entertaining?
 
-2. We should just give them a cleaned version of the testData so they don't have to see all that code again.
-  * Will this confuse them? What if they want to add variables? maybe this is where the automated function comes in? I dont think we can blindly give people the cleaned data, because they won't understand that same proces applied to train and test. 
-3. We should remove explanatory variables that we don't use.
-  * Again, what if they want to look at it / try using it? Or, it's possible (likely) that no one will, so we can remove safeyl..
-4. Need to teach them how to run code thats written in the script (typing ctrl + enter)
-  * discuss*
-5. Need to indicate that # means comments and aren't run, need to explain what comments are
-  * Good call
-6. In general to avoid confusion we should just have code snippets be things the reader should put into R. Anything else should be text
-  * That's how it is for the most part. Are you referring to the comments?
-7. Add a glossary?
-  * discuss (from lean startup pov)
-8. Lets put those barplots in the exploratory analysis in, pictures are good I think
-  * like, include the completed plots? Already plotted i.e?
-9. Lets get rid of the user defined function and just brute force everything, repetition will make it easier to understand
-  * agreed, so this appliest to every single place where they use any function, right?
+
 
 Concept needed to cover:
 
-1. data structure, c(), i.e. lists. subsetting indices
-2. explain the concept of a function
-3. Way to examine data. (head, tail, or editor etc)
+
 4. idea of variables (holding block)
 6. grep
-7. idea behind linear regression
 8. misc function (round, mean, table, gsub, cbind, nrow etc)
 
 Already covered:
