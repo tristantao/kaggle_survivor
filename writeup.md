@@ -174,7 +174,7 @@ counts[4] / (counts[3] + counts[4])
 
 Note that in the barplot you create the lighter areas indicate survival. Doing the calculations below the barplot we see that in our Train data, 74.2% of women survived versus 18.9% of men. 
 
-Lets now looka the survival rate filtered by passenger class.
+Lets now look at the survival rate filtered by passenger class.
 
 ```R
 Pclass_survival <- table(trainData$Survived, trainData$Pclass)
@@ -193,40 +193,30 @@ Though not covered here, a few more insights would be useful here; survival rate
 <a name="data curation"></a>
 ####Data Curation
 
-After doing some exploratory analysis of the data we now need to clean and curate it to create our model. Note that exploring the data helps you understand what elements need to be cleaned 
-At this moment, we also want to grab passengerID column, because we'll need it for the submission phase.
-```R
-passID <- testData$PassengerId
-```
+After doing some exploratory analysis of the data we now need to clean and curate it to create our model. Note that exploring the data helps you understand what elements need to be cleaned, for example you probably noticed that there are missing values in the data set.
 
-####@TODO explain why we don't use these variables.
+At this point, we remove the variables that we do not want to use in the model: PassengerID, Ticket, and Cabin. To do so we index our data set ```trainData``` with ```[ ]```. Using the ```c()``` means include the following column numbers and since we put a negative sign before it we're telling R to **not** include the following columns.
 
-At this point, we remove the variables that are not used in the model: PassengerID, Ticket, Cabin. We are using the negative sign, combined with c() to indicate a list of indices to remove.
 ```R
 trainData <- trainData[-c(1,9,11)]
 ```
 
-Additionally, we need to replace qualitative variables (such as gender) into quantitative variables (0 for male, 1 for female etc) in order to fit our model. Note that there are models where the variables can be qualitative.
-
-&& Why can we do that change qualitative variables to numbers?
-&& Whats gsub(), which(), as.integer()
+Additionally, we need to replace qualitative variables (such as gender) into quantitative variables (0 for male, 1 for female etc) in order to fit our model. Note that there are models where the variables can be qualitative. We use the R function ```gsub()``` which will replace any text with a value of our choosing. For the Sex column we convert females to 1 and males to 0 and for the Embarked column we convert C to 1, Q to 2, and S to 3.
 
 ```R
-# Converting categorical variable Sex to integers
 trainData$Sex <- gsub("female", 1, trainData$Sex)
 trainData$Sex <- gsub("^male", 0, trainData$Sex)
 
-# Converting categorical variable Embarked to integers
-trainData$Embarked <- gsub("C", as.integer(1), trainData$Embarked)
-trainData$Embarked <- gsub("Q", as.integer(2), trainData$Embarked)
-trainData$Embarked <- gsub("S", as.integer(3), trainData$Embarked)
+trainData$Embarked <- gsub("C", 1, trainData$Embarked)
+trainData$Embarked <- gsub("Q", 2, trainData$Embarked)
+trainData$Embarked <- gsub("S", 3, trainData$Embarked)
 ```
 
 Lastly, we substitue missing values for Embarked Locations
 ```R
 trainData[which(trainData$Embarked == ""), ]
-trainData[771, 9] <- as.integer(3)
-trainData[852, 9] <- as.integer(3)
+trainData[771, 9] <- 3
+trainData[852, 9] <- 3
 ```
 
 At this point, we have accomplished the following:
