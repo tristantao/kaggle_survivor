@@ -1,10 +1,12 @@
 ##Data Analytics for Beginners: A Walkthrough Example
 
+###Why You Should Follow Along:
 Have you ever had data and wanted to derive meaningful insights from it? Have you wanted to answer a question from raw data or discover a new trend? In todays day and age, data analytics has become a business problem. Decisions are now based upon metrics instead of intuition. Whether you are A/B testing, segmenting customers, or predicting stock prices you are using analytics to do so. We believe that following the agricultural and industrial revolutions is the information revolution, and unique from the plow or the assembly line, the key to this revolution is the knowledge of how to analyze data. 
 
-Marketers A/B test, consultants segment customers, financiers predict stock price, engineers. The ability to answer a question from raw data or discover a new trend will never go out of demand and is only increasing in demand as data becomes more easily stored, access, and shared.
+As recent graduates of Statistics at UC Berkeley we realized two things: (1) how essential an understanding of Statistics was to almost every industry and (2) how woefully confused people actually were about how to analyze data. Our goal is to educate 
 
-This post is meant for **ANYONE** interested in learning more about data analytics and is made so that you can still follow along even with no prior experience in **R**. Some background in Statistics would be helpful (making the fancy words seem less fancy) but neither is it necessary. The purpose of this post is to simply give you a taste of what data analytics is really like, by walking you through step by step in an example. The "data project" you will complete is given from Kaggle, a data science competition website, and if you follow carefully you can also place yourself at the top 15% of all competitors
+###What You Will Learn:
+This post is meant for **ANYONE** interested in learning more about data analytics and is made so that you can follow along even with no prior experience in **R**. Some background in Statistics would be helpful (making the fancy words seem less fancy) but neither is it necessary. The purpose of this post is to simply give you a taste of what data analytics is really like, by walking you through step by step in an example. The "data project" you will complete is given from Kaggle, a data science competition website, and if you follow carefully you can also place yourself at the top 15% of all competitors
 
 
 ### Internal Comments on BlogPost
@@ -358,6 +360,7 @@ To see a summary of the model, and specifically the coefficients that are calcul
 summary(train.glm)
 ```
 
+Is this a perfect model? Obviously not. But through trial and error of different parameters we found this model to give the best performance on Kaggle. You too can add/remove parameters and see if you can beat our model.
 
 Now that we have a trained model, we repeat the exact process on the test data that we did on the training data. The idea is to conduct the same steps (in terms of subsetting, cleaning, inference ,adding more variables), so that both datasets are in the same state. The only difference is the following: **The test dataset doesn't have the "surivived" variable (which is what we're trying to predict), therefore the subsetting indexes are slightly different when cleaning the data**. You can just copy and paste the lengthy code snippet below.
 
