@@ -50,14 +50,9 @@ Find out if the readers are: (Engineer, Business, Medicine, Research, Student)
 In the tutorial teach them to a score of **.70** and then offer tips and advice to improve score to **.77**
 
 
-We believe R or some software like it will be the baseline skill business professionals require like Microsoft Excel is today.
-
-
-### Concepts to Cover:
-
-##### Instructions for following along
-We recommend **directly typing** all code snippets that we have included<br />
-Additional materials which provide a more conceptual understanding of the programming or statistics are marked with:<br />
+##### Tips for following along
+We recommend **copying and pasting** all code snippets that we have included, with the **exception** of the first one where you need to set your own working directory<br />
+In the beginning we try to give as much explanation of RCode as possible but don't worry if you don't understand the **details** of the code just understand what the code is doing.<br />
 Feel free to ask questions on our Kaggle Forum post and we will respond as soon as possible!
 
 To work on the project we recommend splitting your screen space between RStudio and our walkthrough:
@@ -66,7 +61,7 @@ Inline-style:
 
 ![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png)
 
-####Table of Content:
+####Table of Contents:
 
 1. [Preparing R/Rstudio & Kaggle](#r preparation)
 2. [Data Exploration](#data exploration)
