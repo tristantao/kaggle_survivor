@@ -195,10 +195,10 @@ Though not covered here, a few more insights would be useful here; survival rate
 
 After doing some exploratory analysis of the data we now need to clean and curate it to create our model. Note that exploring the data helps you understand what elements need to be cleaned, for example you probably noticed that there are missing values in the data set.
 
-At this point, we remove the variables that we do not want to use in the model: PassengerID, Ticket, and Cabin. To do so we index our data set ```trainData``` with ```[ ]```. Using the ```c()``` means include the following column numbers and since we put a negative sign before it we're telling R to **not** include the following columns.
+At this point, we remove the variables that we do not want to use in the model: PassengerID, Ticket, Fare, Cabin, and Embarked. To do so we index our data set ```trainData``` with ```[ ]```. Using the ```c()``` means include the following column numbers and since we put a negative sign before it we're telling R to **not** include the following columns.
 
 ```R
-trainData <- trainData[-c(1,9,11)]
+trainData <- trainData[-c(1,9:12)]
 ```
 
 Additionally, we need to replace qualitative variables (such as gender) into quantitative variables (0 for male, 1 for female etc) in order to fit our model. Note that there are models where the variables can be qualitative. We use the R function ```gsub()``` which will replace any text with a value of our choosing. For the Sex column we convert females to 1 and males to 0 and for the Embarked column we convert C to 1, Q to 2, and S to 3.
@@ -212,7 +212,7 @@ trainData$Embarked <- gsub("Q", 2, trainData$Embarked)
 trainData$Embarked <- gsub("S", 3, trainData$Embarked)
 ```
 
-Lastly, we substitue missing values for Embarked locations and Age. Embarked 
+Lastly, we substitue missing values for Embarked locations and Age. The following lin
 
 ```R
 trainData[which(trainData$Embarked == ""), ]
