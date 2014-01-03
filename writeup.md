@@ -303,7 +303,7 @@ At this point, we have accomplished the following:
 
 
 We now begin the following:
-- [] Begin working on improving the model, by adding additional variables.
+- [] Creating additional variables which may improve the accuracy of our model.
 
 #####Variable 1: Child.
 This additional variable choice stems from the fact that we suspect that being a child might affect the survival rate of a passanger. 
@@ -316,6 +316,33 @@ trainData["Child"] <- NA
 
 for (i in 1:nrow(trainData)) {
   if (trainData[i, 5] <= 12) {
+    trainData[i, 8] <- 1
+  } else {
+    trainData[i, 8] <- 2
+  }
+}
+```
+
+#####Variable 2: Family
+This variable is meant to represent the family size of each passenger by adding the number of Siblings/Spouses and Parents/Children and one. Our hypothesis is that larger families were less likely to survive.
+
+```R
+trainData["Family"] <- NA
+
+for(i in 1:nrow(trainData)) {
+  trainData[i, 9] <- trainData[i, 6] + trainData[i, 7] + 1
+}
+```
+
+#####Varible 3: Mother
+We add another variable indicating whether the passenger is a mother.
+This is done by going through the passengers and checking to see if the title is Mrs and if the number of kids is greater than 0. This also includes any titles with Mrs and if the number of parents is greater than 0 but it is much less likely.
+
+```R
+trainData["Mother"] <- NA
+
+for(i in 1:nrow(trainData)) {
+  if(trainData[i,3] == "Mrs" & trainData[i, 7] > 0) {
     trainData[i, 10] <- 1
   } else {
     trainData[i, 10] <- 2
@@ -323,67 +350,9 @@ for (i in 1:nrow(trainData)) {
 }
 ```
 
-#####variable 2: Lower class Men
-being a lower class man might also lower one's survival rate, considering that lower class passengers and male passengers had the lowest survival rate. @Offer support here
-#####We inspect the data by looking at percentage of Men > 25 and Pclass = 3
-```R
-poor_men <- sum(trainData[which(trainData$Age > 25 & trainData$Sex == 0 & trainData$Pclass == 3), ]) / 214
-```
-Then we do as we did for the child variable. We add a column for lower class men (called "Lowmen") and give it values of "1", if the passenger fits the profile, and "2" otherwise.
-```R
-trainData["Lowmen"] <- NA
-for (i in 1:nrow(trainData)) {
-  if (trainData[i, 5] > 25 & trainData[i, 4] == 0 & trainData[i, 2] == 3) {
-    trainData[i, 11] <- 1
-  } else {
-    trainData[i, 11] <- 2
-  }
-}
-```
-#####Varialble 3: Rich People
-Perhaps having a nicer ticket can affect your survival rate as well. We do a similar subset as before, but in a different direction. Can you see what we did here?
-
-```R
-# Percentage of people with ticket prices over $100 that survived
-rich_people <- sum(trainData$Survived[which(trainData$Fare > 100)]) / length(trainData$Survived[which(trainData$Fare > 100)])
-
-trainData["Rich"] <- NA
-for(i in 1:nrow(trainData)) {
-  if (trainData[i, 8] > 100) {
-    trainData[i, 11] <- 1
-  } else {
-    trainData[i, 11] <- 2
-  }
-}
-```
-
-#####Varialble 4: Family
-For the last variable, we determine ####XXXXX wtf? lol what is this var.
-```R
-trainData["Family"] <- NA
-
-for(i in 1:nrow(trainData)) {
-  trainData[i, 12] <- trainData[i, 6] + trainData[i, 7] + 1
-}
-```
 Now, we have a fully equipped training dataset!
 We have completed the following:
 - [x] Added more variables that we think that may help with the classification.
-
-#####Varible 5: Mother
-We add another variable indicating whether the passenger is a mother.
-This is done by going through the passngers and checking to see if the title is Mrs, plus number of kids is greater than 0.
-
-```R
-trainData["Mother"] <- NA
-for(i in 1:nrow(trainData)) {
-  if(trainData[i,3] == "Mrs" & trainData[i, 7] > 0) {
-    trainData[i, 14] <- 1
-  } else {
-    trainData[i, 14] <- 2
-  }
-}
-```
 
 <a name="train model"></a>
 #####Now for the final step: fitting (training) a model! 
