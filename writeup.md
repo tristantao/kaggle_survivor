@@ -132,7 +132,7 @@ Example:<br />
 setwd("/Users/Jeff_Adams/Desktop/work/kaggle_survivor/")
 ```
 
-To run what you just wrote in your RScript, enter CONTROL and RETURN at the same time! It should now pop up on the bottom left window labeled console. Congrats you've just run your first line of R code! From now on you can run any of our code snippets by copy and pasting it into your own RScript and entering CONTROL and RETURN.
+To run what you just wrote in your RScript, enter CONTROL and RETURN at the same time! It should now pop up on the bottom left window labeled "Console". Congrats you've just run your first line of R code! From now on you can run any of our code snippets by copy and pasting it into your own RScript and entering CONTROL and RETURN.
 
 The path is essentially a hierchical represention of the workspace location. && I find this confusing
 
@@ -146,48 +146,22 @@ testData <- read.csv("test.csv", header = TRUE, stringsAsFactors = FALSE)
 <a name="data exploration"></a>
 ####Data Exploration
 
-Before actually building a model, we need to explore the data. We'll take look at a few values and plots to get a better understanding of our data. We start with a few simple generic x-y plots to get a feel.
+Before actually building a model, we need to explore the data. We'll take look at a few values and plots to get a better understanding of our data. We start with a few simple generic x-y plots to get a feel. By first plotting the desnity we're able to get a sense of how the overall data feel and get a few vague answers: where is the general center? Is there a skew? Does is generally take higher values? Where are most of the values concentrated?
 
-Plotting the raw numbers:
-```R
-plot(trainData$Age) #plotting age and index.
-plot(trainData$Fare) #plotting fare and index.
-```
-Notice how hard it is to discern useful information from the plot? The data points seem a bit random, but perhaps with a trend. There are few points that are significant higher, but which ones? Though raw x-y plots are good starting point, we have to go further.
-
-#####Probability Density
-
-<img src="http://upload.wikimedia.org/wikipedia/commons/1/1a/Boxplot_vs_PDF.svg" alt="Drawing"  width="300px" height="400px"/>
-
-```
-Density (Probability) explanation (distinguish format in wordpress, but in comment form now.
-Probability Density is a way to describe the relative likelihood of a random varible taking a specific value. Basically, it is trying to tell you, how likely value is trying to model, is going to take the value X in the plot.
-You might have heard of the term, "normal distribution" or informally "bell curve". We're essentially trying to figure our a similar plot from our training data.
-
-
-With this lot, we're able to get a sense of how the overall data feel and get a few vague answers: where is the general center? Is there a skew? Does is generally take higher values? Where are most of the values concentrated?
-```
 
 ```R
 plot(density(trainData$Age, na.rm = TRUE))
 plot(density(trainData$Fare, na.rm = TRUE))
-# Try plotting the density of other variables. Does it work? Are they helpful?
 ```
+Try plotting the other variables by inserting ```trainData$(Variable)``` insteadf of age or fare. In R, ```$``` and column title selects an entire column of data. ```na.rm = TRUE``` means ignore the NA's in the data set.
 
-```
-Note:
-"#" indicate a comment. This means that the code is not ran, even if you enter it into the program.
-```
+Lets now look at the survival rate filtered by sex. We first create a table and call it ```counts```. Then we use R's ```barplot()``` function with respective x-axis, y-axis, and main titles. We also calculate the male/female survival rates from the table by indexing the table we made called ```counts```. ```counts[1]``` returns the top left value of the table, ```counts[2]``` the bottom left, and so on.
 
-Now, we may want to check out how the data relates to what we're trying to predict (Survived)
 ```R
-#Survival rate by Sex.
-counts = table(trainData$Survived, trainData$Sex)
-#We see that the lighter areas indidcates survival.
-barplot(counts, xlab = "Gender", ylab = "Number of People",
-        main = "survived and deceased between male and female")
-counts[2] / (counts[1] + counts[2]) #getting female survival rate from the table
-counts[4] / (counts[3] + counts[4]) #getting male survival rate from the table
+counts <- table(trainData$Survived, trainData$Sex)
+barplot(counts, xlab = "Gender", ylab = "Number of People", main = "survived and deceased between male and female")
+counts[2] / (counts[1] + counts[2])
+counts[4] / (counts[3] + counts[4])
 
 #Further exploration of gender reveals the following:
 #Within our trainind data, roughly 74.2% of women survived versus only 18.9% of men.
@@ -195,6 +169,7 @@ counts[4] / (counts[3] + counts[4]) #getting male survival rate from the table
 #Nevertheless they are often indicative of general trends. #TODO add disclaimers 
 ```
 
+Note that in this barplot the lighter areas indicate survival. Doing the calculations below the barplot 
 Perhaps Sex plays a role in survival rate? It seems like women had a higher chance of surviving. Our intuition is that the crewman used the standard "Women and Children first" for the lifeboats.
 
 ```R
