@@ -360,6 +360,7 @@ Now that we have a trained model, we repeat the exact process on the test data t
 
 
 ```R
+PassenderID = testData[1]
 testData <- testData[-c(1, 8:11)]
 
 testData$Sex <- gsub("female", 1, testData$Sex)
@@ -465,7 +466,7 @@ for(i in 1:length(p.hats)) {
 We now output the data into a csv file, which can be submitted on kaggle for grading. Fingers Crossed!
 
 ```R
-kaggle.sub <- cbind(testData$PassengerId,survival)
+kaggle.sub <- cbind(PassengerId,survival)
 colnames(kaggle.sub) <- c("PassengerId", "Survived")
 write.csv(kaggle.sub, file = "kpred14.csv")
 ```
