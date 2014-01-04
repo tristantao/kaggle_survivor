@@ -308,7 +308,7 @@ This variable is meant to represent the family size of each passenger by adding 
 ```R
 trainData["Family"] <- NA
 
-for(i in 1:nrow(targetData)) {
+for(i in 1:nrow(trainData)) {
     x <- trainData$SibSp[i]
     y <- trainData$Parch[i]
     trainData$Family[i] <- x + y + 1
@@ -360,7 +360,7 @@ Now that we have a trained model, we repeat the exact process on the test data t
 
 
 ```R
-PassenderID = testData[1]
+PassenderId = testData[1]
 testData <- testData[-c(1, 8:11)]
 
 testData$Sex <- gsub("female", 1, testData$Sex)
