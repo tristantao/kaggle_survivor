@@ -51,9 +51,9 @@ In the tutorial teach them to a score of **.70** and then offer tips and advice 
 
 
 ##### Tips for following along
-We recommend **copying and pasting** all code snippets that we have included, with the **exception** of the first one where you need to set your own working directory. While copying and pasting allows you to run the code, you should read through and have an intuitive understanding of what is happening in the code. You don't have to understand what each line is doing, but having an overal sense of what is happening goes a long way!
+We recommend **copying and pasting** all code snippets directly into R. While copying and pasting allows you to run the code, you should read through and have an intuitive understanding of what is happening in the code. You don't have to understand what each line is doing, but having an overal sense of what is happening goes a long way!
 
-In the beginning we try to give as much explanation of RCode as possible but don't worry if you don't understand the **details** of the code. Just have a vague idea of what the code is doing.
+In the beginning we try to give as much explanation of RCode as possible but don't worry if you don't understand the **details** of the code. Just have an idea of what the code is doing from our explanations
 
 Feel free to ask questions on our Kaggle Forum post and we will respond as soon as possible! (We strive to respond within a few hours!)
 
