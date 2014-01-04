@@ -98,7 +98,7 @@ The Kaggle competition asks you to predict whether a passenger survived the Tita
 
 Read the full description of the project <a href = "http://www.kaggle.com/c/titanic-gettingStarted">here</a>. The project result will be an excel spreadsheet with predictions for which passengers in the Test data set survived. The spreadsheet will have a column for the Passenger ID and another column which indicates whether they survived (0 for death, 1 for survival).
 
-The first step is to read the full description of the project and download the datasets <a href = "https://www.kaggle.com/c/titanic-gettingStarted/data">here</a>. Remember which folder you saved it in!
+The first step is to read the full description of the project and download the datasets <a href = "https://www.kaggle.com/c/titanic-gettingStarted/data">here</a>. (Need to clarify which files on kaggle link you should download, also have them create a kaggle folder on their desktop and screenshot how to input the working directory) Remember which folder you saved it in!
 
 In RStudio, we must first create a file for us to write in. Go to File ==> New ==> Rscript. Now in that file we must tell R where our current working directory is. We do this by using the ```setwd()``` function (roughly stands for set current working directory). Your working directory indicates to R which folder to look for the data you want to use, for us it will be the Train and Test files you downloaded from Kaggle. Remember everything in R you type is case sensitive!
 
