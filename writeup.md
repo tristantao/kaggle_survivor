@@ -3,7 +3,7 @@
 ###Why You Should Follow Along:
 Have you ever had data and wanted to derive meaningful insights from it? Have you wanted to answer a question from raw data or discover a new trend? In todays day and age, data analytics has become a business problem. Decisions are now based upon metrics instead of intuition. Whether you are A/B testing, segmenting customers, or predicting stock prices, you are using analytics to do so. We believe that following the agricultural and industrial revolutions is the information revolution, and unique from the plow or the assembly line, the key to this revolution is the knowledge of how to analyze data.
 
-As recent graduates of Statistics at UC Berkeley we realized two things: (1) how essential an understanding of Statistics was to almost every industry and (2) how woefully confused people actually were about how to analyze data. Our goal is to educate 
+As recent graduates of Statistics at UC Berkeley, we realized two things: (1) how essential an understanding of Statistics was to almost every industry and (2) how woefully confused people actually were about how to analyze data. Our goal is to educate 
 
 ###What You Will Learn:
 This post is meant for **ANYONE** interested in learning more about data analytics and is made so that you can follow along even with no prior experience in **R**. Some background in Statistics would be helpful (making the fancy words seem less fancy) but neither is it necessary. The purpose of this post is to simply give you a taste of what data analytics is really like, by walking you through step by step in an example. The "data project" you will complete is given from Kaggle, a data science competition website, and if you follow carefully, you can also place yourself at the top 15% of all competitors
@@ -15,8 +15,6 @@ THOUGHTS:
 Need to clarify organization and structure for the readers better.
 Put breakpoints and add youtube videos?
 This tutorial needs to be more enjoyable/entertaining?
-
-
 
 Concept needed to cover:
 
@@ -51,9 +49,9 @@ In the tutorial teach them to a score of **.70** and then offer tips and advice 
 
 
 ##### Tips for following along
-We recommend **copying and pasting** all code snippets directly into R. While copying and pasting allows you to run the code, you should read through and have an intuitive understanding of what is happening in the code. You don't have to understand what each line is doing, but having an overal sense of what is happening goes a long way!
+We recommend **copying and pasting** all code snippets that we have included, with the **exception** of the first one where you need to set your own working directory. While copying and pasting allows you to run the code, you should read through and have an intuitive understanding of what is happening in the code. You don't have to understand what each line is doing, but having an overal sense of what is happening goes a long way!
 
-In the beginning we try to give as much explanation of RCode as possible but don't worry if you don't understand the **details** of the code. Just have an idea of what the code is doing from our explanations
+In the beginning we try to give as much explanation of RCode as possible but don't worry if you don't understand the **details** of the code. Just have a vague idea of what the code is doing.
 
 Feel free to ask questions on our Kaggle Forum post and we will respond as soon as possible! (We strive to respond within a few hours!)
 
@@ -86,7 +84,7 @@ Download and install from [Windows_R_Download] (http://cran.r-project.org/bin/wi
 #####Linux
 Download and install from [Linux_R_Download] (http://cran.r-project.org/bin/linux/ubuntu/README)
 
-##### Now install Rstudio 
+##### (MAC/Windows/Linux) Now install Rstudio
 Choose the appropriate package from [RStudio_Download] (http://www.rstudio.com/ide/download/desktop)
 
 ### Kaggle Competition: Titanic - Machine Learning From Disaster
@@ -96,29 +94,25 @@ The Kaggle competition asks you to predict whether a passenger survived the Tita
 1. Create a model which will predict whether a passenger survived using only the Train data set
 2. Predict whether the passengers survived in the Test data set based on the model we created
 
-Read the full description of the project <a href = "http://www.kaggle.com/c/titanic-gettingStarted">here</a>. The project result will be an excel spreadsheet with predictions for which passengers in the Test data set survived. The spreadsheet will have a column for the Passenger ID and another column which indicates whether they survived (0 for death, 1 for survival).
-
-The first step is to read the full description of the project and download the datasets <a href = "https://www.kaggle.com/c/titanic-gettingStarted/data">here</a>. (Need to clarify which files on kaggle link you should download, also have them create a kaggle folder on their desktop and screenshot how to input the working directory) Remember which folder you saved it in!
+First read the full description of the project <a href = "http://www.kaggle.com/c/titanic-gettingStarted">here</a>. The project result will be an excel spreadsheet with predictions for which passengers in the Test data set survived. The spreadsheet will have a column for the Passenger ID and another column which indicates whether they survived (0 for death, 1 for survival).
+```
+Create a folder called kaggle on your desktop.
+```
+Now download the datasets, __train__ and __test__, <a href = "https://www.kaggle.com/c/titanic-gettingStarted/data">here</a>, and save it in the __kaggle__ folder on your desktop.
 
 In RStudio, we must first create a file for us to write in. Go to File ==> New ==> Rscript. Now in that file we must tell R where our current working directory is. We do this by using the ```setwd()``` function (roughly stands for set current working directory). Your working directory indicates to R which folder to look for the data you want to use, for us it will be the Train and Test files you downloaded from Kaggle. Remember everything in R you type is case sensitive!
 
-For Mac Users:
-```R
-setwd("/Users/(Folder)/(Folder)/(CurrentFolder)/")
-```
 
-For Windows users:<br />
+######For Mac Users:
 ```R
-setwd("C://Users/(Folder)/(Folder)/(CurrentFolder)/")
+setwd("/Users/your_user_name/Desktop/kaggle/")
 ```
-Example:<br />
+######For Windows users:
 ```R
-setwd("/Users/Jeff_Adams/Desktop/work/kaggle_survivor/")
+setwd("C://Users//Folder//Folder//CurrentFolder//")
 ```
 
 To run what you just wrote in your RScript, enter CONTROL and RETURN at the same time! It should now pop up on the bottom left window labeled "Console". Congrats you've just run your first line of R code! From now on you can run any of our code snippets by copy and pasting it into your own RScript and entering CONTROL and RETURN.
-
-The path is essentially a hierchical represention of the workspace location. && I find this confusing
 
 Now that we've indicated to R where we want to grab the files from, we can grab the files by what is called "reading in the code"; we utilize the ```read.csv()``` function to do that and we name the dataset by typing ```<-```. You'll notice that we also have you write something about header and stringsAsFactors. Setting ```header = TRUE ``` means that we want to keep the first row of data as column titles instead of as part of observations in the data set. StringsAsFactors is a little more complicated and we'll cover it later. Remember again, everything is case sensitive!
 
