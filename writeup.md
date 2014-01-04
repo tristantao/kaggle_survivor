@@ -467,8 +467,10 @@ We now output the data into a csv file, which can be submitted on kaggle for gra
 ```R
 kaggle.sub <- cbind(testData$PassengerId,survival)
 colnames(kaggle.sub) <- c("PassengerId", "Survived")
-write.csv(kaggle.sub, file = "kpred14.csv")
+write.csv(kaggle.sub, file = "kaggle.csv")
 ```
+
+A file titled Kaggle should now be in your current working directory or the same folder that you saved the Train and Test datasets in. Now go <a href ="http://www.kaggle.com/c/titanic-gettingStarted/submissions/attach">here</a> to submit and see your score!
 
 Thanks for reading the tutorial!
 PLEASE drop us any comment/suggestion/question at XXXX@gmail.com We will respond within 12 hrs!
