@@ -38,10 +38,11 @@ http://www.youtube.com/watch?v=Fc1P-AEaEp8#t=5<br />
 
 TARGET READER: A young professional with no prior experience in R and maybe an elementary understanding of statistics.
 
-This post can be our MVP: Its a data project which we walk them through, we add sections for conceptual understanding, and we send them to post their results on Kaggle to replicate the competition and comparison. Critical missing features: **interactivity** **video lectures** on conceptual understanding, **competition/comparison network**, **applicability** to industry (titanic dataset is random), this tutorial focuses on predictive analytics so we are missing other teaching concepts, no gamification, we aren't charging them (maybe we can offer additional personal tutoring/hr to test WTP?). What can this confirm? Demand and specifically what types of people our customers are, we can test this on our friends easily and gain experience in teaching statistics to people,
+This post can be our MVP: Its a data project which we walk them through, we add sections for conceptual understanding, and we send them to post their results on Kaggle to replicate the competition and comparison. Critical missing features: **interactivity** **video lectures** on conceptual understanding, **competition/comparison network**, **applicability** to industry (titanic dataset is random), this tutorial focuses on predictive analytics so we are missing other teaching concepts, no gamification, we aren't charging them (maybe we can offer additional personal tutoring/hr to test WTP?). What can this confirm? Demand and specifically what types of people our customers are, we can test this on our friends easily and gain experience in teaching statistics to people, 
 
 Make this walkthrough fun, put in parts like "**Take a break!** Watch this video: (link to some funny harlem shake)"
-Instruct them to type the code as they read along (anyway to make it so they can split screen btw blog post and Rstudio easily?)
+Instruct them to type the code as they read along (anyway to make it so they can split screen btw blog post and Rstudio easily?). 
+
 Put some kind of legitimacy backing? Like this post is sponsored by Wayne Lee a PhD in Statistics at UC Berkeley (probably shouldn't because we don't expect to put that kind of stuff in the initial product)
 Create a joke certification at the end to be funny? ("You can write this on your resume: ...")
 Google adwords people who search for the Predictive Analytics World Conference
@@ -50,15 +51,16 @@ In the tutorial teach them to a score of **.70** and then offer tips and advice 
 
 
 ##### Tips for following along
-We recommend **copying and pasting** all code snippets that we have included, with the **exception** of the first one where you need to set your own working directory<br />
-In the beginning we try to give as much explanation of RCode as possible but don't worry if you don't understand the **details** of the code just understand what the code is doing.<br />
-Feel free to ask questions on our Kaggle Forum post and we will respond as soon as possible!
+We recommend **copying and pasting** all code snippets that we have included, with the **exception** of the first one where you need to set your own working directory. While copying and pasting allows you to run the code, you should read through and have an intuitive understanding of what is happening in the code. You don't have to understand what each line is doing, but having an overal sense of what is happening goes a long way!
+
+In the beginning we try to give as much explanation of RCode as possible but don't worry if you don't understand the **details** of the code. Just have a vague idea of what the code is doing.
+
+Feel free to ask questions on our Kaggle Forum post and we will respond as soon as possible! (We strive to respond within a few hours!)
 
 To work on the project we recommend splitting your screen space between RStudio and our walkthrough:
 Inline-style: 
-![alt text](https://github.com/tristantao/kaggle_survivor/blob/master/WorkStation.png "Split Screen View")
 
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png)
+![alt text](https://github.com/tristantao/kaggle_survivor/blob/master/WorkStation.png "Split Screen View")
 
 ####Table of Contents:
 
@@ -68,9 +70,11 @@ Inline-style:
 4. [Training a Model](#train model)
 5. [Fitting a Model](#predict model)
 
-If you haven't yet you will need to install R and RStudio. It is a useful and free application for data analytics that is widely used by statisticians and data miners. You also need to become a Kaggle Competitor for access to the datasets and entry into the competition, don't worry its free! Sign up for <a href = "http://www.kaggle.com/account/register">Kaggle</a>. If you already have these, skip to [Data Exploration](#data exploration)
+If you haven't yet, you will need to install R and RStudio. It is a useful and free application for data analytics that is widely used by statisticians and data miners. You also need to become a Kaggle Competitor for access to the datasets and entry into the competition: don't worry it's free! Sign up for <a href = "http://www.kaggle.com/account/register">Kaggle</a>. 
 
-<a name="r preparation"></a>
+#######If you already have R/Rstudio, skip to [Data Exploration](#data exploration)
+
+<a name="R preparation"></a>
 ####Preparing R
 #####Macs
 
@@ -84,7 +88,6 @@ Download and install from [Linux_R_Download] (http://cran.r-project.org/bin/linu
 
 ##### Now install Rstudio 
 Choose the appropriate package from [RStudio_Download] (http://www.rstudio.com/ide/download/desktop)
-@TODO Also install ggplot2
 
 ### Kaggle Competition: Titanic - Machine Learning From Disaster
 
@@ -467,10 +470,8 @@ We now output the data into a csv file, which can be submitted on kaggle for gra
 ```R
 kaggle.sub <- cbind(testData$PassengerId,survival)
 colnames(kaggle.sub) <- c("PassengerId", "Survived")
-write.csv(kaggle.sub, file = "kaggle.csv")
+write.csv(kaggle.sub, file = "kpred14.csv")
 ```
-
-A file titled Kaggle should now be in your current working directory or the same folder that you saved the Train and Test datasets in. Now go <a href ="http://www.kaggle.com/c/titanic-gettingStarted/submissions/attach">here</a> to submit and see your score!
 
 Thanks for reading the tutorial!
 PLEASE drop us any comment/suggestion/question at XXXX@gmail.com We will respond within 12 hrs!
