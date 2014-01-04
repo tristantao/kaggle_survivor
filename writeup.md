@@ -240,18 +240,18 @@ mr_age <- round(mean(trainData$Age[trainData$Name == "Mr"], na.rm = TRUE), digit
 dr_age <- round(mean(trainData$Age[trainData$Name == "Dr"], na.rm = TRUE), digits = 2)
 
 # Adding age values for missing values
-for (i in 1:nrow(targetData)) {
-  if (is.na(targetData[i,5])) {
-    if (targetData$Name[i] == "Master") {
-      targetData$Age[i] <- master_age
-    } else if (targetData$Name[i] == "Miss") {
-      targetData$Age[i] <- miss_age
-    } else if (targetData$Name[i] == "Mrs") {
-      targetData$Age[i] <- mrs_age
-    } else if (targetData$Name[i] == "Mr") {
-      targetData$Age[i] <- mr_age
-    } else if (targetData$Name[i] == "Dr") {
-      targetData$Age[i] <- dr_age
+for (i in 1:nrow(trainData)) {
+  if (is.na(trainData[i,5])) {
+    if (trainData$Name[i] == "Master") {
+      trainData$Age[i] <- master_age
+    } else if (trainData$Name[i] == "Miss") {
+      trainData$Age[i] <- miss_age
+    } else if (trainData$Name[i] == "Mrs") {
+      trainData$Age[i] <- mrs_age
+    } else if (trainData$Name[i] == "Mr") {
+      trainData$Age[i] <- mr_age
+    } else if (trainData$Name[i] == "Dr") {
+      trainData$Age[i] <- dr_age
     } else {
       print("Uncaught Surname")
     }
@@ -293,11 +293,11 @@ We then populate the column with value "1", if the passenger is under the age of
 ```R
 trainData["Child"] <- NA
 
-for (i in 1:nrow(targetData)) {
-  if (targetData$Age[i] <= 12) {
-    targetData$Child[i] <- 1
+for (i in 1:nrow(trainData)) {
+  if (trainData$Age[i] <= 12) {
+    trainData$Child[i] <- 1
   } else {
-    targetData$Child[i] <- 2
+    trainData$Child[i] <- 2
   }
 }
 ```
@@ -309,9 +309,9 @@ This variable is meant to represent the family size of each passenger by adding 
 trainData["Family"] <- NA
 
 for(i in 1:nrow(targetData)) {
-    x <- targetData$SibSp[i]
-    y <- targetData$Parch[i]
-    targetData$Family[i] <- x + y + 1
+    x <- trainData$SibSp[i]
+    y <- trainData$Parch[i]
+    trainData$Family[i] <- x + y + 1
 }
 ```
 
@@ -322,11 +322,11 @@ This is done by going through the passengers and checking to see if the title is
 ```R
 trainData["Mother"] <- NA
 
-for(i in 1:nrow(targetData)) {
-    if(targetData$Name[i] == "Mrs" & targetData$Parch[i] > 0) {
-      targetData$Mother[i] <- 1
+for(i in 1:nrow(trainData)) {
+    if(trainData$Name[i] == "Mrs" & trainData$Parch[i] > 0) {
+      trainData$Mother[i] <- 1
     } else {
-      targetData$Mother[i] <- 2
+      trainData$Mother[i] <- 2
     }
 }
 ```
