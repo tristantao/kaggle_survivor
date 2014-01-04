@@ -360,7 +360,7 @@ Now that we have a trained model, we repeat the exact process on the test data t
 
 
 ```R
-PassenderId = testData[1]
+PassengerId = testData[1]
 testData <- testData[-c(1, 8:11)]
 
 testData$Sex <- gsub("female", 1, testData$Sex)
