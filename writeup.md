@@ -1,12 +1,12 @@
 ##Data Analytics for Beginners: A Walkthrough Example
 
 ###Why You Should Follow Along:
-Have you ever had data and wanted to derive meaningful insights from it? Have you wanted to answer a question from raw data or discover a new trend? In todays day and age, data analytics has become a business problem. Decisions are now based upon metrics instead of intuition. Whether you are A/B testing, segmenting customers, or predicting stock prices you are using analytics to do so. We believe that following the agricultural and industrial revolutions is the information revolution, and unique from the plow or the assembly line, the key to this revolution is the knowledge of how to analyze data. 
+Have you ever had data and wanted to derive meaningful insights from it? Have you wanted to answer a question from raw data or discover a new trend? In todays day and age, data analytics has become a business problem. Decisions are now based upon metrics instead of intuition. Whether you are A/B testing, segmenting customers, or predicting stock prices, you are using analytics to do so. We believe that following the agricultural and industrial revolutions is the information revolution, and unique from the plow or the assembly line, the key to this revolution is the knowledge of how to analyze data.
 
 As recent graduates of Statistics at UC Berkeley we realized two things: (1) how essential an understanding of Statistics was to almost every industry and (2) how woefully confused people actually were about how to analyze data. Our goal is to educate 
 
 ###What You Will Learn:
-This post is meant for **ANYONE** interested in learning more about data analytics and is made so that you can follow along even with no prior experience in **R**. Some background in Statistics would be helpful (making the fancy words seem less fancy) but neither is it necessary. The purpose of this post is to simply give you a taste of what data analytics is really like, by walking you through step by step in an example. The "data project" you will complete is given from Kaggle, a data science competition website, and if you follow carefully you can also place yourself at the top 15% of all competitors
+This post is meant for **ANYONE** interested in learning more about data analytics and is made so that you can follow along even with no prior experience in **R**. Some background in Statistics would be helpful (making the fancy words seem less fancy) but neither is it necessary. The purpose of this post is to simply give you a taste of what data analytics is really like, by walking you through step by step in an example. The "data project" you will complete is given from Kaggle, a data science competition website, and if you follow carefully, you can also place yourself at the top 15% of all competitors
 
 
 ### Internal Comments on BlogPost
@@ -19,7 +19,6 @@ This tutorial needs to be more enjoyable/entertaining?
 
 
 Concept needed to cover:
-
 
 4. idea of variables (holding block)
 6. grep
