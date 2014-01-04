@@ -207,19 +207,19 @@ Next we rename each of the rows with a shortened tag. For example if a row had a
 
 ```R
 for(i in master_vector) {
-  trainData[i, 3] <- "Master"
+  trainData$Name[i] <- "Master"
 }
 for(i in miss_vector) {
-  trainData[i, 3] <- "Miss"
+  trainData$Name[i] <- "Miss"
 }
 for(i in mrs_vector) {
-  trainData[i, 3] <- "Mrs"
+  trainData$Name[i] <- "Mrs"
 }
 for(i in mr_vector) {
-  trainData[i, 3] <- "Mr"
+  trainData$Name[i] <- "Mr"
 }
 for(i in dr_vector) {
-  trainData[i, 3] <- "Dr"
+  trainData$Name[i] <- "Dr"
 }
 ```
 
