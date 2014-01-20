@@ -84,13 +84,13 @@ prep_data = function(targetData, mr_age, ms_age, mrs_age) {
     if (is.na(targetData[i,5])) {
       if (targetData$Name[i] == "Master") {
         targetData$Age[i] <- master_age
-      } else if (targetData[i, 3] == "Miss") {
+      } else if (targetData$Name[i] == "Miss") {
         targetData$Age[i] <- miss_age
-      } else if (targetData[i, 3] == "Mrs") {
+      } else if (targetData$Name[i] == "Mrs") {
         targetData$Age[i] <- mrs_age
-      } else if (targetData[i, 3] == "Mr") {
+      } else if (targetData$Name[i] == "Mr") {
         targetData$Age[i] <- mr_age
-      } else if (targetData[i, 3] == "Dr") {
+      } else if (targetData$Name[i] == "Dr") {
         targetData$Age[i] <- dr_age
       } else {
         print("Uncaught Surname")
